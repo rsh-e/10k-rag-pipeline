@@ -26,6 +26,7 @@ data/*.pdf
 # Debug / scratch output
 output.txt
 *.log
+chunks_debug.json
 
 # OS cruft
 .DS_Store

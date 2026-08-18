@@ -37,3 +37,29 @@ This gives you a concrete, quantified claim for your writeup: *"Semantic chunkin
 4. Write the LinkedIn post — lead with the result/insight, not the tech stack:
    - Bad: "Built a RAG chatbot using ChromaDB and Streamlit!"
    - Good: "I benchmarked 2 chunking strategies + reranking on a RAG pipeline and found semantic chunking gave a 23% precision lift — here's the eval harness and what I learned."
+
+
+
+1
+Finalize chunking with full citation metadata
+Build the markdown-table statement chunks and narrative chunks exactly as planned, but make sure every chunk carries company, statement_name, period, source_type, filing_url, and document_content_hash in metadata. Do this before anything else — every later step (eval, citation, routing) depends on this being right.
+2
+Add hybrid search (vector + keyword)
+Layer a keyword search (e.g. SQLite FTS5, or Chroma's built-in keyword support) alongside your existing vector similarity search, and merge the two result sets. This fixes the common case where a query names an exact term (like a line-item label) that semantic search alone sometimes misses.
+3
+Add reranking on top of retrieval
+Retrieve a wider set (top 15-20) with your current retriever, then use a cross-encoder reranker to reorder and cut down to the final top 3-5 before generation. This is the single highest-leverage accuracy improvement for the effort involved, and it's a well-known technique worth naming explicitly in your README.
+4
+Build a hand-labeled eval set with real metrics
+Write 15-20 question/answer pairs across your 6 companies, mixing single-fact lookups and cross-company comparisons. For each, record which chunk(s) should be retrieved. Measure precision@k, recall@k, and MRR before and after step 2 and step 3 — this turns 'I improved retrieval' into a specific, quotable number.
+5
+Add a grounding check on generated answers
+After the LLM generates an answer, run a simple check (regex or a second small LLM call) confirming any numbers or claims in the answer actually appear in the retrieved chunks. Reject or flag answers that don't pass. This matters specifically for financial data, where a wrong number is a credibility problem, not just noise.
+6
+Add query routing for structured vs. narrative questions
+Detect whether a question is a direct numeric lookup (route to a structured query against your extracted statement data) versus a narrative question (route to your existing vector+keyword retrieval). Even a simple heuristic or a cheap classification prompt here demonstrates you understand your data has two distinct shapes and shouldn't be queried the same way.
+7
+Write the README with before/after numbers and citations
+Document each design decision (the ones you already worked through, plus the new ones), and lead with your eval metrics showing quantified improvement from hybrid search and reranking. Include a worked example showing a question, the retrieved chunks with their citation metadata, and the final cited answer.s
+
+Create a self correcting citation system
