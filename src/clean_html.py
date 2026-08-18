@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 # Clean the html file 
-content = str(from_path("../data/amd-20251227.html").best())
+content = str(from_path("../data/ko-20251231.html").best())
 soup = BeautifulSoup(content, 'html.parser')
 
 # get rid of all the tables
@@ -52,6 +52,7 @@ current_subsection = ""
 current_heading = ""
 current_text = ""
 for div in div_tags:
+    # print(div.prettify())
     # Until you reach table of contents, skip everything
     if (div.get_text().lower() == "table of contents"):
         cover_page = False
@@ -70,21 +71,25 @@ for div in div_tags:
         for child_tag in children:
             # use onlt span tags
             if child_tag.name == "span":
-
+                # print(1)
                 try:
                     style_attr = child_tag.attrs.get("style")
                     weight_match = re.search("font-weight:(\\d+)", style_attr)
                     style_match = re.search("font-style:(\\w+)", style_attr)
+                    size_match = re.search("font-size:(\\d+)", style_attr)
                     font_weight:str|None = weight_match.group(1) if weight_match else None
                     font_style:str|None = style_match.group(1) if style_match else None
+                    font_size:str|None = size_match.group(1) if size_match else None
                     # print(font_weight, font_style, style_attr)
 
                     # Get text
                     span_text = child_tag.get_text()
 
                     # Find an ITEM
-                    item = re.search("ITEM", span_text) 
-                    if item != None: 
+                    print(div.prettify())
+                    print(font_size, "\n")
+                    item = re.search("ITEM", span_text) or re.search("Item", span_text) 
+                    if item != None and (font_weight == "700" or font_size == "14"): 
                         if current_text != "":
                             # print("done")
                             chunks.append(Chunk(
@@ -102,7 +107,7 @@ for div in div_tags:
                         # print("item: ", current_item)
                     
                     # Identify Headings
-                    elif font_weight == "700" and font_style=="italic":
+                    elif (font_weight == "700" or font_size == "10") and font_style=="italic":
                         if current_text != "":
                             # print("done")
                             chunks.append(Chunk(
@@ -149,6 +154,7 @@ for div in div_tags:
 
         print("\n")   
 
+print("lol")
 
 pretty = "\n\n".join(json.dumps(c.model_dump(), indent=2) for c in chunks)
 pathlib.Path("chunks_debug.json").write_text(pretty)
