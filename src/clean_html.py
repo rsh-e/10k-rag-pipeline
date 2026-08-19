@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 # Clean the html file 
-content = str(from_path("../data/ko-20251231.html").best())
+content = str(from_path("../data/cvx-20251231.html").best())
 soup = BeautifulSoup(content, 'html.parser')
 
 # get rid of all the tables
@@ -54,12 +54,12 @@ current_text = ""
 for div in div_tags:
     # print(div.prettify())
     # Until you reach table of contents, skip everything
-    if (div.get_text().lower() == "table of contents"):
-        cover_page = False
-        div.decompose()
+    # if (div.get_text().lower() == "table of contents"):
+    #     cover_page = False
+    #     div.decompose()
 
-    # Collect all info from now
-    if not cover_page:
+    # # Collect all info from now
+    # if not cover_page:
         # print(div.prettify())
         # # Skip the Page of contents
         # if div["style"] == "min-height:42.75pt;width:100%": pass
@@ -67,94 +67,84 @@ for div in div_tags:
         # Skip the line numbers
 
         # get the nested tags of the div
-        children = div.contents
-        for child_tag in children:
-            # use onlt span tags
-            if child_tag.name == "span":
-                # print(1)
-                try:
-                    style_attr = child_tag.attrs.get("style")
-                    weight_match = re.search("font-weight:(\\d+)", style_attr)
-                    style_match = re.search("font-style:(\\w+)", style_attr)
-                    size_match = re.search("font-size:(\\d+)", style_attr)
-                    font_weight:str|None = weight_match.group(1) if weight_match else None
-                    font_style:str|None = style_match.group(1) if style_match else None
-                    font_size:str|None = size_match.group(1) if size_match else None
-                    # print(font_weight, font_style, style_attr)
+    children = div.contents
+    for child_tag in children:
+        # use onlt span tags
+        if child_tag.name == "span":
+            # print(1)
+            try:
+                style_attr = child_tag.attrs.get("style")
+                weight_match = re.search("font-weight:(\\d+)", style_attr)
+                style_match = re.search("font-style:(\\w+)", style_attr)
+                size_match = re.search("font-size:(\\d+)", style_attr)
+                font_weight:str|None = weight_match.group(1) if weight_match else None
+                font_style:str|None = style_match.group(1) if style_match else None
+                font_size:str|None = size_match.group(1) if size_match else None
+                # print(font_weight, font_style, style_attr)
 
-                    # Get text
-                    span_text = child_tag.get_text()
+                # Get text
+                span_text = child_tag.get_text()
 
-                    # Find an ITEM
-                    print(div.prettify())
-                    print(font_size, "\n")
-                    item = re.search("ITEM", span_text) or re.search("Item", span_text) 
-                    if item != None and (font_weight == "700" or font_size == "14"): 
-                        if current_text != "":
-                            # print("done")
-                            chunks.append(Chunk(
-                                item=current_item, 
-                                section=current_section, 
-                                subsection=current_subsection, 
-                                heading=current_heading, 
-                                text=current_text))
-                        current_item = span_text 
-                        # If this changes, all below values should change asw
-                        current_section = ""
-                        current_subsection = ""
-                        current_heading = ""
-                        current_text = ""
-                        # print("item: ", current_item)
-                    
-                    # Identify Headings
-                    elif (font_weight == "700" or font_size == "10") and font_style=="italic":
-                        if current_text != "":
-                            # print("done")
-                            chunks.append(Chunk(
-                                item=current_item, 
-                                section=current_section, 
-                                subsection=current_subsection, 
-                                heading=current_heading, 
-                                text=current_text))
-                        current_heading = span_text
-                        current_text = ""
-                        # print("current_heading", current_heading) 
-
-                    # Identify Sections
-                    elif font_weight == "700": 
-                        if current_text != "":
-                            # print("done")
-                            chunks.append(Chunk(
-                                item=current_item, 
-                                section=current_section, 
-                                subsection=current_subsection, 
-                                heading=current_heading, 
-                                text=current_text))
-                        current_section = span_text
-                        current_subsection = ""
-                        current_heading = ""
-                        current_text = ""
-                        # print("section: ", current_section)
-                    
-                    # Identify plain text
-                    elif font_weight == "400":
-                        current_text = current_text + span_text + "\n"
-                        # print("text:", current_text)
-                    # Conditions for a boolean
-                    
-                    # when does it build the pydantic object?
-
+                # Find an ITEM
+                # print(div.prettify())
+                # print(font_size, "\n")
+                item = re.search("ITEM", span_text) or re.search("Item", span_text) 
+                if item != None and (font_weight == "700" or font_size == "14"): 
+                    if current_text != "":
+                        # print("done")
+                        chunks.append(Chunk(
+                            item=current_item, 
+                            section=current_section, 
+                            subsection=current_subsection, 
+                            heading=current_heading, 
+                            text=current_text))
+                    current_item = span_text 
+                    # If this changes, all below values should change asw
+                    current_section = ""
+                    current_subsection = ""
+                    current_heading = ""
+                    current_text = ""
+                    # print("item: ", current_item)
                 
+                # Identify Headings
+                elif (font_weight == "700" or font_size == "10") and font_style=="italic":
+                    if current_text != "":
+                        # print("done")
+                        chunks.append(Chunk(
+                            item=current_item, 
+                            section=current_section, 
+                            subsection=current_subsection, 
+                            heading=current_heading, 
+                            text=current_text))
+                    current_heading = span_text
+                    current_text = ""
+                    # print("current_heading", current_heading) 
 
-                    # print("style tag:", content.span.attrs['style'])
-                except Exception as e:
-                    print("found error: ", e)
+                # Identify Sections
+                elif font_weight == "700": 
+                    if current_text != "":
+                        # print("done")
+                        chunks.append(Chunk(
+                            item=current_item, 
+                            section=current_section, 
+                            subsection=current_subsection, 
+                            heading=current_heading, 
+                            text=current_text))
+                    current_section = span_text
+                    current_subsection = ""
+                    current_heading = ""
+                    current_text = ""
+                    # print("section: ", current_section)
+                
+                # Identify plain text
+                elif font_weight == "400":
+                    current_text = current_text + span_text + "\n"
+                    # print("text:", current_text)
+
+            except Exception as e:
+                print("found error: ", e)
             # print(content.span.get_text())
             # Rule for Item
-
-        print("\n")   
-
-print("lol")
 
 pretty = "\n\n".join(json.dumps(c.model_dump(), indent=2) for c in chunks)
 pathlib.Path("chunks_debug.json").write_text(pretty)
@@ -166,7 +156,7 @@ pathlib.Path("chunks_debug.json").write_text(pretty)
 
     
     
-# pretty = soup.prettify()
+pretty = soup.prettify()
 # text_only = soup.get_text(separator="\n")
 
 
