@@ -27,6 +27,7 @@ data/*.pdf
 output.txt
 *.log
 chunks_debug.json
+NEW_chunks_debug.json
 
 # OS cruft
 .DS_Store

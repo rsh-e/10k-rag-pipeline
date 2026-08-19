@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 # Clean the html file 
-content = str(from_path("../data/nvda-20260125.html").best())
+content = str(from_path("../data/ko-20251231.html").best())
 soup = BeautifulSoup(content, 'html.parser')
 
 # get rid of all the tables
@@ -36,7 +36,7 @@ div_tags = soup.find_all("div")
 class Chunk(BaseModel):
     item: str
     section: str
-    subsection: str
+    # subsection: str
     heading: str
     text: str
     # company: str
@@ -45,10 +45,10 @@ class Chunk(BaseModel):
 
 chunks: List[Chunk] = []
 
-cover_page = True
+# cover_page = True
 current_item = ""
 current_section = ""
-current_subsection = ""
+# current_subsection = ""
 current_heading = ""
 current_text = ""
 for div in div_tags:
