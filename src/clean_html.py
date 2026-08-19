@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 # Clean the html file 
-content = str(from_path("../data/cvx-20251231.html").best())
+content = str(from_path("../data/nvda-20260125.html").best())
 soup = BeautifulSoup(content, 'html.parser')
 
 # get rid of all the tables
@@ -52,6 +52,7 @@ current_subsection = ""
 current_heading = ""
 current_text = ""
 for div in div_tags:
+
     # print(div.prettify())
     # Until you reach table of contents, skip everything
     # if (div.get_text().lower() == "table of contents"):
@@ -90,7 +91,7 @@ for div in div_tags:
                 # print(font_size, "\n")
                 item = re.search("ITEM", span_text) or re.search("Item", span_text) 
                 if item != None and (font_weight == "700" or font_size == "14"): 
-                    if current_text != "":
+                    if current_text != "" and current_item != "":
                         # print("done")
                         chunks.append(Chunk(
                             item=current_item, 
@@ -108,7 +109,7 @@ for div in div_tags:
                 
                 # Identify Headings
                 elif (font_weight == "700" or font_size == "10") and font_style=="italic":
-                    if current_text != "":
+                    if current_text != "" and current_item != "":
                         # print("done")
                         chunks.append(Chunk(
                             item=current_item, 
@@ -122,7 +123,7 @@ for div in div_tags:
 
                 # Identify Sections
                 elif font_weight == "700": 
-                    if current_text != "":
+                    if current_text != "" and current_item != "":
                         # print("done")
                         chunks.append(Chunk(
                             item=current_item, 
