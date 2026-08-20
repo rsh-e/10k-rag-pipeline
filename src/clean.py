@@ -13,18 +13,15 @@ weight_match_re = re.compile("font-weight:(\\d+)")
 style_match_re = re.compile("font-style:(\\w+)") 
 size_match_re = re.compile("font-size:(\\d+)")
 
-
-
-class Chunk(BaseModel):
+class Citation(BaseModel):
     item: str
     section: str
     heading: str
     text: str
-    # company: str
-    # year: str
-    # source: str # 10K or R-file,
-    # document_content_hash: str
-    # file_path: str
+    company: str
+    year: str
+    source: str # 10K or R-file,
+    file_path: str
 
 class Properties:
     def __init__(self, style_attr):
@@ -69,19 +66,27 @@ def strip_file(soup: BeautifulSoup) -> None:
     for img in img_tags:
         img.decompose()
 
+
     # dont return anything, soup is mutable
 
-if __name__ == "__main__":
-    content = str(from_path("../data/ko-20251231.html").best())
+def get_citations(path) -> List[Citation]:
+    content = str(from_path(path).best())
     soup = BeautifulSoup(content, 'html.parser')
     strip_file(soup)
 
-    chunks: List[Chunk] = []
+    citations: List[Citation] = []
 
     current_item: str = ""
     current_section: str  = ""
     current_heading: str = ""
     current_text: str = ""
+
+    path_obj = Path(path)
+    file_name = path_obj.stem
+    split_file_name = file_name.split("-")
+    company = split_file_name[0]
+    year = split_file_name[1][0:4]
+    file_path = path
 
     # Get all the divs
     div_tags = soup.find_all("div") 
@@ -95,22 +100,24 @@ if __name__ == "__main__":
                     props = Properties(style_attr=style_attr)
                     span_text = child_tag.get_text()
 
-                    IS_ITEM: bool = True
                     IS_HEADING: bool = (props.font_weight == "700" or props.font_size == "10") and props.font_style == "italic"
                     IS_SECTION: bool = (props.font_weight == "700")
                     IS_PLAIN_TEXT: bool = (props.font_weight == "400")
-                    VALID_CHUNK: bool = (current_text != "" and current_item != "")
-
+                    VALID_CITATION: bool = (current_text != "" and current_item != "")
                     
                     item = re.search("ITEM", span_text) or re.search("Item", span_text) 
                     if item != None and (props.font_weight == "700" or props.font_size == "14"): 
-                        if VALID_CHUNK:
-                            chunks.append(Chunk(
+                        if VALID_CITATION:
+                            citations.append(Citation(
                                 item=current_item, 
                                 section=current_section, 
                                 subsection=current_subsection, 
                                 heading=current_heading, 
-                                text=current_text))
+                                text=current_text,
+                                company=company,
+                                year=year,
+                                source=file_name,
+                                file_path=file_path))
                         current_item = span_text 
                         # If this changes, all below values should change asw
                         current_section = ""
@@ -119,25 +126,33 @@ if __name__ == "__main__":
                         current_text = ""
 
                     elif IS_HEADING:
-                        if current_text != "" and current_item != "":
-                            chunks.append(Chunk(
+                        if VALID_CITATION:
+                            citations.append(Citation(
                                 item=current_item, 
                                 section=current_section, 
                                 subsection=current_subsection, 
                                 heading=current_heading, 
-                                text=current_text))
+                                text=current_text,
+                                company=company,
+                                year=year,
+                                source=file_name,
+                                file_path=file_path))
                         current_heading = span_text
                         current_text = ""
 
                     elif IS_SECTION:
-                        if current_text != "" and current_item != "":
+                        if VALID_CITATION:
                         # print("done")
-                            chunks.append(Chunk(
+                            citations.append(Citation(
                                 item=current_item, 
                                 section=current_section, 
                                 subsection=current_subsection, 
                                 heading=current_heading, 
-                                text=current_text))
+                                text=current_text,
+                                company=company,
+                                year=year,
+                                source=file_name,
+                                file_path=file_path))
                         current_section = span_text
                         current_subsection = ""
                         current_heading = ""
@@ -149,5 +164,13 @@ if __name__ == "__main__":
                 except Exception as e:
                     print("found error:", e)
 
-    pretty = "\n\n".join(json.dumps(c.model_dump(), indent=2) for c in chunks)
-    pathlib.Path("NEW_chunks_debug.json").write_text(pretty)
+    return citations
+
+if __name__ == "__main__":
+    path = "../data/ko-20251231.html"
+    citations = get_citations(path)
+
+    output_file_name = "NEW_chunks_debug.json"
+    pretty = "\n\n".join(json.dumps(c.model_dump(), indent=2) for c in citations)
+    pathlib.Path(output_file_name).write_text(pretty)
+    print("Citations can be viewed on,", output_file_name)
