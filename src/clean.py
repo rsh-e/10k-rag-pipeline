@@ -59,7 +59,7 @@ def strip_file(soup: BeautifulSoup) -> None:
 
     # get rid of the xblr tags
     xblr_tag = soup.find("ix:header")
-    xblr_tag.decompose()
+    if xblr_tag is not None: xblr_tag.decompose()
 
     # get rid of all images
     img_tags = soup.find_all("img")
@@ -69,7 +69,7 @@ def strip_file(soup: BeautifulSoup) -> None:
 
     # dont return anything, soup is mutable
 
-def get_citations(path) -> List[Citation]:
+def get_citations(path: str) -> List[Citation]:
     content = str(from_path(path).best())
     soup = BeautifulSoup(content, 'html.parser')
     strip_file(soup)
@@ -91,13 +91,18 @@ def get_citations(path) -> List[Citation]:
     # Get all the divs
     div_tags = soup.find_all("div") 
     for div in div_tags:
-        print("\n")
         children = div.contents
         for child_tag in children:
             if child_tag.name == "span":
                 try:
+                    # print(1)
                     style_attr = child_tag.attrs.get("style")
-                    props = Properties(style_attr=style_attr)
+                    # print(2)
+                    if style_attr is not None: 
+                        props = Properties(style_attr=style_attr)
+                    else:
+                        continue
+                    # print(3)
                     span_text = child_tag.get_text()
 
                     IS_HEADING: bool = (props.font_weight == "700" or props.font_size == "10") and props.font_style == "italic"
@@ -142,7 +147,6 @@ def get_citations(path) -> List[Citation]:
 
                     elif IS_SECTION:
                         if VALID_CITATION:
-                        # print("done")
                             citations.append(Citation(
                                 item=current_item, 
                                 section=current_section, 
@@ -162,12 +166,14 @@ def get_citations(path) -> List[Citation]:
                         current_text = current_text + span_text + "\n"
 
                 except Exception as e:
+                    print(div.prettify())
                     print("found error:", e)
 
+    # print(citations)
     return citations
 
 if __name__ == "__main__":
-    path = "../data/ko-20251231.html"
+    path = "../data/nvda-20260125.html"
     citations = get_citations(path)
 
     output_file_name = "NEW_chunks_debug.json"
