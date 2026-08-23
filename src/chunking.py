@@ -162,7 +162,6 @@ if __name__ == "__main__":
         citations = get_citations(full_path)
 
         tokenise(citations)
-
         print("done", file_name)
 
         # Make an entry on the table
