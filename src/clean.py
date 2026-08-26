@@ -106,7 +106,7 @@ def get_citations(path: str) -> List[Citation]:
                     span_text = child_tag.get_text()
 
                     IS_HEADING: bool = (props.font_weight == "700" or props.font_size == "10") and props.font_style == "italic"
-                    IS_SECTION: bool = (props.font_weight == "700")
+                    IS_SECTION: bool = (props.font_weight == "700" and span_text != "\u2022")
                     IS_PLAIN_TEXT: bool = (props.font_weight == "400")
                     VALID_CITATION: bool = (current_text != "" and current_item != "")
                     
@@ -173,7 +173,7 @@ def get_citations(path: str) -> List[Citation]:
     return citations
 
 if __name__ == "__main__":
-    path = "../data/nvda-20260125.html"
+    path = "../data/avgo-20251102.html"
     citations = get_citations(path)
 
     output_file_name = "NEW_chunks_debug.json"
