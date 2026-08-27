@@ -14,9 +14,11 @@ from clean import get_citations, Citation
 
 model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
 tokenizer = AutoTokenizer.from_pretrained("nomic-ai/nomic-embed-text-v1.5")
-MAX_TOKEN_SIZE = 5000
+MAX_TOKEN_SIZE = 800
 chroma_client = chromadb.PersistentClient(path="../storage")
 collection = chroma_client.get_or_create_collection(name="data_store")
+conn = sqlite3.connect("../storage/document_ledger.db")
+
 
 # def chunk_file(citation: Citation):
 #     # soup = BeautifulSoup(citation, 'html.parser')
@@ -49,6 +51,26 @@ def create_table(conn: sqlite3.Connection):
     )
     conn.commit()
 
+def create_fts5_table(conn: sqlite3.Connection):
+    conn.execute(
+        """
+        CREATE VIRTUAL TABLE citations USING fts5(
+            citation_text_hash UNINDEXED,
+            item UNINDEXED,
+            section UNINDEXED,
+            heading UNINDEXED,
+            text,
+            company UNINDEXED,
+            year UNINDEXED,
+            source UNINDEXED,
+            file_path UNINDEXED,
+            tokenize='porter'
+            );
+        """
+    )
+    conn.commit()
+
+
 def add_document(content_hash: str, conn: sqlite3.Connection):
     document_exists = check_document_exists(content_hash, conn)
     if not document_exists: 
@@ -80,8 +102,7 @@ def check_document_exists(content_hash: str, conn:sqlite3.Connection):
     return cursor.fetchone() is not None
 
 # Embedding
-def insert_to_chroma(embedding, citation: Citation):
-    citation_text_hash: str = sha256(citation.text.encode()).hexdigest()
+def insert_to_chroma(embedding, citation: Citation, citation_text_hash: str):
     collection.upsert(
         ids=[citation_text_hash],
         embeddings=[embedding],
@@ -92,11 +113,32 @@ def insert_to_chroma(embedding, citation: Citation):
             "heading": citation.heading,
             "company": citation.company,
             "year": citation.year,
-            "source:": citation.source,
+            "source": citation.source,
             "file_path": citation.file_path
         }]
     )
     return collection
+
+def insert_to_fts5(conn: sqlite3.Connection, citation: Citation, citation_text_hash: str):
+    conn.execute(
+        """
+        INSERT INTO citations(
+            citation_text_hash,
+            item,
+            section,
+            heading,
+            text,
+            company,
+            year,
+            source,
+            file_path
+        ) VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?, ?
+        )
+        """,
+        (citation_text_hash, citation.item, citation.section, citation.heading, citation.text, citation.company, citation.year, citation.source, citation.file_path)
+    )
+    conn.commit()
 
 def get_tokens(text: str) -> List[str]:
     # prepared_text: tuple[str, dict[str, Any]] = tokenizer.prepare_for_tokenization(text, is_split_into_words=False)
@@ -106,15 +148,17 @@ def get_tokens(text: str) -> List[str]:
 def get_token_count(text: str) -> int:
     return len(get_tokens(text))
 
-def chunk_processing(citation):
+def chunk_processing(conn: sqlite3.Connection, citation: Citation):
+    # print(citation)
     text_to_embed = "search document: " + citation.item + " " + citation.section + " " + citation.heading + " " + citation.text
     embedding = model.encode(text_to_embed)
-    insert_to_chroma(embedding, citation)
+    citation_text_hash: str = sha256(citation.text.encode()).hexdigest()
+    insert_to_chroma(embedding, citation, citation_text_hash)
+    insert_to_fts5(conn, citation, citation_text_hash)
 
-def recursive_chunking(token_count: int, citation: Citation):
+def recursive_chunking(conn: sqlite3.Connection, citation: Citation):
     print("hit a point")
     # Decrease MAX_TOKEN_SIZE to see this play out and perfect the algo
-    min_chunks_required = (token_count / MAX_TOKEN_SIZE).__ceil__()
     chunks : List = []
 
     chunk = ""
@@ -126,24 +170,26 @@ def recursive_chunking(token_count: int, citation: Citation):
             chunk = chunk + "\n" + paragraph
             # chunk.join(paragraph, "\n") # is this syntax correct?
         else:
-            chunks.append(chunks)
+            chunks.append(chunk)
             chunk_size = paragraph_token_count
             chunk = paragraph
 
     for chunk in chunks:
         new_citation = citation
         new_citation.text = chunk
-        chunk_processing(new_citation)
+        # print(2, new_citation)
+        chunk_processing(conn, new_citation)
 
 
-def tokenise(citations: List[Citation]):
+def tokenise(conn: sqlite3.Connection, citations: List[Citation]):
     for citation in citations:
         token_count = get_token_count(citation.text)
         if token_count > MAX_TOKEN_SIZE:
             # calculate the min number of chunks needed
-            recursive_chunking(token_count, citation)
+            recursive_chunking(conn, citation)
         else:
-            chunk_processing(citation)
+            # print(1)
+            chunk_processing(conn, citation)
 
 
 if __name__ == "__main__":
@@ -153,6 +199,7 @@ if __name__ == "__main__":
     model = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
     tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained("nomic-ai/nomic-embed-text-v1.5")
     create_table(conn)
+    create_fts5_table(conn)
 
     data_directory = "../data"
     files = os.listdir(data_directory)    
@@ -160,8 +207,7 @@ if __name__ == "__main__":
         full_path = os.path.join(data_directory, file_name)
         # print("full path", full_path)
         citations = get_citations(full_path)
-
-        tokenise(citations)
+        tokenise(conn, citations)
         print("done", file_name)
 
         # Make an entry on the table

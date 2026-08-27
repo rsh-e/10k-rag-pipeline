@@ -1,5 +1,7 @@
+from fileinput import filename
 from json import dumps
 import json
+import os
 from pathlib import Path
 import pathlib
 import re
@@ -172,9 +174,46 @@ def get_citations(path: str) -> List[Citation]:
     # print(citations)
     return citations
 
+from transformers import AutoTokenizer
+import numpy as np
+
+tokenizer = AutoTokenizer.from_pretrained("nomic-ai/nomic-embed-text-v1.5")
+
+def token_count_histogram(file_name, citations: list[Citation]):
+    counts = [len(tokenizer.encode(c.text)) for c in citations]
+    counts = np.array(counts)
+
+    print("-" * 100)
+    print(file_name)
+    print(f"n citations: {len(counts)}")
+    print(f"min: {counts.min()}, max: {counts.max()}")
+    print(f"mean: {counts.mean():.1f}, median: {np.median(counts):.1f}")
+    print(f"p90: {np.percentile(counts, 90):.1f}, p95: {np.percentile(counts, 95):.1f}, p99: {np.percentile(counts, 99):.1f}")
+
+    # simple bucketed histogram, no plotting deps needed
+    buckets = [0, 100, 200, 400, 800, 1600, 3200, 5000, float("inf")]
+    hist, _ = np.histogram(counts, bins=buckets)
+    for i in range(len(hist)):
+        lo, hi = buckets[i], buckets[i+1]
+        label = f"{lo}-{hi}" if hi != float("inf") else f"{lo}+"
+        print(f"{label:>12}: {hist[i]:>5}  {'#' * (hist[i] * 50 // max(hist.sum(), 1))}")
+
+    return counts
+
 if __name__ == "__main__":
-    path = "../data/avgo-20251102.html"
-    citations = get_citations(path)
+    data_directory = "../data"
+    files = os.listdir(data_directory)    
+    for file_name in files:
+        full_path = os.path.join(data_directory, file_name)
+        # print("full path", full_path)
+        citations = get_citations(full_path)
+        
+    # path = "../data/amd-20251227.html"
+    # citations = get_citations(path)
+        counts = token_count_histogram(file_name, citations)
+        
+        print(counts)
+
 
     output_file_name = "NEW_chunks_debug.json"
     pretty = "\n\n".join(json.dumps(c.model_dump(), indent=2) for c in citations)
