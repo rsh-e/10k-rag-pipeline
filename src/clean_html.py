@@ -85,10 +85,10 @@ for div in div_tags:
 
                 # Get text
                 span_text = child_tag.get_text()
-
                 # Find an ITEM
                 # print(div.prettify())
                 # print(font_size, "\n")
+                if span_text is None: continue
                 item = re.search("ITEM", span_text) or re.search("Item", span_text) 
                 if item != None and (font_weight == "700" or font_size == "14"): 
                     if current_text != "" and current_item != "":
@@ -140,20 +140,14 @@ for div in div_tags:
                 # Identify plain text
                 elif font_weight == "400":
                     current_text = current_text + span_text + "\n"
-                    # print("text:", current_text)
 
             except Exception as e:
+                print("error div:", div.prettify())
                 print("found error: ", e)
-            # print(content.span.get_text())
             # Rule for Item
 
 pretty = "\n\n".join(json.dumps(c.model_dump(), indent=2) for c in chunks)
 pathlib.Path("chunks_debug.json").write_text(pretty)
-            #    
-            # Rule for section
-            # Rule for subsection
-            # Rule for text
-            # Rule for bullet points
 
     
     

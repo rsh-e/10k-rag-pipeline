@@ -202,17 +202,17 @@ def token_count_histogram(file_name, citations: list[Citation]):
 
 if __name__ == "__main__":
     data_directory = "../data"
-    files = os.listdir(data_directory)    
-    for file_name in files:
-        full_path = os.path.join(data_directory, file_name)
-        # print("full path", full_path)
-        citations = get_citations(full_path)
+    # files = os.listdir(data_directory)    
+    # for file_name in files:
+    #     full_path = os.path.join(data_directory, file_name)
+    #     # print("full path", full_path)
+    #     citations = get_citations(full_path)
         
-    # path = "../data/amd-20251227.html"
-    # citations = get_citations(path)
-        counts = token_count_histogram(file_name, citations)
+    path = "../data/cop-20251231.html"
+    citations = get_citations(path)
+        # counts = token_count_histogram(file_name, citations)
         
-        print(counts)
+        # print(counts)
 
 
     output_file_name = "NEW_chunks_debug.json"

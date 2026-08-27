@@ -19,23 +19,6 @@ chroma_client = chromadb.PersistentClient(path="../storage")
 collection = chroma_client.get_or_create_collection(name="data_store")
 conn = sqlite3.connect("../storage/document_ledger.db")
 
-
-# def chunk_file(citation: Citation):
-#     # soup = BeautifulSoup(citation, 'html.parser')
-#     # text_only = soup.get_text()
-
-#     text_splitter = RecursiveCharacterTextSplitter(
-#         separators=["\n\n", "\n", ". ", "! ", "? "],
-#         chunk_size=500,
-#         chunk_overlap=50,
-#     )
-
-#     chunks = text_splitter.split_text(text_only)
-#     chunks_keys = [(str(sha256(str(chunk).encode()).hexdigest())+str(i)) for i, chunk in enumerate(chunks)]
-
-#     # embed using index to make sure there's no repetition i have to 
-#     return chunks, chunks_keys
-
 def create_table(conn: sqlite3.Connection):
     conn.execute(
         """
@@ -157,8 +140,6 @@ def chunk_processing(conn: sqlite3.Connection, citation: Citation):
     insert_to_fts5(conn, citation, citation_text_hash)
 
 def recursive_chunking(conn: sqlite3.Connection, citation: Citation):
-    print("hit a point")
-    # Decrease MAX_TOKEN_SIZE to see this play out and perfect the algo
     chunks : List = []
 
     chunk = ""
@@ -166,19 +147,22 @@ def recursive_chunking(conn: sqlite3.Connection, citation: Citation):
     paragraphs = citation.text.split("\n")
     for paragraph in paragraphs:
         paragraph_token_count = get_token_count(paragraph)
-        if paragraph_token_count + chunk_size <= MAX_TOKEN_SIZE:
-            chunk = chunk + "\n" + paragraph
-            # chunk.join(paragraph, "\n") # is this syntax correct?
+        chunk_size += paragraph_token_count
+        if chunk_size <= MAX_TOKEN_SIZE:
+            chunk = chunk + paragraph + "\n"
         else:
             chunks.append(chunk)
             chunk_size = paragraph_token_count
             chunk = paragraph
 
+    if chunk:
+        chunks.append(chunk)
+
     for chunk in chunks:
         new_citation = citation
         new_citation.text = chunk
-        # print(2, new_citation)
         chunk_processing(conn, new_citation)
+
 
 
 def tokenise(conn: sqlite3.Connection, citations: List[Citation]):
@@ -193,13 +177,28 @@ def tokenise(conn: sqlite3.Connection, citations: List[Citation]):
 
 
 if __name__ == "__main__":
-    # chroma_client = chromadb.PersistentClient(path="../storage")
-    # collection = chroma_client.get_or_create_collection(name="my_collection")
-    conn = sqlite3.connect("../storage/document_ledger.db")
-    model = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
-    tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained("nomic-ai/nomic-embed-text-v1.5")
+    
     create_table(conn)
     create_fts5_table(conn)
+
+    # path = "../data/amd-20251227.html"
+    # citations = get_citations(path)
+    # tokenise(conn, citations)
+
+    # all_data = collection.get(
+    # include=["embeddings", "metadatas", "documents"],
+    # where={"company": "amd"}
+    # )
+    
+    
+    # print(len(all_data["ids"]))  # sanity check — should match however many chunks you ingested
+
+    # for id_, metadata, document in zip(all_data["ids"], all_data["metadatas"], all_data["documents"]):
+    #     print(f"id={id_}")
+    #     print(f"company={metadata.get('company')} item={metadata.get('item')} section={metadata.get('section')} heading={metadata.get('heading')} source={metadata.get('source')}")
+    #     print(document)
+    #     print("-" * 100)
+    
 
     data_directory = "../data"
     files = os.listdir(data_directory)    

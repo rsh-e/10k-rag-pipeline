@@ -119,19 +119,19 @@ def main():
     model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
     conn = sqlite3.connect("../storage/document_ledger.db")
 
-    all_data = collection.get(
-    include=["embeddings", "metadatas", "documents"],
-    where={"company": "amd"}
-    )
+    # all_data = collection.get(
+    # include=["embeddings", "metadatas", "documents"],
+    # where={"company": "amd"}
+    # )
     
     
-    print(len(all_data["ids"]))  # sanity check — should match however many chunks you ingested
+    # print(len(all_data["ids"]))  # sanity check — should match however many chunks you ingested
 
-    for id_, metadata, document in zip(all_data["ids"], all_data["metadatas"], all_data["documents"]):
-        print(f"id={id_}")
-        print(f"company={metadata.get('company')} item={metadata.get('item')} section={metadata.get('section')} heading={metadata.get('heading')} source={metadata.get('source')}")
-        print(document)
-        print("-" * 100)
+    # for id_, metadata, document in zip(all_data["ids"], all_data["metadatas"], all_data["documents"]):
+    #     print(f"id={id_}")
+    #     print(f"company={metadata.get('company')} item={metadata.get('item')} section={metadata.get('section')} heading={metadata.get('heading')} source={metadata.get('source')}")
+    #     print(document)
+    #     print("-" * 100)
 
     for item in questions.eval_set:
         question = item["question"]
@@ -145,20 +145,20 @@ def main():
 
         
         fts_results = get_fts_results(conn, question)
-        # print(question)
+        print(question)
 
         # print_results(question, embedded_results)
 
         # for i in fts_results:
         #     print(i)
 
-        # ranked_results = get_reranked_results(fts_results, embedded_results)
-        # for text_hash, data in ranked_results:
-        #     # print(i["documents"][0])
-        #     print(data["score"], data["citation"])
+        ranked_results = get_reranked_results(fts_results, embedded_results)
+        for text_hash, data in ranked_results:
+            # print(i["documents"][0])
+            print(data["score"], data["citation"])
 
-        # print("\n")
-        # print("=" * 10)
+        print("\n")
+        print("=" * 10)
         
         # print_results(question, context)
 
