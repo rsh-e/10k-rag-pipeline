@@ -1,4 +1,6 @@
 from importlib import metadata
+import json
+import os
 import re
 import sqlite3
 from typing import List
@@ -133,32 +135,51 @@ def main():
     #     print(document)
     #     print("-" * 100)
 
-    for item in questions.eval_set:
-        question = item["question"]
-        query_embedding = model.encode("search_query: " + question)
+    data_directory = "../data"
+    files = os.listdir(data_directory)    
+    companies = sorted({file_name.split("-")[0] for file_name in files})
 
-        embedded_results = collection.query(
-            query_embeddings=[query_embedding],
-            include=["documents", "metadatas", "distances"],
-            n_results=N
+    for company in companies:
+        all_data = collection.get(
+            include=["documents", "metadatas"],
+            where={"company": company}
         )
+        dump = [
+            {"hash": id_, "text": doc, **meta}
+            for id_, doc, meta in zip(all_data["ids"], all_data["documents"], all_data["metadatas"])
+        ]
+        with open(company + ".json", "w") as f:
+            json.dump(dump, f, indent=2, ensure_ascii=False)
+
+            
+    # write to json
+
+    # for item in questions.eval_set:
+    #     question = item["question"]
+    #     query_embedding = model.encode("search_query: " + question)
+
+    #     embedded_results = collection.query(
+    #         query_embeddings=[query_embedding],
+    #         include=["documents", "metadatas", "distances"],
+    #         n_results=N
+    #     )
 
         
-        fts_results = get_fts_results(conn, question)
-        print(question)
+    #     fts_results = get_fts_results(conn, question)
+    #     print(question)
 
-        # print_results(question, embedded_results)
+    #     # print_results(question, embedded_results)
 
-        # for i in fts_results:
-        #     print(i)
+    #     # for i in fts_results:
+    #     #     print(i)
 
-        ranked_results = get_reranked_results(fts_results, embedded_results)
-        for text_hash, data in ranked_results:
-            # print(i["documents"][0])
-            print(data["score"], data["citation"])
+    #     ranked_results = get_reranked_results(fts_results, embedded_results)
+    #     for text_hash, data in ranked_results:
+    #         # print(i["documents"][0])
+    #         print(data["score"], data["citation"])
 
-        print("\n")
-        print("=" * 10)
+    #     print("\n")
+    #     print("=" * 10)
         
         # print_results(question, context)
 

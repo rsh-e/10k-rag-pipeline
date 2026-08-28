@@ -1,3 +1,4 @@
+from re import I
 from typing import List
 
 import chromadb
@@ -25,20 +26,25 @@ def print_results(question: str, context: QueryResult) -> None:
 def calculate_metrics(actual_chunk_ids, retrieved_chunk_ids) -> int:
     found = []
     print("actual: \n", actual_chunk_ids, "\nretrieved: \n", retrieved_chunk_ids)
-    for retrieved in retrieved_chunk_ids:
-        if retrieved in actual_chunk_ids:
-            found.append(retrieved)
+    recall, precision, mrr = 0,0, 0 
+    if len(actual_chunk_ids) == 0: print("Abstain")
+    else:
+        for retrieved in retrieved_chunk_ids:
+            if retrieved in actual_chunk_ids:
+                found.append(retrieved)
 
-    precision = len(found) / K
-    recall = len(found) / len(actual_chunk_ids)
+        precision = len(found) / K
+        recall = len(found) / len(actual_chunk_ids)
 
-    mrr = 0.0
-    for rank, retrieved in enumerate(retrieved_chunk_ids, start=1):
-        if retrieved in actual_chunk_ids:
-            mrr = 1 / rank
-            break
-     
-    print("precision: ", precision, "recall: ", recall, "mrr: ", mrr)
+        mrr = 0.0
+        for rank, retrieved in enumerate(retrieved_chunk_ids, start=1):
+            if retrieved in actual_chunk_ids:
+                mrr = 1 / rank
+                break
+        
+        print("precision: ", precision, "recall: ", recall, "mrr: ", mrr)
+
+    return recall, precision, mrr
 
     
 
@@ -54,6 +60,10 @@ def main():
     collection = chroma_client.get_collection(name="data_store") 
     model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
 
+
+    recall = 0
+    precision = 0
+    mrr = 0
     for item in questions.eval_set:
         print()
         question = item["question"]
@@ -72,7 +82,12 @@ def main():
         actual_chunk_ids = item["relevant_chunks"]
         # print("here")
 
-        calculate_metrics(actual_chunk_ids, retrieved_chunk_ids)
+        re_recall, re_precision, re_mrr =  calculate_metrics(actual_chunk_ids, retrieved_chunk_ids)
+        recall += re_recall
+        precision += re_precision
+        mrr += re_mrr
+
+    print("recall:", recall/100, "precision:", precision/100, "mrr:", mrr/100)
         # precision = calculate_precision(actual_chunk_ids, retrieved_chunk_ids)
         # recall = calculate_recall(actual_chunk_ids, retrieved_chunk_ids)
         # mrr = calculate_mrr(actual_chunk_ids, retrieved_chunk_ids)
