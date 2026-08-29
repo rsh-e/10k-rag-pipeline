@@ -1,12 +1,14 @@
 from re import I
+import sqlite3
 from typing import List
 
 import chromadb
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import CrossEncoder, SentenceTransformer
+from main import get_cross_encoder_results, get_fts_results, get_rrf_results
 import questions
 from chromadb import IDs, QueryResult
 
-K = 10
+K = 50
 
 def print_results(question: str, context: QueryResult) -> None:
     print("=" * 100)
@@ -25,7 +27,7 @@ def print_results(question: str, context: QueryResult) -> None:
 
 def calculate_metrics(actual_chunk_ids, retrieved_chunk_ids) -> int:
     found = []
-    print("actual: \n", actual_chunk_ids, "\nretrieved: \n", retrieved_chunk_ids)
+    # print("actual: \n", actual_chunk_ids, "\nretrieved: \n", retrieved_chunk_ids)
     recall, precision, mrr = 0,0, 0 
     if len(actual_chunk_ids) == 0: print("Abstain")
     else:
@@ -46,20 +48,12 @@ def calculate_metrics(actual_chunk_ids, retrieved_chunk_ids) -> int:
 
     return recall, precision, mrr
 
-    
-
-def calculate_recall(question: str, context: QueryResult) -> int:
-    pass
-
-def calculate_mrr(question: str, context: QueryResult) -> int:
-    pass
-
 def main():
-    print("hi")
     chroma_client = chromadb.PersistentClient(path="../storage")
     collection = chroma_client.get_collection(name="data_store") 
     model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
-
+    conn = sqlite3.connect("../storage/document_ledger.db")
+    cross_encoder: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
     recall = 0
     precision = 0
@@ -70,17 +64,26 @@ def main():
         print(question)
         query_embedding = model.encode("search_query: " + question)
 
-        context: QueryResult = collection.query(
+        embedded_results: QueryResult = collection.query(
             query_embeddings=[query_embedding],
             include=["documents", "metadatas", "distances"],
             n_results=K
         )
 
         # print_results(question, context)
+        fts_results = get_fts_results(conn, question)
+        rrf_results = get_rrf_results(fts_results, embedded_results)
+        cross_encoder_results = get_cross_encoder_results(cross_encoder, question, rrf_results)
 
-        retrieved_chunk_ids = context["ids"][0]
+        retrieved_chunk_ids = []
+
+        for result in cross_encoder_results:
+            content_hash = result[0][0]
+            print(content_hash)
+            retrieved_chunk_ids.append(content_hash)
+
+        retrieved_chunk_ids = retrieved_chunk_ids[0:10]
         actual_chunk_ids = item["relevant_chunks"]
-        # print("here")
 
         re_recall, re_precision, re_mrr =  calculate_metrics(actual_chunk_ids, retrieved_chunk_ids)
         recall += re_recall
@@ -88,14 +91,6 @@ def main():
         mrr += re_mrr
 
     print("recall:", recall/100, "precision:", precision/100, "mrr:", mrr/100)
-        # precision = calculate_precision(actual_chunk_ids, retrieved_chunk_ids)
-        # recall = calculate_recall(actual_chunk_ids, retrieved_chunk_ids)
-        # mrr = calculate_mrr(actual_chunk_ids, retrieved_chunk_ids)
-
-    # print("Precision@K:", precision)
-    # print("Recall@K:", recall)
-    # print("MRR@K:", mrr)
-
 
 
 if __name__ == "__main__":

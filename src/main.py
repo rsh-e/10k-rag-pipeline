@@ -7,10 +7,9 @@ from typing import List
 
 from groq import Groq
 import chromadb
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import CrossEncoder, SentenceTransformer, cross_encoder
 
 from clean import Citation
-import questions
 
 def print_results(question: str, context: dict) -> None:
     print("=" * 100)
@@ -79,7 +78,7 @@ def fts_citation_normaliser(result):
     )
     
 
-def get_reranked_results(fts_results: List[tuple], embedded_results: chromadb.QueryResult):
+def get_rrf_results(fts_results: List[tuple], embedded_results: chromadb.QueryResult) -> List[tuple]:
     # Shape of weights looks liek this:
     # weights = {hash: {Citation:, score:}}
     # Go through the fts_results add in the hash, text and rrf to the weights
@@ -113,6 +112,19 @@ def get_reranked_results(fts_results: List[tuple], embedded_results: chromadb.Qu
     ranked = sorted(weights.items(), key=lambda item: item[1]["score"], reverse=True)
     return ranked
 
+def get_cross_encoder_results(cross_encoder: CrossEncoder, question, rrf_results: tuple):
+    pairs = []
+    for result in rrf_results:
+        citation = result[1]["citation"]
+        text = citation.text
+        pairs.append((question, text))
+
+    scores = cross_encoder.predict(pairs)
+    results_with_scores = list(zip(rrf_results, scores))
+    ranked = sorted(results_with_scores, key=lambda x: x[1], reverse=True)
+    return ranked
+
+
 
 def main():
     N = 10
@@ -120,6 +132,8 @@ def main():
     collection = chroma_client.get_collection(name="data_store") 
     model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
     conn = sqlite3.connect("../storage/document_ledger.db")
+    cross_encoder: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+
 
     # all_data = collection.get(
     # include=["embeddings", "metadatas", "documents"],
@@ -135,78 +149,77 @@ def main():
     #     print(document)
     #     print("-" * 100)
 
-    data_directory = "../data"
-    files = os.listdir(data_directory)    
-    companies = sorted({file_name.split("-")[0] for file_name in files})
+    # data_directory = "../data"
+    # files = os.listdir(data_directory)    
+    # companies = sorted({file_name.split("-")[0] for file_name in files})
 
-    for company in companies:
-        all_data = collection.get(
-            include=["documents", "metadatas"],
-            where={"company": company}
-        )
-        dump = [
-            {"hash": id_, "text": doc, **meta}
-            for id_, doc, meta in zip(all_data["ids"], all_data["documents"], all_data["metadatas"])
-        ]
-        with open(company + ".json", "w") as f:
-            json.dump(dump, f, indent=2, ensure_ascii=False)
+    # for company in companies:
+    #     all_data = collection.get(
+    #         include=["documents", "metadatas"],
+    #         where={"company": company}
+    #     )
+    #     dump = [
+    #         {"hash": id_, "text": doc, **meta}
+    #         for id_, doc, meta in zip(all_data["ids"], all_data["documents"], all_data["metadatas"])
+    #     ]
+    #     with open(company + ".json", "w") as f:
+    #         json.dump(dump, f, indent=2, ensure_ascii=False)
 
-            
+
     # write to json
 
-    # for item in questions.eval_set:
-    #     question = item["question"]
-    #     query_embedding = model.encode("search_query: " + question)
+    qs = ["countries coca cola operates in"]
 
-    #     embedded_results = collection.query(
-    #         query_embeddings=[query_embedding],
-    #         include=["documents", "metadatas", "distances"],
-    #         n_results=N
-    #     )
+    for item in qs:
+        # question = item["question"]
+        question = item
+        query_embedding = model.encode("search_query: " + question)
+
+        embedded_results = collection.query(
+            query_embeddings=[query_embedding],
+            include=["documents", "metadatas", "distances"],
+            n_results=N
+        )
 
         
-    #     fts_results = get_fts_results(conn, question)
-    #     print(question)
+        fts_results = get_fts_results(conn, question)
+        print(question)
 
-    #     # print_results(question, embedded_results)
+        rrf_results = get_rrf_results(fts_results, embedded_results)
+        cross_encoder_results = get_cross_encoder_results(cross_encoder, question, rrf_results)
 
-    #     # for i in fts_results:
-    #     #     print(i)
+        for i in cross_encoder_results:
+            print(i)
+        print("\n")
+        print("=" * 10)
 
-    #     ranked_results = get_reranked_results(fts_results, embedded_results)
-    #     for text_hash, data in ranked_results:
-    #         # print(i["documents"][0])
-    #         print(data["score"], data["citation"])
-
-    #     print("\n")
-    #     print("=" * 10)
         
         # print_results(question, context)
 
     # Calling Groq
-    # template = f"""SYSTEM: You are a chatbot that specialises in providing information about AI Chip Companies. 
-    # Information can include financial information, management, risks etc. All your responses must be factual. If you 
-    # don't know the answer, say you don't know.
-    # Respond to the following question: {question} only from the below context: {context}
-    # """
+    template = f"""SYSTEM: You are a chatbot that specialises in providing information about AI Chip Companies. 
+    Information can include financial information, management, risks etc. All your responses must be factual. If you 
+    don't know the answer, say you don't know.
+    Respond to the following question: {question} only from the below context: {cross_encoder_results}
+    """
 
 
     # Prompt 
-    # client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
-    # chat_completion = client.chat.completions.create(
-    #     model="llama-3.3-70b-versatile",
-    #     messages=[
-    #     {
-    #         "role": "user",
-    #         "content": template
-    #     }
-    #     ],
-    #     temperature=1,
-    #     max_completion_tokens=2048,
-    #     top_p=1,
-    #     stream=False,
-    #     stop=None
-    # )
+    client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+    chat_completion = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+        {
+            "role": "user",
+            "content": template
+        }
+        ],
+        temperature=1,
+        max_completion_tokens=2048,
+        top_p=1,
+        stream=False,
+        stop=None
+    )
 
 if __name__ == "__main__":
     main()
