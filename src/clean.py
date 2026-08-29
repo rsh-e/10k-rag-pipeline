@@ -1,4 +1,6 @@
+from enum import unique
 from fileinput import filename
+from io import StringIO
 from json import dumps
 import json
 import os
@@ -8,12 +10,17 @@ import re
 from bs4 import BeautifulSoup
 from typing import List
 from charset_normalizer import from_path
+from langchain_text_splitters import markdown
+import pandas as pd
+import numpy as np
+from pandas import DataFrame
 from pydantic import BaseModel
 
 # regex is compiled once
 weight_match_re = re.compile("font-weight:(\\d+)") 
 style_match_re = re.compile("font-style:(\\w+)") 
 size_match_re = re.compile("font-size:(\\d+)")
+SYMBOL_ONLY = re.compile(r"^[\$%—\-–\*†]*$")
 
 class Citation(BaseModel):
     item: str
@@ -48,10 +55,130 @@ class Properties:
         font_size: str|None = size_match.group(1) if size_match else None
         return font_size
 
-    # def get_has_item(self) -> bool:
-    #     item = re.search("ITEM", span_text) or re.search("Item", span_text) 
-    #     if item != None: return True
-    #     else: return False
+def is_symbol_only(s: str) -> bool:
+    return bool(re.match(r'^[\$%—\-–]*$', s.strip()))
+
+# After spending 6 hours trying to merge 2 cells, I gave up and asked Claude, it did it in 5 seconds
+def reconcile_columns(df: DataFrame) -> DataFrame:
+    """Merge adjacent columns that are really one logical column split
+    by colspan/ffill artifacts (bare '$' or duplicated values), while
+    leaving genuinely distinct columns (e.g. different fiscal years)
+    untouched even if a few of their cells happen to look mergeable."""
+    cols = list(df.columns)
+    result_cols = [cols[0]]
+    merged = df[[cols[0]]].copy()
+
+    for col in cols[1:]:
+        prev_col = result_cols[-1]
+        a = merged[prev_col].astype(str)
+        b = df[col].astype(str)
+
+        mergeable = True
+        for av, bv in zip(a, b):
+            av_s, bv_s = av.strip(), bv.strip()
+            if av_s == bv_s or is_symbol_only(av_s) or is_symbol_only(bv_s) or av_s == "" or bv_s == "":
+                continue
+            mergeable = False
+            break
+
+        if mergeable:
+            new_vals = []
+            for av, bv in zip(a, b):
+                av_s, bv_s = av.strip(), bv.strip()
+                if av_s == bv_s:
+                    new_vals.append(av_s)
+                elif is_symbol_only(av_s) and av_s != "":
+                    new_vals.append(f"{av_s}{bv_s}")
+                elif is_symbol_only(bv_s) and bv_s != "":
+                    new_vals.append(f"{av_s}{bv_s}")
+                elif av_s == "":
+                    new_vals.append(bv_s)
+                else:
+                    new_vals.append(av_s)
+            merged[prev_col] = new_vals
+        else:
+            merged[col] = b
+            result_cols.append(col)
+
+    return merged[result_cols]
+
+def drop_symbols(df: DataFrame) -> DataFrame:
+    SYMBOL_ONLY = re.compile(r"^[\$%—\-–]*$") 
+    cols_to_drop = []
+    for col in df.columns:
+        col_data = df[col].dropna().astype(str).str.strip()
+        if col_data.empty or col_data.str.match(SYMBOL_ONLY).all():
+            cols_to_drop.append(col)
+
+    df = df.drop(columns=cols_to_drop)
+    return df
+
+def extract_tables(soup: BeautifulSoup) -> List[str]:
+    tables = soup.find_all("table")
+    tables_as_csv = []
+    row_string = ""
+    # pd.read_html(StringIO(tables))
+
+    # Markdown approach
+    markdown_tables = []
+    for table in tables:
+        try:
+            table_df = pd.read_html(StringIO(str(table)))
+        except:
+            continue
+        
+        for df in table_df:
+            
+            df = df.dropna(axis=1, how="all")
+            df = df.dropna(how="all")
+            df = df.fillna("")
+            df = reconcile_columns(df)
+            # df = df.apply(lambda row: row.ffill(), axis=1)
+            # df = df.T.drop_duplicates().T
+            df = drop_symbols(df)
+            unique_col = df.columns[0]
+            unique_col_data = df[unique_col]
+            no_duplicates = [unique_col]
+            for col in df.columns[1:]:
+
+                if not df[col].equals(unique_col_data):
+                    # drop the column from the df
+                    no_duplicates.append(col)
+                    unique_col_data = df[col]
+            
+            df = df[no_duplicates]
+            markdown_tables.append(df.to_markdown(index=0, tablefmt="grid"))
+
+
+    for table in markdown_tables:
+        print(table)
+        
+    # csv approach
+    # for table in tables:    
+    #     table_arr = []
+    #     rows = table.contents
+    #     for row in rows:
+    #         data = row.contents
+    #         for td in data:
+    #             text: str|None = td.get_text()
+    #             if text is not None and ("," in text):
+    #                 text = '"'+ text +'"'
+    #             if text == "$":
+    #                 row_string = row_string + text
+    #             else:
+    #                 row_string = row_string + text + ","
+    #         table_arr.append(row_string)
+    #         row_string = ""
+    #     tables_as_csv.append(table_arr)
+    #     table_arr = []
+
+    # for table in tables_as_csv:
+    #     for row in table:
+    #         print(row)
+    #     print()
+
+    # return tables_as_csv
+
 
 def strip_file(soup: BeautifulSoup) -> None:
     # get rid of all the tables
@@ -74,6 +201,8 @@ def strip_file(soup: BeautifulSoup) -> None:
 def get_citations(path: str) -> List[Citation]:
     content = str(from_path(path).best())
     soup = BeautifulSoup(content, 'html.parser')
+    print("hi")
+    extract_tables(soup)
     strip_file(soup)
 
     citations: List[Citation] = []
@@ -97,14 +226,11 @@ def get_citations(path: str) -> List[Citation]:
         for child_tag in children:
             if child_tag.name == "span":
                 try:
-                    # print(1)
                     style_attr = child_tag.attrs.get("style")
-                    # print(2)
                     if style_attr is not None: 
                         props = Properties(style_attr=style_attr)
                     else:
                         continue
-                    # print(3)
                     span_text = child_tag.get_text()
 
                     IS_HEADING: bool = (props.font_weight == "700" or props.font_size == "10") and props.font_style == "italic"
@@ -174,6 +300,7 @@ def get_citations(path: str) -> List[Citation]:
     # print(citations)
     return citations
 
+from sqlalchemy import table
 from transformers import AutoTokenizer
 import numpy as np
 
@@ -202,18 +329,9 @@ def token_count_histogram(file_name, citations: list[Citation]):
 
 if __name__ == "__main__":
     data_directory = "../data"
-    # files = os.listdir(data_directory)    
-    # for file_name in files:
-    #     full_path = os.path.join(data_directory, file_name)
-    #     # print("full path", full_path)
-    #     citations = get_citations(full_path)
         
     path = "../data/cop-20251231.html"
     citations = get_citations(path)
-        # counts = token_count_histogram(file_name, citations)
-        
-        # print(counts)
-
 
     output_file_name = "NEW_chunks_debug.json"
     pretty = "\n\n".join(json.dumps(c.model_dump(), indent=2) for c in citations)
