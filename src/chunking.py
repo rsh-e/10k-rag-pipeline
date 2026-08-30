@@ -1,8 +1,10 @@
 
+from pydoc import text
 from typing import Any, List
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sentence_transformers import SentenceTransformer
+from sqlalchemy import table
 from transformers import AutoTokenizer
 import chromadb
 from hashlib import sha256
@@ -131,9 +133,17 @@ def get_tokens(text: str) -> List[str]:
 def get_token_count(text: str) -> int:
     return len(get_tokens(text))
 
+def flatten_table(citation_text: str) -> str:
+    # citation text is in markdown grid format
+    
+
 def chunk_processing(conn: sqlite3.Connection, citation: Citation):
     # print(citation)
-    text_to_embed = "search document: " + citation.item + " " + citation.section + " " + citation.heading + " " + citation.text
+    if citation.is_table:
+        table_text = flatten_table(citation.text)
+        text_to_embed = "search document: " + citation.item + " " + citation.section + " " + citation.heading + " " + citation.nearby_text + " " + table_text
+    else:
+        text_to_embed = "search document: " + citation.item + " " + citation.section + " " + citation.heading + " " + citation.text
     embedding = model.encode(text_to_embed)
     citation_text_hash: str = sha256(citation.text.encode()).hexdigest()
     insert_to_chroma(embedding, citation, citation_text_hash)
@@ -167,13 +177,16 @@ def recursive_chunking(conn: sqlite3.Connection, citation: Citation):
 
 def tokenise(conn: sqlite3.Connection, citations: List[Citation]):
     for citation in citations:
-        token_count = get_token_count(citation.text)
-        if token_count > MAX_TOKEN_SIZE:
-            # calculate the min number of chunks needed
-            recursive_chunking(conn, citation)
-        else:
-            # print(1)
+        if citation.is_table:
             chunk_processing(conn, citation)
+        else:
+            token_count = get_token_count(citation.text)
+            if token_count > MAX_TOKEN_SIZE:
+                # calculate the min number of chunks needed
+                recursive_chunking(conn, citation)
+            else:
+                # print(1)
+                chunk_processing(conn, citation)
 
 
 if __name__ == "__main__":

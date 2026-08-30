@@ -1,19 +1,12 @@
-from enum import unique
-from fileinput import filename
-from importlib import metadata
 from io import StringIO
-from json import dumps
 import json
-import os
 from pathlib import Path
 import pathlib
 import re
 from bs4 import BeautifulSoup
 from typing import List
 from charset_normalizer import from_path
-from langchain_text_splitters import markdown
 import pandas as pd
-import numpy as np
 from pandas import DataFrame
 from pydantic import BaseModel
 
@@ -31,7 +24,8 @@ class Citation(BaseModel):
     nearby_text: str | None = None
     company: str
     year: str
-    is_table: bool
+    is_table: bool = False
+    flatten_table: str | None = None
     source: str # 10K or R-file,
     file_path: str
 
@@ -79,7 +73,12 @@ def reconcile_columns(df: DataFrame) -> DataFrame:
         mergeable = True
         for av, bv in zip(a, b):
             av_s, bv_s = av.strip(), bv.strip()
-            if av_s == bv_s or is_symbol_only(av_s) or is_symbol_only(bv_s) or av_s == "" or bv_s == "":
+            if av_s == "" or bv_s == "" or is_symbol_only(av_s) or is_symbol_only(bv_s):
+                continue
+            if av_s == bv_s:
+                continue
+            a_num, b_num = _numeric_core(av_s), _numeric_core(bv_s)
+            if a_num is not None and a_num == b_num:
                 continue
             mergeable = False
             break
@@ -88,20 +87,22 @@ def reconcile_columns(df: DataFrame) -> DataFrame:
             new_vals = []
             for av, bv in zip(a, b):
                 av_s, bv_s = av.strip(), bv.strip()
-                if av_s == bv_s:
-                    new_vals.append(av_s)
-                elif is_symbol_only(av_s) and av_s != "":
-                    new_vals.append(f"{av_s}{bv_s}")
-                elif is_symbol_only(bv_s) and bv_s != "":
-                    new_vals.append(f"{av_s}{bv_s}")
-                elif av_s == "":
+                if av_s == "":
                     new_vals.append(bv_s)
-                else:
+                elif bv_s == "":
                     new_vals.append(av_s)
-            merged[prev_col] = new_vals
+                elif is_symbol_only(av_s):
+                    new_vals.append(f"{av_s}{bv_s}")
+                elif is_symbol_only(bv_s):
+                    new_vals.append(f"{av_s}{bv_s}")
+                elif av_s == bv_s:
+                    new_vals.append(av_s)
+                else:
+                    new_vals.append(av_s if len(av_s) >= len(bv_s) else bv_s)
+            merged[prev_col] = new_vals  # write the merged values back
         else:
-            merged[col] = b
-            result_cols.append(col)
+            result_cols.append(col)      # keep this as its own column
+            merged[col] = df[col].values
 
     return merged[result_cols]
 
@@ -137,114 +138,96 @@ def drop_symbols(df: DataFrame) -> DataFrame:
     df = df.drop(columns=cols_to_drop)
     return df
 
+def flatten_table(df: DataFrame) -> str:
+    table_text = ""
+
+    # with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+    #     print(df)
+    pass
+    # print()
+
+def _numeric_core(s: str) -> str | None:
+    """Strip $, commas, %, accounting-style parens off a value and return
+    its canonical numeric string, so '$12,299', '12299', and '12299.0'
+    all compare equal. Returns None if the string isn't numeric at all."""
+    cleaned = s.strip().replace("$", "").replace(",", "").replace("%", "").strip()
+    if cleaned == "":
+        return None
+    neg = cleaned.startswith("(") and cleaned.endswith(")")
+    if neg:
+        cleaned = cleaned[1:-1]
+    try:
+        f = float(cleaned)
+        f = -f if neg else f
+        return str(int(f)) if f == int(f) else str(f)
+    except ValueError:
+        return None
+
+def _cols_equivalent(s1: pd.Series, s2: pd.Series) -> bool:
+    if s1.equals(s2):
+        return True
+    for x, y in zip(s1.astype(str), s2.astype(str)):
+        x, y = x.strip(), y.strip()
+        if x == y or is_symbol_only(x) or is_symbol_only(y) or x == "" or y == "":
+            continue
+        if _numeric_core(x) is not None and _numeric_core(x) == _numeric_core(y):
+            continue
+        return False
+    return True
+
+def dedupe_repeated_row_values(df: DataFrame) -> DataFrame:
+    """Some footnote/disclaimer rows originate from a single spanning cell
+    (colspan) that pd.read_html duplicates into every column. When a row's
+    non-empty values are all identical, keep the text once in the first
+    column and blank the rest instead of repeating it once per column."""
+    df = df.copy()
+    for idx, row in df.iterrows():
+        vals = [str(v).strip() for v in row]
+        non_empty = [v for v in vals if v not in ("", "nan", "None")]
+        if len(non_empty) > 1 and len(set(non_empty)) == 1:
+            new_row = [""] * len(vals)
+            new_row[0] = non_empty[0]
+            df.loc[idx] = new_row
+    return df
 
 def extract_table(table) -> str | None:
     try:
         table_df = pd.read_html(StringIO(str(table)))
     except ValueError:
         return None
-    for df in table_df:   
+
+    for df in table_df:
         df = df.dropna(axis=1, how="all")
         df = df.dropna(how="all")
         df = df.fillna("")
         df = reconcile_columns(df)
-        # df = df.apply(lambda row: row.ffill(), axis=1)
-        # df = df.T.drop_duplicates().T
         df = drop_symbols(df)
         df = promote_first_row_as_header(df)
-        unique_col = df.columns[0]
-        unique_col_data = df[unique_col]
-        no_duplicates = [unique_col]
-        for col in df.columns[1:]:
 
-            if not df[col].equals(unique_col_data):
-                # drop the column from the df
-                no_duplicates.append(col)
-                unique_col_data = df[col]
-        
-        df = df[no_duplicates]
+        # drop columns that are equivalent (same values, possibly different
+        # formatting like "$12299" vs "12299" or "79826" vs "79826.0")
+        keep_idx = [0]
+        unique_col_data = df.iloc[:, 0]
+        for i in range(1, len(df.columns)):
+            col_data = df.iloc[:, i]
+            if not _cols_equivalent(col_data, unique_col_data):
+                keep_idx.append(i)
+                unique_col_data = col_data
+        df = df.iloc[:, keep_idx]
+
+        df = dedupe_repeated_row_values(df)
+
         # To get rid of 'Table of Contents' and Page Numbers that are formatted as tables
-        if len(df.columns) < 3 and (len(df.columns[0]) < 3):
+        if len(df.columns) < 3 and len(df) < 2:
             return None
-        else:
-            return df.to_markdown(index=0, tablefmt="grid")
+
+        # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+        #     print(df)
+        return df.to_markdown(index=0, tablefmt="grid")
+
     return None
 
-    
-
-def extract_tables(soup: BeautifulSoup) -> List[str]:
-    tables = soup.find_all("table")
-    tables_as_csv = []
-    row_string = ""
-    # pd.read_html(StringIO(tables))
-
-    # Markdown approach
-    markdown_tables = []
-    for table in tables:
-        try:
-            table_df = pd.read_html(StringIO(str(table)))
-        except:
-            continue
-        
-        for df in table_df:
-            
-            df = df.dropna(axis=1, how="all")
-            df = df.dropna(how="all")
-            df = df.fillna("")
-            df = reconcile_columns(df)
-            # df = df.apply(lambda row: row.ffill(), axis=1)
-            # df = df.T.drop_duplicates().T
-            df = drop_symbols(df)
-            unique_col = df.columns[0]
-            unique_col_data = df[unique_col]
-            no_duplicates = [unique_col]
-            for col in df.columns[1:]:
-
-                if not df[col].equals(unique_col_data):
-                    # drop the column from the df
-                    no_duplicates.append(col)
-                    unique_col_data = df[col]
-            
-            df = df[no_duplicates]
-            markdown_tables.append(df.to_markdown(index=0, tablefmt="grid"))
-
-
-    # for table in markdown_tables:
-    #     print(table)
-        
-    # csv approach
-    # for table in tables:    
-    #     table_arr = []
-    #     rows = table.contents
-    #     for row in rows:
-    #         data = row.contents
-    #         for td in data:
-    #             text: str|None = td.get_text()
-    #             if text is not None and ("," in text):
-    #                 text = '"'+ text +'"'
-    #             if text == "$":
-    #                 row_string = row_string + text
-    #             else:
-    #                 row_string = row_string + text + ","
-    #         table_arr.append(row_string)
-    #         row_string = ""
-    #     tables_as_csv.append(table_arr)
-    #     table_arr = []
-
-    # for table in tables_as_csv:
-    #     for row in table:
-    #         print(row)
-    #     print()
-
-    # return tables_as_csv
-
-
 def strip_file(soup: BeautifulSoup) -> None:
-    # get rid of all the tables
-    # tables = soup.find_all("table")
-    # for table in tables:
-    #     table.decompose()
-
     # get rid of the xblr tags
     xblr_tag = soup.find("ix:header")
     if xblr_tag is not None: xblr_tag.decompose()
@@ -253,15 +236,11 @@ def strip_file(soup: BeautifulSoup) -> None:
     img_tags = soup.find_all("img")
     for img in img_tags:
         img.decompose()
-
-
     # dont return anything, soup is mutable
 
 def get_citations(path: str) -> List[Citation]:
     content = str(from_path(path).best())
     soup = BeautifulSoup(content, 'html.parser')
-    print("hi")
-    extract_tables(soup)
     strip_file(soup)
 
     citations: List[Citation] = []
@@ -311,7 +290,6 @@ def get_citations(path: str) -> List[Citation]:
                                 text=current_text,
                                 company=company,
                                 year=year,
-                                is_table=False,
                                 source=file_name,
                                 file_path=file_path))
                         current_item = span_text 
@@ -329,7 +307,6 @@ def get_citations(path: str) -> List[Citation]:
                                 text=current_text,
                                 company=company,
                                 year=year,
-                                is_table=False,
                                 source=file_name,
                                 file_path=file_path))
                         current_heading = span_text
@@ -344,7 +321,6 @@ def get_citations(path: str) -> List[Citation]:
                                 text=current_text,
                                 company=company,
                                 year=year,
-                                is_table=False,
                                 source=file_name,
                                 file_path=file_path))
                             current_section = span_text
@@ -365,12 +341,10 @@ def get_citations(path: str) -> List[Citation]:
                     print(div.prettify())
                     print("found error:", e)
 
-
             elif child_tag.name == "table":
                 table_as_markdown = extract_table(child_tag)
-                # print("1",current_item, "2", current_section, "" current_heading, company, year, file_name, file_path)
                 if table_as_markdown:
-                    print(table_as_markdown)
+                    # print(table_as_markdown)
                     citations.append(Citation(
                         item=current_item, 
                         section=current_section, 
@@ -380,40 +354,12 @@ def get_citations(path: str) -> List[Citation]:
                         company=company,
                         year=year,
                         is_table=True,
+                        table_dataframe=table_as_markdown,
                         source=file_name,
                         file_path=file_path)) 
-                
-                
 
     # print(citations)
     return citations
-
-from sqlalchemy import table
-from transformers import AutoTokenizer
-import numpy as np
-
-tokenizer = AutoTokenizer.from_pretrained("nomic-ai/nomic-embed-text-v1.5")
-
-def token_count_histogram(file_name, citations: list[Citation]):
-    counts = [len(tokenizer.encode(c.text)) for c in citations]
-    counts = np.array(counts)
-
-    print("-" * 100)
-    print(file_name)
-    print(f"n citations: {len(counts)}")
-    print(f"min: {counts.min()}, max: {counts.max()}")
-    print(f"mean: {counts.mean():.1f}, median: {np.median(counts):.1f}")
-    print(f"p90: {np.percentile(counts, 90):.1f}, p95: {np.percentile(counts, 95):.1f}, p99: {np.percentile(counts, 99):.1f}")
-
-    # simple bucketed histogram, no plotting deps needed
-    buckets = [0, 100, 200, 400, 800, 1600, 3200, 5000, float("inf")]
-    hist, _ = np.histogram(counts, bins=buckets)
-    for i in range(len(hist)):
-        lo, hi = buckets[i], buckets[i+1]
-        label = f"{lo}-{hi}" if hi != float("inf") else f"{lo}+"
-        print(f"{label:>12}: {hist[i]:>5}  {'#' * (hist[i] * 50 // max(hist.sum(), 1))}")
-
-    return counts
 
 if __name__ == "__main__":
     data_directory = "../data"
