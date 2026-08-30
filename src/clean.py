@@ -1,5 +1,6 @@
 from enum import unique
 from fileinput import filename
+from importlib import metadata
 from io import StringIO
 from json import dumps
 import json
@@ -27,8 +28,10 @@ class Citation(BaseModel):
     section: str
     heading: str
     text: str
+    nearby_text: str | None = None
     company: str
     year: str
+    is_table: bool
     source: str # 10K or R-file,
     file_path: str
 
@@ -102,6 +105,27 @@ def reconcile_columns(df: DataFrame) -> DataFrame:
 
     return merged[result_cols]
 
+def promote_first_row_as_header(df: DataFrame) -> DataFrame:
+    """Assumes the header values all live in row 0 (or the first row with any
+    non-empty content). Renames columns from that row, then drops it."""
+    header_row = None
+    for idx, row in df.iterrows():
+        if row.astype(str).str.strip().replace({"nan": "", "None": ""}).ne("").any():
+            header_row = idx
+            break
+
+    if header_row is None:
+        return df
+
+    new_names = {}
+    for col in df.columns:
+        val = str(df.loc[header_row, col]).strip()
+        new_names[col] = val if val not in ("", "nan", "None") else str(col)
+
+    df = df.rename(columns=new_names)
+    df = df.drop(index=header_row).reset_index(drop=True)
+    return df
+
 def drop_symbols(df: DataFrame) -> DataFrame:
     SYMBOL_ONLY = re.compile(r"^[\$%—\-–]*$") 
     cols_to_drop = []
@@ -112,6 +136,41 @@ def drop_symbols(df: DataFrame) -> DataFrame:
 
     df = df.drop(columns=cols_to_drop)
     return df
+
+
+def extract_table(table) -> str | None:
+    try:
+        table_df = pd.read_html(StringIO(str(table)))
+    except ValueError:
+        return None
+    for df in table_df:   
+        df = df.dropna(axis=1, how="all")
+        df = df.dropna(how="all")
+        df = df.fillna("")
+        df = reconcile_columns(df)
+        # df = df.apply(lambda row: row.ffill(), axis=1)
+        # df = df.T.drop_duplicates().T
+        df = drop_symbols(df)
+        df = promote_first_row_as_header(df)
+        unique_col = df.columns[0]
+        unique_col_data = df[unique_col]
+        no_duplicates = [unique_col]
+        for col in df.columns[1:]:
+
+            if not df[col].equals(unique_col_data):
+                # drop the column from the df
+                no_duplicates.append(col)
+                unique_col_data = df[col]
+        
+        df = df[no_duplicates]
+        # To get rid of 'Table of Contents' and Page Numbers that are formatted as tables
+        if len(df.columns) < 3 and (len(df.columns[0]) < 3):
+            return None
+        else:
+            return df.to_markdown(index=0, tablefmt="grid")
+    return None
+
+    
 
 def extract_tables(soup: BeautifulSoup) -> List[str]:
     tables = soup.find_all("table")
@@ -150,8 +209,8 @@ def extract_tables(soup: BeautifulSoup) -> List[str]:
             markdown_tables.append(df.to_markdown(index=0, tablefmt="grid"))
 
 
-    for table in markdown_tables:
-        print(table)
+    # for table in markdown_tables:
+    #     print(table)
         
     # csv approach
     # for table in tables:    
@@ -182,9 +241,9 @@ def extract_tables(soup: BeautifulSoup) -> List[str]:
 
 def strip_file(soup: BeautifulSoup) -> None:
     # get rid of all the tables
-    tables = soup.find_all("table")
-    for table in tables:
-        table.decompose()
+    # tables = soup.find_all("table")
+    # for table in tables:
+    #     table.decompose()
 
     # get rid of the xblr tags
     xblr_tag = soup.find("ix:header")
@@ -211,6 +270,7 @@ def get_citations(path: str) -> List[Citation]:
     current_section: str  = ""
     current_heading: str = ""
     current_text: str = ""
+    nearby_text: str = ""
 
     path_obj = Path(path)
     file_name = path_obj.stem
@@ -222,6 +282,7 @@ def get_citations(path: str) -> List[Citation]:
     # Get all the divs
     div_tags = soup.find_all("div") 
     for div in div_tags:
+        # print(div.prettify(), "\n")
         children = div.contents
         for child_tag in children:
             if child_tag.name == "span":
@@ -232,11 +293,13 @@ def get_citations(path: str) -> List[Citation]:
                     else:
                         continue
                     span_text = child_tag.get_text()
+                    if span_text:
+                        nearby_text = span_text
 
                     IS_HEADING: bool = (props.font_weight == "700" or props.font_size == "10") and props.font_style == "italic"
                     IS_SECTION: bool = (props.font_weight == "700" and span_text != "\u2022")
                     IS_PLAIN_TEXT: bool = (props.font_weight == "400")
-                    VALID_CITATION: bool = (current_text != "" and current_item != "")
+                    VALID_CITATION: bool = (current_text != "" and current_item != "" and current_text != None)
                     
                     item = re.search("ITEM", span_text) or re.search("Item", span_text) 
                     if item != None and (props.font_weight == "700" or props.font_size == "14"): 
@@ -244,17 +307,16 @@ def get_citations(path: str) -> List[Citation]:
                             citations.append(Citation(
                                 item=current_item, 
                                 section=current_section, 
-                                subsection=current_subsection, 
                                 heading=current_heading, 
                                 text=current_text,
                                 company=company,
                                 year=year,
+                                is_table=False,
                                 source=file_name,
                                 file_path=file_path))
                         current_item = span_text 
                         # If this changes, all below values should change asw
                         current_section = ""
-                        current_subsection = ""
                         current_heading = ""
                         current_text = ""
 
@@ -263,11 +325,11 @@ def get_citations(path: str) -> List[Citation]:
                             citations.append(Citation(
                                 item=current_item, 
                                 section=current_section, 
-                                subsection=current_subsection, 
                                 heading=current_heading, 
                                 text=current_text,
                                 company=company,
                                 year=year,
+                                is_table=False,
                                 source=file_name,
                                 file_path=file_path))
                         current_heading = span_text
@@ -278,24 +340,50 @@ def get_citations(path: str) -> List[Citation]:
                             citations.append(Citation(
                                 item=current_item, 
                                 section=current_section, 
-                                subsection=current_subsection, 
                                 heading=current_heading, 
                                 text=current_text,
                                 company=company,
                                 year=year,
+                                is_table=False,
                                 source=file_name,
                                 file_path=file_path))
-                        current_section = span_text
-                        current_subsection = ""
+                            current_section = span_text
+                        elif current_text == "":
+                            current_section = (current_section + " " + span_text).strip() if current_section else span_text
+                        else:
+                            current_section = span_text
                         current_heading = ""
                         current_text = ""    
 
                     elif IS_PLAIN_TEXT:
                         current_text = current_text + span_text + "\n"
 
+                    else:
+                        metadata = current_text
+
                 except Exception as e:
                     print(div.prettify())
                     print("found error:", e)
+
+
+            elif child_tag.name == "table":
+                table_as_markdown = extract_table(child_tag)
+                # print("1",current_item, "2", current_section, "" current_heading, company, year, file_name, file_path)
+                if table_as_markdown:
+                    print(table_as_markdown)
+                    citations.append(Citation(
+                        item=current_item, 
+                        section=current_section, 
+                        heading=current_heading, 
+                        text=table_as_markdown,
+                        nearby_text=nearby_text,
+                        company=company,
+                        year=year,
+                        is_table=True,
+                        source=file_name,
+                        file_path=file_path)) 
+                
+                
 
     # print(citations)
     return citations
@@ -330,7 +418,7 @@ def token_count_histogram(file_name, citations: list[Citation]):
 if __name__ == "__main__":
     data_directory = "../data"
         
-    path = "../data/cop-20251231.html"
+    path = "../data/pep-20251227.html"
     citations = get_citations(path)
 
     output_file_name = "NEW_chunks_debug.json"

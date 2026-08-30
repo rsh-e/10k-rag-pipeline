@@ -63,3 +63,58 @@ Write the README with before/after numbers and citations
 Document each design decision (the ones you already worked through, plus the new ones), and lead with your eval metrics showing quantified improvement from hybrid search and reranking. Include a worked example showing a question, the retrieved chunks with their citation metadata, and the final cited answer.s
 
 Create a self correcting citation system
+
+The fix isn't to try to guarantee complete metadata for every table — it's to accept sparse metadata as normal, and add a lower-confidence fallback field instead of overloading the existing ones.
+
+Make section/heading genuinely optional in the schema, so a citation with empty metadata isn't a schema violation, just a citation with less context:
+python
+class Citation(BaseModel):
+    item: str
+    section: str = ""
+    heading: str = ""
+    text: str
+    company: str
+    year: str
+    is_table: bool
+    source: str
+    file_path: str
+    nearby_text: str = ""   # new: best-effort fallback, see below
+
+This alone already stops "some tables miss context" from being a problem you have to solve perfectly — a citation with section="" is just retrievable on item/company/text instead, which is normal and fine for RAG.
+
+Add a rolling "last seen text regardless of classification" buffer, separate from current_section/current_heading. This captures raw text your classifier couldn't confidently bucket, and only gets used as a fallback right when you hit a table — it never overwrites your working section/heading logic for prose citations:
+python
+last_seen_raw_text = ""
+
+# inside the span loop, at the very top after computing span_text:
+if span_text.strip():
+    last_seen_raw_text = span_text.strip()
+
+# in the table branch:
+elif child_tag.name == "table":
+    table_as_markdown = extract_table(child_tag)
+    if table_as_markdown:
+        citations.append(Citation(
+            item=current_item, 
+            section=current_section, 
+            heading=current_heading, 
+            nearby_text=last_seen_raw_text,   # best-effort context, whatever it is
+            text=table_as_markdown,
+            company=company,
+            year=year,
+            is_table=True,
+            source=file_name,
+            file_path=file_path))
+
+Now every table citation gets section/heading when your classifier worked, and nearby_text as an unconditional fallback (even if it's just "(in millions)" or some unclassified span) — without touching how prose citations are built at all. Tables that were already working (like your GOOG cash-flow example) keep clean metadata; tables that weren't just get a weaker but non-empty signal instead of nothing.
+
+For embedding, prepend whatever context exists rather than requiring it be structured. When you build the text you actually embed, do something like:
+python
+def build_embed_text(c: Citation) -> str:
+    context_parts = [p for p in [c.section, c.heading, c.nearby_text] if p]
+    context = " | ".join(dict.fromkeys(context_parts))  # dedupe, preserve order
+    return f"{context}\n{c.text}" if context else c.text
+
+This way each table chunk gets some contextual prefix when anything is available, gracefully degrades to just the table text when nothing is, and you never have to force every citation into the same metadata shape to make the pipeline work.
+
+Bottom line: the reliability of section/heading genuinely varies per table depending on how that specific filer styled their caption — that's a real, permanent source of heterogeneity in 11 different companies' HTML, not a bug you can code your way out of completely. The practical move is to stop trying to guarantee uniform rich metadata, add a cheap always-populated fallback field, and let downstream retrieval/embedding handle graceful degradation instead.
