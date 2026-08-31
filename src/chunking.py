@@ -133,14 +133,10 @@ def get_tokens(text: str) -> List[str]:
 def get_token_count(text: str) -> int:
     return len(get_tokens(text))
 
-def flatten_table(citation_text: str) -> str:
-    # citation text is in markdown grid format
-    
-
 def chunk_processing(conn: sqlite3.Connection, citation: Citation):
     # print(citation)
     if citation.is_table:
-        table_text = flatten_table(citation.text)
+        table_text = citation.flatten_table
         text_to_embed = "search document: " + citation.item + " " + citation.section + " " + citation.heading + " " + citation.nearby_text + " " + table_text
     else:
         text_to_embed = "search document: " + citation.item + " " + citation.section + " " + citation.heading + " " + citation.text

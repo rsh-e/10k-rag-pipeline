@@ -143,8 +143,23 @@ def flatten_table(df: DataFrame) -> str:
 
     # with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
     #     print(df)
-    pass
-    # print()
+
+    # Get the column names
+    labels = df.columns.values.tolist()
+    print(labels)
+
+    # pandas can only iterate through columns, to transpose
+    df = df.transpose()
+    columns = df.columns.values
+    # y = []
+    for col in columns:
+        for i, data in enumerate(df[col]):
+            if data == "——":
+                data = ""
+            table_text = table_text + labels[i] + ": " + data + ", "
+        table_text = table_text + "\n"
+
+    return table_text
 
 def _numeric_core(s: str) -> str | None:
     """Strip $, commas, %, accounting-style parens off a value and return
@@ -190,7 +205,7 @@ def dedupe_repeated_row_values(df: DataFrame) -> DataFrame:
             df.loc[idx] = new_row
     return df
 
-def extract_table(table) -> str | None:
+def extract_table(table) -> tuple[str, str] | None:
     try:
         table_df = pd.read_html(StringIO(str(table)))
     except ValueError:
@@ -223,7 +238,8 @@ def extract_table(table) -> str | None:
 
         # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
         #     print(df)
-        return df.to_markdown(index=0, tablefmt="grid")
+        flattened_table = flatten_table(df)
+        return flattened_table, df.to_markdown(index=0, tablefmt="grid")
 
     return None
 
@@ -334,27 +350,27 @@ def get_citations(path: str) -> List[Citation]:
                     elif IS_PLAIN_TEXT:
                         current_text = current_text + span_text + "\n"
 
-                    else:
-                        metadata = current_text
-
                 except Exception as e:
                     print(div.prettify())
                     print("found error:", e)
 
             elif child_tag.name == "table":
-                table_as_markdown = extract_table(child_tag)
-                if table_as_markdown:
+                result = extract_table(child_tag)
+
+                if result:
+                    flattened_text, markdown_text = result
+                    print(markdown_text)
                     # print(table_as_markdown)
                     citations.append(Citation(
                         item=current_item, 
                         section=current_section, 
                         heading=current_heading, 
-                        text=table_as_markdown,
+                        text=markdown_text,
                         nearby_text=nearby_text,
                         company=company,
                         year=year,
                         is_table=True,
-                        table_dataframe=table_as_markdown,
+                        flatten_table=flattened_text,
                         source=file_name,
                         file_path=file_path)) 
 
@@ -364,7 +380,7 @@ def get_citations(path: str) -> List[Citation]:
 if __name__ == "__main__":
     data_directory = "../data"
         
-    path = "../data/pep-20251227.html"
+    path = "../data/ma-20251231.html"
     citations = get_citations(path)
 
     output_file_name = "NEW_chunks_debug.json"
