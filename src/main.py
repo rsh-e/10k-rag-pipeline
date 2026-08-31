@@ -11,6 +11,8 @@ from sentence_transformers import CrossEncoder, SentenceTransformer, cross_encod
 
 from clean import Citation
 
+N = 50
+
 def print_results(question: str, context: dict) -> None:
     print("=" * 100)
     print(f"QUESTION: {question}")
@@ -40,15 +42,18 @@ def get_fts_results(conn: sqlite3.Connection, question: str) -> List[any]:
     fts_query = build_fts_query(question)
     cursor = conn.execute(
         """
-        SELECT citation_text_hash, item, section, heading, text, company, year, source, file_path
+        SELECT citation_text_hash, item, section, heading, text, is_table, flatten_table, nearby_text, company, year, source, file_path
         FROM citations
         WHERE citations MATCH ?
         ORDER BY rank
-        LIMIT 10
+        LIMIT ?
         """,
-        (fts_query,)
+        (fts_query, N)
     )
     results = cursor.fetchall()
+    # for i in results:
+    #     print(i)
+    #     print()
     return results
 
 
@@ -59,6 +64,9 @@ def embedded_citation_normaliser(text, metadata, rank):
         section=metadata["section"],
         heading=metadata["heading"],
         text=text,
+        is_table=metadata["is_table"],
+        flatten_table=metadata["flatten_table"],
+        nearby_text=metadata["nearby_text"],
         company=metadata["company"],
         year=metadata["year"],
         source=metadata["source"],
@@ -71,10 +79,13 @@ def fts_citation_normaliser(result):
         section=result[2],
         heading=result[3],
         text=result[4],
-        company=result[5],
-        year=result[6],
-        source=result[7],
-        file_path=result[8]
+        is_table=result[5],
+        flatten_table=result[6], 
+        nearby_text=result[7],
+        company=result[8],
+        year=result[9],
+        source=result[10],
+        file_path=result[11]
     )
     
 
@@ -115,8 +126,13 @@ def get_rrf_results(fts_results: List[tuple], embedded_results: chromadb.QueryRe
 def get_cross_encoder_results(cross_encoder: CrossEncoder, question, rrf_results: tuple):
     pairs = []
     for result in rrf_results:
-        citation = result[1]["citation"]
-        text = citation.text
+        citation: Citation = result[1]["citation"]
+        # print(citation)
+        if citation.is_table:
+            text = citation.flatten_table
+            # print(text)
+        else:
+            text = citation.text
         pairs.append((question, text))
 
     scores = cross_encoder.predict(pairs)
@@ -127,7 +143,7 @@ def get_cross_encoder_results(cross_encoder: CrossEncoder, question, rrf_results
 
 
 def main():
-    N = 10
+    N = 50
     chroma_client = chromadb.PersistentClient(path="../storage")
     collection = chroma_client.get_collection(name="data_store") 
     model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
@@ -135,10 +151,10 @@ def main():
     cross_encoder: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
 
-    # all_data = collection.get(
-    # include=["embeddings", "metadatas", "documents"],
-    # where={"company": "amd"}
-    # )
+    all_data = collection.get(
+    include=["embeddings", "metadatas", "documents"],
+    where={"company": "amd"}
+    )
     
     
     # print(len(all_data["ids"]))  # sanity check — should match however many chunks you ingested
@@ -146,8 +162,9 @@ def main():
     # for id_, metadata, document in zip(all_data["ids"], all_data["metadatas"], all_data["documents"]):
     #     print(f"id={id_}")
     #     print(f"company={metadata.get('company')} item={metadata.get('item')} section={metadata.get('section')} heading={metadata.get('heading')} source={metadata.get('source')}")
+    #     print(f"is_table={metadata.get('is_table')} flatten_table={metadata.get('flatten_table')}")
     #     print(document)
-    #     print("-" * 100)
+    #     print("§" * 100)
 
     # data_directory = "../data"
     # files = os.listdir(data_directory)    
@@ -205,21 +222,21 @@ def main():
 
 
     # Prompt 
-    client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
-    chat_completion = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
-        {
-            "role": "user",
-            "content": template
-        }
-        ],
-        temperature=1,
-        max_completion_tokens=2048,
-        top_p=1,
-        stream=False,
-        stop=None
-    )
+    # client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+    # chat_completion = client.chat.completions.create(
+    #     model="llama-3.3-70b-versatile",
+    #     messages=[
+    #     {
+    #         "role": "user",
+    #         "content": template
+    #     }
+    #     ],
+    #     temperature=1,
+    #     max_completion_tokens=2048,
+    #     top_p=1,
+    #     stream=False,
+    #     stop=None
+    # )
 
 if __name__ == "__main__":
     main()

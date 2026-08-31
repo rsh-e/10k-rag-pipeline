@@ -90,7 +90,7 @@ def main():
         precision += re_precision
         mrr += re_mrr
 
-    print("recall:", recall/100, "precision:", precision/100, "mrr:", mrr/100)
+    print("recall:", recall/88, "precision:", precision/88, "mrr:", mrr/88)
 
 
 if __name__ == "__main__":

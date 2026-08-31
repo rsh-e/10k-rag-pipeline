@@ -21,11 +21,11 @@ class Citation(BaseModel):
     section: str
     heading: str
     text: str
-    nearby_text: str | None = None
+    nearby_text: str = ""
     company: str
     year: str
     is_table: bool = False
-    flatten_table: str | None = None
+    flatten_table: str = ""
     source: str # 10K or R-file,
     file_path: str
 
@@ -146,7 +146,6 @@ def flatten_table(df: DataFrame) -> str:
 
     # Get the column names
     labels = df.columns.values.tolist()
-    print(labels)
 
     # pandas can only iterate through columns, to transpose
     df = df.transpose()
@@ -359,7 +358,6 @@ def get_citations(path: str) -> List[Citation]:
 
                 if result:
                     flattened_text, markdown_text = result
-                    print(markdown_text)
                     # print(table_as_markdown)
                     citations.append(Citation(
                         item=current_item, 

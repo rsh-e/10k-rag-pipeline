@@ -45,6 +45,9 @@ def create_fts5_table(conn: sqlite3.Connection):
             section UNINDEXED,
             heading UNINDEXED,
             text,
+            is_table UNINDEXED,
+            flatten_table,
+            nearby_text, 
             company UNINDEXED,
             year UNINDEXED,
             source UNINDEXED,
@@ -97,6 +100,9 @@ def insert_to_chroma(embedding, citation: Citation, citation_text_hash: str):
             "section": citation.section,
             "heading": citation.heading,
             "company": citation.company,
+            "flatten_table": citation.flatten_table,
+            "is_table": citation.is_table,
+            "nearby_text": citation.nearby_text,
             "year": citation.year,
             "source": citation.source,
             "file_path": citation.file_path
@@ -105,6 +111,8 @@ def insert_to_chroma(embedding, citation: Citation, citation_text_hash: str):
     return collection
 
 def insert_to_fts5(conn: sqlite3.Connection, citation: Citation, citation_text_hash: str):
+    if citation.nearby_text is None: citation.nearby_text = ""
+    if citation.flatten_table is None: citation.flatten_table = ""
     conn.execute(
         """
         INSERT INTO citations(
@@ -113,15 +121,18 @@ def insert_to_fts5(conn: sqlite3.Connection, citation: Citation, citation_text_h
             section,
             heading,
             text,
+            is_table,
+            flatten_table,
+            nearby_text,
             company,
             year,
             source,
             file_path
         ) VALUES (
-        ?, ?, ?, ?, ?, ?, ?, ?, ?
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )
         """,
-        (citation_text_hash, citation.item, citation.section, citation.heading, citation.text, citation.company, citation.year, citation.source, citation.file_path)
+        (citation_text_hash, citation.item, citation.section, citation.heading, citation.text, citation.is_table, citation.flatten_table, citation.nearby_text, citation.company, citation.year, citation.source, citation.file_path)
     )
     conn.commit()
 
@@ -135,6 +146,7 @@ def get_token_count(text: str) -> int:
 
 def chunk_processing(conn: sqlite3.Connection, citation: Citation):
     # print(citation)
+    # print()
     if citation.is_table:
         table_text = citation.flatten_table
         text_to_embed = "search document: " + citation.item + " " + citation.section + " " + citation.heading + " " + citation.nearby_text + " " + table_text
@@ -181,7 +193,6 @@ def tokenise(conn: sqlite3.Connection, citations: List[Citation]):
                 # calculate the min number of chunks needed
                 recursive_chunking(conn, citation)
             else:
-                # print(1)
                 chunk_processing(conn, citation)
 
 
@@ -190,9 +201,9 @@ if __name__ == "__main__":
     create_table(conn)
     create_fts5_table(conn)
 
-    # path = "../data/amd-20251227.html"
-    # citations = get_citations(path)
-    # tokenise(conn, citations)
+    path = "../data/amd-20251227.html"
+    citations = get_citations(path)
+    tokenise(conn, citations)
 
     # all_data = collection.get(
     # include=["embeddings", "metadatas", "documents"],
@@ -205,10 +216,12 @@ if __name__ == "__main__":
     # for id_, metadata, document in zip(all_data["ids"], all_data["metadatas"], all_data["documents"]):
     #     print(f"id={id_}")
     #     print(f"company={metadata.get('company')} item={metadata.get('item')} section={metadata.get('section')} heading={metadata.get('heading')} source={metadata.get('source')}")
+    #     print(f"is_table={metadata.get('is_table')} flatten_table={metadata.get('flatten_table')}")
     #     print(document)
-    #     print("-" * 100)
-    
+    #     print("/" * 100)
 
+
+    # You want to uncomment this to chunk all files
     data_directory = "../data"
     files = os.listdir(data_directory)    
     for file_name in files:
