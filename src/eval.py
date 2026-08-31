@@ -61,7 +61,7 @@ def main():
     for item in questions.eval_set:
         print()
         question = item["question"]
-        print(question)
+        # print(question)
         query_embedding = model.encode("search_query: " + question)
 
         embedded_results: QueryResult = collection.query(

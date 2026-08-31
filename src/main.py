@@ -5,11 +5,20 @@ import re
 import sqlite3
 from typing import List
 
+from cv2 import inpaint
 from groq import Groq
 import chromadb
 from sentence_transformers import CrossEncoder, SentenceTransformer, cross_encoder
 
 from clean import Citation
+
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('punkt_tab')
 
 N = 50
 
@@ -30,10 +39,14 @@ def print_results(question: str, context: dict) -> None:
 
 
 def build_fts_query(question: str) -> str:
+    tokens = word_tokenize(question.lower())
+    stop_words = set(stopwords.words("english"))
+    terms = [word for word in tokens if word not in stop_words]
+
     # split on non-word characters, drop empty strings, lowercase not required (FTS5 handles case)
-    terms = re.findall(r"\w+", question)
     if not terms:
         return '""'  # empty/degenerate query, will just match nothing
+
     quoted_terms = [f'"{term}"' for term in terms]
     return " OR ".join(quoted_terms)
 
@@ -128,11 +141,11 @@ def get_cross_encoder_results(cross_encoder: CrossEncoder, question, rrf_results
     for result in rrf_results:
         citation: Citation = result[1]["citation"]
         # print(citation)
-        if citation.is_table:
-            text = citation.flatten_table
-            # print(text)
-        else:
-            text = citation.text
+        # if citation.is_table:
+        #     text = citation.flatten_table
+        #     # print(text)
+        # else:
+        text = citation.text
         pairs.append((question, text))
 
     scores = cross_encoder.predict(pairs)
@@ -185,11 +198,9 @@ def main():
 
     # write to json
 
-    qs = ["countries coca cola operates in"]
 
-    for item in qs:
-        # question = item["question"]
-        question = item
+    while True: 
+        question = input("Ask your question:")
         query_embedding = model.encode("search_query: " + question)
 
         embedded_results = collection.query(
@@ -205,38 +216,61 @@ def main():
         rrf_results = get_rrf_results(fts_results, embedded_results)
         cross_encoder_results = get_cross_encoder_results(cross_encoder, question, rrf_results)
 
-        for i in cross_encoder_results:
-            print(i)
-        print("\n")
-        print("=" * 10)
+        # for i in cross_encoder_results:
+        #     print(i)
+        # print("\n")
+        # print("=" * 10)
 
-        
+    # print("len: ", len(cross_encoder_results[]))  
         # print_results(question, context)
 
     # Calling Groq
-    template = f"""SYSTEM: You are a chatbot that specialises in providing information about AI Chip Companies. 
-    Information can include financial information, management, risks etc. All your responses must be factual. If you 
-    don't know the answer, say you don't know.
-    Respond to the following question: {question} only from the below context: {cross_encoder_results}
-    """
+        template = f"""
+        SYSTEM:
+        You are a financial research assistant specializing in SEC filings (primarily 10-Ks) for the following companies: AMD, American Express (AXP), ConocoPhillips (COP), Chevron (CVX), Alphabet (GOOG), Johnson & Johnson (JNJ), Coca-Cola (KO), Meta (META), NVIDIA (NVDA), and PepsiCo (PEP).
+
+        You will be given a user question and a set of retrieved context chunks pulled from these companies' filings. Each chunk may be prose or a flattened table, and includes metadata such as company, source, section, and item.
+
+        Answer using ONLY the information in the provided context. Do not use outside knowledge, and do not guess or extrapolate beyond what the context states. If the context does not contain enough information to answer the question, say so directly — do not speculate.
+
+        Response guidelines:
+        - Be concise and direct. Lead with the answer, not preamble.
+        - Default to plain prose or short bullet points. Only use a table when the data is genuinely tabular (e.g. comparing the same metric across multiple companies or years) — most answers do not need one.
+        - Never fabricate figures, dates, or company names not present in the context.
+        - When citing a source, refer to it naturally by company and section/item (e.g. "per AMD's 10-K, Item 1A") — never reference internal IDs, hashes, or chunk numbers.
+        - If multiple companies are relevant, organize the answer by company using short headers or bold labels, not a table, unless comparing a single shared metric.
+        - Avoid restating the question back to the user.
+        - Keep formatting clean: use bold for key terms/figures, bullet points for lists, and short paragraphs for explanations. Avoid nested formatting or excessive headers for short answers.
+        
+        The question provided to you is: {question}
+        The context provided to you is: {cross_encoder_results[0:5]}
+        """
 
 
-    # Prompt 
-    # client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
-    # chat_completion = client.chat.completions.create(
-    #     model="llama-3.3-70b-versatile",
-    #     messages=[
-    #     {
-    #         "role": "user",
-    #         "content": template
-    #     }
-    #     ],
-    #     temperature=1,
-    #     max_completion_tokens=2048,
-    #     top_p=1,
-    #     stream=False,
-    #     stop=None
-    # )
+        print(cross_encoder_results[0:5])
+
+        # Prompt 
+        client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+        chat_completion = client.chat.completions.create(
+            model="openai/gpt-oss-120b",
+            messages=[
+            {
+                "role": "user",
+                "content": template
+            }
+            ],
+            temperature=1,
+            max_completion_tokens=1000,
+            top_p=1,
+            stream=False,
+            stop=None
+        )
+        
+        answer = chat_completion.choices[0].message.content
+        print(answer)
+        print(chat_completion.usage)          # prompt/completion/total tokens
+        print(chat_completion.choices[0].finish_reason)  # "stop", "length", etc.
+        print("//" * 10)
 
 if __name__ == "__main__":
     main()
