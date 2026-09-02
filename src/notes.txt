@@ -1,0 +1,145 @@
+goog-intl-mix: most of the retrieved chunks are from other companies
+goog-loss-contingencies: no issues, fixed the chunks although i have a hunch that maybe its inferring from meta which is fine?
+meta-ads-share: all meta chunks recieved but nothing ranks high enough for the revenue, if you say 'meta revenue breakdown' you get Reality Labs and other revenue. maybe question isnt phrased well enough?
+ko-segments: doesnt work for the question given but work well if you ask it 'what are coca colas operating segments', the word 'reporting' seems to do the heavy lifting
+pep-bottler-agreements: the chunks recieved are for coca cola not for pepsico
+axp-membership: unsure why this doesnt get retrived, might be bad phrasing? 
+cop-production: fetches the right chunk, but i cant edit it, can you. The first chunk retrieved is the first one
+cmp-meta-goog-ads: no clear comparison but the model for some reason hallucinated with the response and said meta gets 70% revenue from ads
+**Meta (2025)**                                                                                                                                        - Advertising accounted for **more than 70 % of total revenue**.
+- Advertising revenue grew **$35.54 billion (22 % YoY)**, driven by higher ad impressions and higher average price per ad.
+
+**Alphabet (2025)**
+- The filing states that Alphabet “generates a **significant portion** of its revenues from advertising,” but no specific percentage or dollar amount is provided in the supplied excerpts.
+**Comparison** – Meta’s filing quantifies advertising as a dominant >70 % of its revenue, whereas Alphabet’s filing only describes advertising as a “significant portion” without detailed figures
+
+Although it fixed it when i asked it again
+
+cmp-amd-nvda-tsmc: Ask your question:is nvidia fabless
+The provided filing excerpts do not state whether NVIDIA operates as a fabless company. They describe NVIDIA’s products, business segments, and corporate history, but they contain no explicit information about its manufacturing model.
+CompletionUsage(completion_tokens=97, prompt_tokens=2880, total_tokens=2977, completion_time=0.203064012, completion_tokens_details=CompletionTokensDetails(reasoning_tokens=48), prompt_time=0.142852512, prompt_tokens_details=None, queue_time=0.037251841, total_time=0.345916524)
+stop
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                                                                                      Ask your question:what does fabless man
+**Fabless** refers to a business model in which a company focuses on designing and developing semiconductor products but outsources all manufacturing steps—wafer fabrication, assembly, testing, and packaging—to external foundries and contract manufacturers.
+
+- NVIDIA states it “utilize[s] a fabless and contracting manufacturing strategy, whereby we employ and partner with key suppliers for all phases of the manufacturing process, including wafer fabrication, assembly, testing, and packaging.” It relies on foundries such as **TSMC** and **Samsung** for wafer production and on contract manufacturers like **Hon Hai Precision Industry**, **Wistron**, and **Fabrinet** for downstream steps. (Per NVIDIA 10‑K, Item 1 Business)
+
+Thus, “fabless” means the company does **not own or operate its own fabs**; instead, it leverages the expertise and capacity of specialized manufacturers while concentrating its internal resources on design, quality assurance, marketing, and customer support. i dont understand how it misses this
+
+another example: Ask your question:what is nvdas relationship with tsmc
+The provided excerpts do not contain any information about **NVIDIA’s** (NVDA) relationship with **TSMC**. If you have additional context or a more specific question, please let me know.
+CompletionUsage(completion_tokens=186, prompt_tokens=3090, total_tokens=3276, completion_time=0.401130438, completion_tokens_details=CompletionTokensDetails(reasoning_tokens=136), prompt_time=0.594948271, prompt_tokens_details=None, queue_time=0.221648681, total_time=0.996078709)
+stop
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Ask your question:tell me about tsmc
+**TSMC (Taiwan Semiconductor Manufacturing Company Limited)**
+
+- **AMD**
+  - Uses TSMC to fabricate wafers for its high‑performance computing (HPC), FPGA, and adaptive‑SoC products, as well as for microprocessor and GPU products at 7 nm or smaller nodes【AMD 2025 Item 1, “Third‑Party Wafer Foundry Facilities”】.
+  - Relies on TSMC (along with UMC and Samsung) for programmable‑logic ICs and for its newest IC products. A disruption at TSMC—especially at 7 nm or below—could materially affect AMD’s business【AMD 2025 Item 1A, “Operational and Technology Risks”】.
+
+- **NVIDIA**
+  - Lists TSMC among the foundries it partners with to produce semiconductor wafers【NVIDIA 2026 Item 1, “Manufacturing”】.
+
+**Key Points**
+- TSMC is a critical third‑party wafer foundry for both AMD and NVIDIA, supplying advanced process nodes (7 nm and smaller).
+- AMD explicitly identifies TSMC as a primary supplier for its most advanced microprocessor, GPU, and IC products, and notes that any inability of TSMC to meet capacity or yield expectations could have a material adverse effect on AMD’s results.
+
+*All information drawn from the companies’ 10‑K filings as cited above.*
+CompletionUsage(completion_tokens=427, prompt_tokens=2891, total_tokens=3318, completion_time=0.898465632, completion_tokens_details=CompletionTokensDetails(reasoning_tokens=115), prompt_time=0.134478935, prompt_tokens_details=None, queue_time=0.217683644, total_time=1.032944567)
+stop
+
+cmp-amd-nvda-competiotion: Ask your question:Who do AMD and NVIDIA each name as rivals in data-center accelerators?
+**AMD:**
+- Names **Intel Corporation** and **Nvidia Corporation** as its primary competitors in the data‑center accelerator market (Item 1, “Competition in Data Center Segment”).
+
+**NVIDIA:**
+- The provided filing excerpts do not contain a statement of which companies NVIDIA cites as rivals in data‑center accelerators.
+
+*If you have additional sections of NVIDIA’s filing (e.g., a competition or risk‑factors item), I can check those for the rival information.*
+CompletionUsage(completion_tokens=271, prompt_tokens=2392, total_tokens=2663, completion_time=0.73931161, completion_tokens_details=CompletionTokensDetails(reasoning_tokens=161), prompt_time=0.111444444, prompt_tokens_details=None, queue_time=0.005252552, total_time=0.850756054)
+stop
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Ask your question:nvida competition
+**Key competitors to Nvidia (as described in the provided filings)**
+
+- **Intel Corporation** – Competes with Nvidia in data‑center CPUs, GPUs, DPUs, AI NICs, and integrated graphics. Intel also uses aggressive pricing to challenge Nvidia’s market share. *(AMD 2025 10‑K, Item 1A – “Economic and Strategic Risks”)*
+- **Advanced Micro Devices (AMD)** – Direct rival in the discrete‑graphics market and in data‑center accelerator products (CPU, GPU, DPU, AI NIC). *(AMD 2025 10‑K, Item 1 – “Competition in Client and Gaming Segment”)*
+- **Altera (now part of Intel)** – Competes with Nvidia in FPGA and adaptive‑SoC server products for data‑center workloads. *(AMD 2025 10‑K, Item 1 – “Competition in Data Center Segment”)*
+- **Arm‑based CPU providers / other fabless silicon companies** – Offer proprietary accelerator solutions and Arm‑based CPUs targeting data‑center use cases, adding competitive pressure. *(AMD 2025 10‑K, Item 1 – “Competition in Data Center Segment”)*
+- **Other emerging or niche players** – Smaller companies developing proprietary accelerators, ASICs, or internal customer designs that could substitute Nvidia’s AI‑focused products. *(AMD 2025 10‑K, Item 1A – “Economic and Strategic Risks”)*
+
+These entities are identified in the AMD filing as the principal firms that compete with Nvidia across graphics, CPU, and data‑center accelerator markets.
+CompletionUsage(completion_tokens=545, prompt_tokens=2394, total_tokens=2939, completion_time=1.152446232, completion_tokens_details=CompletionTokensDetails(reasoning_tokens=208), prompt_time=0.115107037, prompt_tokens_details=None, queue_time=0.205930351, total_time=1.267553269)
+stop
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Ask your question:nvidia competition in data-center
+**Nvidia’s data‑center competitors (as described in the filings):**
+
+- **Intel Corporation** – offers CPUs, GPUs, DPUs and AI‑NIC server products that vie directly with Nvidia’s data‑center portfolio.
+- **Advanced Micro Devices (AMD)** – competes with its own CPU, GPU, DPU and AI‑NIC offerings.
+- **Altera (a subsidiary of Intel)** – challenges Nvidia with FPGA and adaptive‑SoC server products.
+- **Smaller fabless silicon firms** – provide proprietary accelerator solutions and Arm‑based CPUs aimed at data‑center workloads.
+- **Customers’ in‑house designs** – some buyers develop their own microprocessors or accelerators, which can reduce the market available to Nvidia.
+
+*Source: AMD’s 2025 Form 10‑K, Item 1 “Competition in Data Center Segment.”*
+
+Additionally, AMD’s risk‑factor discussion notes that **Nvidia leverages its market position, financial resources, and proprietary software ecosystem** to promote its data‑center GPUs and influence customer choices, underscoring the competitive pressure Nvidia exerts on rivals.
+
+*Source: AMD’s 2025 Form 10‑K, Item 1A “Risk Factors” (Economic and Strategic Risks).*
+CompletionUsage(completion_tokens=460, prompt_tokens=2835, total_tokens=3295, completion_time=0.97524707, completion_tokens_details=CompletionTokensDetails(reasoning_tokens=189), prompt_time=0.636541311, prompt_tokens_details=PromptTokensDetails(cached_tokens=256), queue_time=0.215092508, total_time=1.611788381)
+stop it provides info about its data centers but never mentions rivals or competition amd appears more than nvda
+
+cmp-ai-accelerator: goog appears atmost twice and both chunks dont mention is and instead talk about cloud Ask your question:How do AMD, NVIDIA, and Google Cloud each describe the silicon they sell or use for AI?
+**AMD** – In its 10‑K AMD describes its AI silicon as a broad portfolio that includes **AI accelerators, CPUs, GPUs, DPUs, AI‑NICs, FPGAs and adaptive SoCs**.  It highlights “AI‑optimized CPUs, GPUs, networking and software” and positions these chips as part of “full‑stack solutions” for cloud, edge, embedded and endpoint AI workloads【AMD, Item 1 (2025)】.
+
+**NVIDIA** – NVIDIA frames its silicon as the core of a “data‑center‑scale AI infrastructure” built around **NVIDIA GPUs** (the Blackwell architecture) that are tightly co‑designed with networking, systems, software and algorithms.  The company stresses that its GPUs provide the massive parallel processing needed for AI model training and inference, and that the whole stack—from the CUDA platform to domain‑specific libraries—is optimized for AI workloads【NVIDIA, Item 1 (2026)】.
+
+**Google Cloud** – The provided filings contain no description of the silicon Google Cloud sells or uses for AI, so that information is not available in the given context.
+CompletionUsage(completion_tokens=504, prompt_tokens=3463, total_tokens=3967, completion_time=1.05623598, completion_tokens_details=CompletionTokensDetails(reasoning_tokens=257), prompt_time=0.143947561, prompt_tokens_details=None, queue_time=0.038570339, total_time=1.200183541)
+stop add these items to the equibalent chunks since its valid
+
+cmp-intl-mix: looks like a keyword issue for amex, for google im not sure, it barely shows up
+
+cmp-export-control: nvidia and meta dont have specific sections highlighting it as a main risk. the main targets are amd and nvda which are retrived. change the gold to reflect to that
+
+amd-table-client-rev: the correct answer is provided but it doesnt come from a table
+
+meta-table-ad-rev: 0 tables in sight and other companies retrieved
+jnj-table-darzalex: recieves a table with darzalex but nothing more
+ko-table-opinc: anything but the income statement was retrieved
+pep-table-op-profit: the table metadata is retrieved but the tables are not retrieved also are you sure this isnt sufficient: #8 6f0c09785530846b5d1b0ff07e838973373297c1dca0c28098a6654b8da43775
+company=pep section=Consolidated Statement of Income heading= is_table=1
+0: Net Revenue, 2025.0: $93925, 2024.0: $91854, 2023.0: $91471, 
+0: Cost of sales, 2025.0: 43066, 2024.0: 41744, 2023.0: 41881, 
+0: Gross profit, 2025.0: 50859, 2024.0: 50110, 2023.0: 49590, 
+0: Selling, general and administrative expenses, 2025.0: 37368, 2024.0: 37190, 2023.0: 36677, 
+0: Impairment of intangible assets (see Notes 1 and 4), 2025.0: 1993, 2024.0: 33, 2023.0: 927, 
+0: Operating Profit, 2025.0: 11498, 2024.0: 12887, 2023.0: 11986, 
+0: Other pension and retiree medical benefits (expense)/income, 2025.0: (133), 2024.0: (22), 2023.0: 250, 
+0: Net interest expense and other, 2025.0: (1,121), 2024.0: (919), 2023.0: (819), 
+0: Income before income taxes, 2025.0: 10244, 2024.0: 11946, 2023.0: 11417, 
+0: Provision for income taxes, 2025.0: 1949, 2024.0: 2320, 2023.0: 2262, 
+0: Net income, 2025.0: 8295, 2024.0: 9626, 2023.0: 9155, 
+0: Less: Net income attributable to noncontrolling interests, 2025.0: 55, 2024.0: 48, 2023.0: 81, 
+0: Net Income Attributable to PepsiCo, 2025.0: $8240, 2024.0: $9578, 2023.0: $9074, 
+0: Net Income Attributable to PepsiCo per Common Share, 2025.0: , 2024.0: , 2023.0: , 
+0: Basic, 2025.0: $6.02, 2024.0: $6.97, 2023.0: $6.59, 
+0: Diluted, 2025.0: $6.00, 2024.0: $6.95, 2023.0: $6.56, 
+0: Weighted-average common shares outstanding, 2025.0: , 2024.0: , 2023.0: , 
+0: Basic, 2025.0: 1369, 2024.0: 1373, 2023.0: 1376, 
+0: Diluted, 2025.0: 1373, 2024.0: 1378, 2023.0: 1383, 
+
+axp-table-ni: like the others, consolidated gets matched a lot. make it a stop word or make it rank lower?
+
+
+HOW DO I MAKE A MODEL UNDERSTAND THE MOST IMPORTSNT WORDS IN THE QYERY?
+HOW DO I REDUCE OTHER COMPANY CHUNKS FROM BEING FETCHED
+need indexes to know document meta data or ig you can include in the prompt
+cmp-table-nvda-rev: #5, #8 and #1 seem to be right tho?
+

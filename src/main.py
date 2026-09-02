@@ -4,8 +4,7 @@ import os
 import re
 import sqlite3
 from typing import List
-
-from cv2 import inpaint
+from dotenv import load_dotenv
 from groq import Groq
 import chromadb
 from sentence_transformers import CrossEncoder, SentenceTransformer, cross_encoder
@@ -21,6 +20,9 @@ nltk.download('punkt')
 nltk.download('punkt_tab')
 
 N = 50
+
+load_dotenv()
+api_key = os.environ.get("GROQ_API_KEY")
 
 def print_results(question: str, context: dict) -> None:
     print("=" * 100)
@@ -141,11 +143,10 @@ def get_cross_encoder_results(cross_encoder: CrossEncoder, question, rrf_results
     for result in rrf_results:
         citation: Citation = result[1]["citation"]
         # print(citation)
-        # if citation.is_table:
-        #     text = citation.flatten_table
-        #     # print(text)
-        # else:
-        text = citation.text
+        if citation.is_table and citation.flatten_table:
+            text = citation.flatten_table
+        else:
+            text = citation.text
         pairs.append((question, text))
 
     scores = cross_encoder.predict(pairs)
@@ -208,11 +209,7 @@ def main():
             include=["documents", "metadatas", "distances"],
             n_results=N
         )
-
-        
         fts_results = get_fts_results(conn, question)
-        print(question)
-
         rrf_results = get_rrf_results(fts_results, embedded_results)
         cross_encoder_results = get_cross_encoder_results(cross_encoder, question, rrf_results)
 
@@ -233,6 +230,10 @@ def main():
 
         Answer using ONLY the information in the provided context. Do not use outside knowledge, and do not guess or extrapolate beyond what the context states. If the context does not contain enough information to answer the question, say so directly — do not speculate.
 
+        It is not necessary that the answer is immediatley avaible in the context provided and you will have to use reasoning to make an inference, sometimes even mathematical calculations.
+
+        If you do not have an answer, then try restructuring the question and ask them if they meant something similar to that.
+        
         Response guidelines:
         - Be concise and direct. Lead with the answer, not preamble.
         - Default to plain prose or short bullet points. Only use a table when the data is genuinely tabular (e.g. comparing the same metric across multiple companies or years) — most answers do not need one.
@@ -243,16 +244,16 @@ def main():
         - Keep formatting clean: use bold for key terms/figures, bullet points for lists, and short paragraphs for explanations. Avoid nested formatting or excessive headers for short answers.
         
         The question provided to you is: {question}
-        The context provided to you is: {cross_encoder_results[0:5]}
+        The context provided to you is: {cross_encoder_results[0:3]}
         """
 
 
-        print(cross_encoder_results[0:5])
+        # print(cross_encoder_results[0:5])
 
         # Prompt 
         client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
         chat_completion = client.chat.completions.create(
-            model="openai/gpt-oss-120b",
+            model="groq/compound",
             messages=[
             {
                 "role": "user",
@@ -270,7 +271,8 @@ def main():
         print(answer)
         print(chat_completion.usage)          # prompt/completion/total tokens
         print(chat_completion.choices[0].finish_reason)  # "stop", "length", etc.
-        print("//" * 10)
+        print("//" * 100)
+        print()
 
 if __name__ == "__main__":
     main()
