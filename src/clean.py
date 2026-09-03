@@ -11,10 +11,11 @@ from pandas import DataFrame
 from pydantic import BaseModel
 
 # regex is compiled once
-weight_match_re = re.compile("font-weight:(\\d+)") 
-style_match_re = re.compile("font-style:(\\w+)") 
+weight_match_re = re.compile("font-weight:(\\d+)")
+style_match_re = re.compile("font-style:(\\w+)")
 size_match_re = re.compile("font-size:(\\d+)")
 SYMBOL_ONLY = re.compile(r"^[\$%—\-–\*†]*$")
+
 
 class Citation(BaseModel):
     item: str
@@ -26,34 +27,37 @@ class Citation(BaseModel):
     year: str
     is_table: bool = False
     flatten_table: str = ""
-    source: str # 10K or R-file,
+    source: str  # 10K or R-file,
     file_path: str
+
 
 class Properties:
     def __init__(self, style_attr):
         self.style_attr = style_attr
         self.font_weight = self.get_font_weight()
         self.font_style = self.get_font_style()
-        self.font_size = self.get_font_size() 
+        self.font_size = self.get_font_size()
         # self.has_item = self.get_has_item()
 
-    def get_font_weight(self) -> str|None:
+    def get_font_weight(self) -> str | None:
         weight_match = weight_match_re.search(self.style_attr)
-        font_weight: str|None = weight_match.group(1) if weight_match else None
+        font_weight: str | None = weight_match.group(1) if weight_match else None
         return font_weight
-    
+
     def get_font_style(self):
         style_match = style_match_re.search(self.style_attr)
         font_style = style_match.group(1) if style_match else None
         return font_style
 
-    def get_font_size(self) -> str|None:
+    def get_font_size(self) -> str | None:
         size_match = size_match_re.search(self.style_attr)
-        font_size: str|None = size_match.group(1) if size_match else None
+        font_size: str | None = size_match.group(1) if size_match else None
         return font_size
 
+
 def is_symbol_only(s: str) -> bool:
-    return bool(re.match(r'^[\$%—\-–]*$', s.strip()))
+    return bool(re.match(r"^[\$%—\-–]*$", s.strip()))
+
 
 # After spending 6 hours trying to merge 2 cells, I gave up and asked Claude, it did it in 5 seconds
 def reconcile_columns(df: DataFrame) -> DataFrame:
@@ -101,10 +105,11 @@ def reconcile_columns(df: DataFrame) -> DataFrame:
                     new_vals.append(av_s if len(av_s) >= len(bv_s) else bv_s)
             merged[prev_col] = new_vals  # write the merged values back
         else:
-            result_cols.append(col)      # keep this as its own column
+            result_cols.append(col)  # keep this as its own column
             merged[col] = df[col].values
 
     return merged[result_cols]
+
 
 def promote_first_row_as_header(df: DataFrame) -> DataFrame:
     """Assumes the header values all live in row 0 (or the first row with any
@@ -127,8 +132,9 @@ def promote_first_row_as_header(df: DataFrame) -> DataFrame:
     df = df.drop(index=header_row).reset_index(drop=True)
     return df
 
+
 def drop_symbols(df: DataFrame) -> DataFrame:
-    SYMBOL_ONLY = re.compile(r"^[\$%—\-–]*$") 
+    SYMBOL_ONLY = re.compile(r"^[\$%—\-–]*$")
     cols_to_drop = []
     for col in df.columns:
         col_data = df[col].dropna().astype(str).str.strip()
@@ -137,6 +143,7 @@ def drop_symbols(df: DataFrame) -> DataFrame:
 
     df = df.drop(columns=cols_to_drop)
     return df
+
 
 def flatten_table(df: DataFrame) -> str:
     table_text = ""
@@ -160,6 +167,7 @@ def flatten_table(df: DataFrame) -> str:
 
     return table_text
 
+
 def _numeric_core(s: str) -> str | None:
     """Strip $, commas, %, accounting-style parens off a value and return
     its canonical numeric string, so '$12,299', '12299', and '12299.0'
@@ -177,6 +185,7 @@ def _numeric_core(s: str) -> str | None:
     except ValueError:
         return None
 
+
 def _cols_equivalent(s1: pd.Series, s2: pd.Series) -> bool:
     if s1.equals(s2):
         return True
@@ -188,6 +197,7 @@ def _cols_equivalent(s1: pd.Series, s2: pd.Series) -> bool:
             continue
         return False
     return True
+
 
 def dedupe_repeated_row_values(df: DataFrame) -> DataFrame:
     """Some footnote/disclaimer rows originate from a single spanning cell
@@ -203,6 +213,7 @@ def dedupe_repeated_row_values(df: DataFrame) -> DataFrame:
             new_row[0] = non_empty[0]
             df.loc[idx] = new_row
     return df
+
 
 def extract_table(table) -> tuple[str, str] | None:
     try:
@@ -242,10 +253,12 @@ def extract_table(table) -> tuple[str, str] | None:
 
     return None
 
+
 def strip_file(soup: BeautifulSoup) -> None:
     # get rid of the xblr tags
     xblr_tag = soup.find("ix:header")
-    if xblr_tag is not None: xblr_tag.decompose()
+    if xblr_tag is not None:
+        xblr_tag.decompose()
 
     # get rid of all images
     img_tags = soup.find_all("img")
@@ -253,15 +266,16 @@ def strip_file(soup: BeautifulSoup) -> None:
         img.decompose()
     # dont return anything, soup is mutable
 
+
 def get_citations(path: str) -> List[Citation]:
     content = str(from_path(path).best())
-    soup = BeautifulSoup(content, 'html.parser')
+    soup = BeautifulSoup(content, "html.parser")
     strip_file(soup)
 
     citations: List[Citation] = []
 
     current_item: str = ""
-    current_section: str  = ""
+    current_section: str = ""
     current_heading: str = ""
     current_text: str = ""
     nearby_text: str = ""
@@ -274,7 +288,7 @@ def get_citations(path: str) -> List[Citation]:
     file_path = path
 
     # Get all the divs
-    div_tags = soup.find_all("div") 
+    div_tags = soup.find_all("div")
     for div in div_tags:
         # print(div.prettify(), "\n")
         children = div.contents
@@ -282,7 +296,7 @@ def get_citations(path: str) -> List[Citation]:
             if child_tag.name == "span":
                 try:
                     style_attr = child_tag.attrs.get("style")
-                    if style_attr is not None: 
+                    if style_attr is not None:
                         props = Properties(style_attr=style_attr)
                     else:
                         continue
@@ -290,24 +304,37 @@ def get_citations(path: str) -> List[Citation]:
                     if span_text:
                         nearby_text = span_text
 
-                    IS_HEADING: bool = (props.font_weight == "700" or props.font_size == "10") and props.font_style == "italic"
-                    IS_SECTION: bool = (props.font_weight == "700" and span_text != "\u2022")
-                    IS_PLAIN_TEXT: bool = (props.font_weight == "400")
-                    VALID_CITATION: bool = (current_text != "" and current_item != "" and current_text != None)
-                    
-                    item = re.search("ITEM", span_text) or re.search("Item", span_text) 
-                    if item != None and (props.font_weight == "700" or props.font_size == "14"): 
+                    IS_HEADING: bool = (
+                        props.font_weight == "700" or props.font_size == "10"
+                    ) and props.font_style == "italic"
+                    IS_SECTION: bool = (
+                        props.font_weight == "700" and span_text != "\u2022"
+                    )
+                    IS_PLAIN_TEXT: bool = props.font_weight == "400"
+                    VALID_CITATION: bool = (
+                        current_text != ""
+                        and current_item != ""
+                        and current_text != None
+                    )
+
+                    item = re.search("ITEM", span_text) or re.search("Item", span_text)
+                    if item != None and (
+                        props.font_weight == "700" or props.font_size == "14"
+                    ):
                         if VALID_CITATION:
-                            citations.append(Citation(
-                                item=current_item, 
-                                section=current_section, 
-                                heading=current_heading, 
-                                text=current_text,
-                                company=company,
-                                year=year,
-                                source=file_name,
-                                file_path=file_path))
-                        current_item = span_text 
+                            citations.append(
+                                Citation(
+                                    item=current_item,
+                                    section=current_section,
+                                    heading=current_heading,
+                                    text=current_text,
+                                    company=company,
+                                    year=year,
+                                    source=file_name,
+                                    file_path=file_path,
+                                )
+                            )
+                        current_item = span_text
                         # If this changes, all below values should change asw
                         current_section = ""
                         current_heading = ""
@@ -315,36 +342,46 @@ def get_citations(path: str) -> List[Citation]:
 
                     elif IS_HEADING:
                         if VALID_CITATION:
-                            citations.append(Citation(
-                                item=current_item, 
-                                section=current_section, 
-                                heading=current_heading, 
-                                text=current_text,
-                                company=company,
-                                year=year,
-                                source=file_name,
-                                file_path=file_path))
+                            citations.append(
+                                Citation(
+                                    item=current_item,
+                                    section=current_section,
+                                    heading=current_heading,
+                                    text=current_text,
+                                    company=company,
+                                    year=year,
+                                    source=file_name,
+                                    file_path=file_path,
+                                )
+                            )
                         current_heading = span_text
                         current_text = ""
 
                     elif IS_SECTION:
                         if VALID_CITATION:
-                            citations.append(Citation(
-                                item=current_item, 
-                                section=current_section, 
-                                heading=current_heading, 
-                                text=current_text,
-                                company=company,
-                                year=year,
-                                source=file_name,
-                                file_path=file_path))
+                            citations.append(
+                                Citation(
+                                    item=current_item,
+                                    section=current_section,
+                                    heading=current_heading,
+                                    text=current_text,
+                                    company=company,
+                                    year=year,
+                                    source=file_name,
+                                    file_path=file_path,
+                                )
+                            )
                             current_section = span_text
                         elif current_text == "":
-                            current_section = (current_section + " " + span_text).strip() if current_section else span_text
+                            current_section = (
+                                (current_section + " " + span_text).strip()
+                                if current_section
+                                else span_text
+                            )
                         else:
                             current_section = span_text
                         current_heading = ""
-                        current_text = ""    
+                        current_text = ""
 
                     elif IS_PLAIN_TEXT:
                         current_text = current_text + span_text + "\n"
@@ -359,25 +396,29 @@ def get_citations(path: str) -> List[Citation]:
                 if result:
                     flattened_text, markdown_text = result
                     # print(table_as_markdown)
-                    citations.append(Citation(
-                        item=current_item, 
-                        section=current_section, 
-                        heading=current_heading, 
-                        text=markdown_text,
-                        nearby_text=nearby_text,
-                        company=company,
-                        year=year,
-                        is_table=True,
-                        flatten_table=flattened_text,
-                        source=file_name,
-                        file_path=file_path)) 
+                    citations.append(
+                        Citation(
+                            item=current_item,
+                            section=current_section,
+                            heading=current_heading,
+                            text=markdown_text,
+                            nearby_text=nearby_text,
+                            company=company,
+                            year=year,
+                            is_table=True,
+                            flatten_table=flattened_text,
+                            source=file_name,
+                            file_path=file_path,
+                        )
+                    )
 
     # print(citations)
     return citations
 
+
 if __name__ == "__main__":
     data_directory = "../data"
-        
+
     path = "../data/ma-20251231.html"
     citations = get_citations(path)
 

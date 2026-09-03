@@ -1,5 +1,3 @@
-
-from pydoc import text
 from typing import Any, List
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -14,12 +12,15 @@ import os
 from clean import get_citations, Citation
 
 
-model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
+model: SentenceTransformer = SentenceTransformer(
+    "nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True
+)
 tokenizer = AutoTokenizer.from_pretrained("nomic-ai/nomic-embed-text-v1.5")
 MAX_TOKEN_SIZE = 800
 chroma_client = chromadb.PersistentClient(path="../storage")
 collection = chroma_client.get_or_create_collection(name="data_store")
 conn = sqlite3.connect("../storage/document_ledger.db")
+
 
 def create_table(conn: sqlite3.Connection):
     conn.execute(
@@ -35,6 +36,7 @@ def create_table(conn: sqlite3.Connection):
         """
     )
     conn.commit()
+
 
 def create_fts5_table(conn: sqlite3.Connection):
     conn.execute(
@@ -61,7 +63,7 @@ def create_fts5_table(conn: sqlite3.Connection):
 
 def add_document(content_hash: str, conn: sqlite3.Connection):
     document_exists = check_document_exists(content_hash, conn)
-    if not document_exists: 
+    if not document_exists:
         conn.execute(
             """
             INSERT INTO documents(
@@ -72,22 +74,24 @@ def add_document(content_hash: str, conn: sqlite3.Connection):
             ?, ?, ?
             )
             """,
-            (file_name.split(".")[0], file_name, content_hash)
+            (file_name.split(".")[0], file_name, content_hash),
         )
         conn.commit()
     else:
         print("Document exists")
 
-def check_document_exists(content_hash: str, conn:sqlite3.Connection):
+
+def check_document_exists(content_hash: str, conn: sqlite3.Connection):
     cursor = conn.execute(
         """
         SELECT 1
         FROM documents
         WHERE content_hash = ?
         """,
-        (content_hash,)
+        (content_hash,),
     )
     return cursor.fetchone() is not None
+
 
 # Embedding
 def insert_to_chroma(embedding, citation: Citation, citation_text_hash: str):
@@ -95,24 +99,31 @@ def insert_to_chroma(embedding, citation: Citation, citation_text_hash: str):
         ids=[citation_text_hash],
         embeddings=[embedding],
         documents=[citation.text],
-        metadatas=[{
-            "item": citation.item,
-            "section": citation.section,
-            "heading": citation.heading,
-            "company": citation.company,
-            "flatten_table": citation.flatten_table,
-            "is_table": citation.is_table,
-            "nearby_text": citation.nearby_text,
-            "year": citation.year,
-            "source": citation.source,
-            "file_path": citation.file_path
-        }]
+        metadatas=[
+            {
+                "item": citation.item,
+                "section": citation.section,
+                "heading": citation.heading,
+                "company": citation.company,
+                "flatten_table": citation.flatten_table,
+                "is_table": citation.is_table,
+                "nearby_text": citation.nearby_text,
+                "year": citation.year,
+                "source": citation.source,
+                "file_path": citation.file_path,
+            }
+        ],
     )
     return collection
 
-def insert_to_fts5(conn: sqlite3.Connection, citation: Citation, citation_text_hash: str):
-    if citation.nearby_text is None: citation.nearby_text = ""
-    if citation.flatten_table is None: citation.flatten_table = ""
+
+def insert_to_fts5(
+    conn: sqlite3.Connection, citation: Citation, citation_text_hash: str
+):
+    if citation.nearby_text is None:
+        citation.nearby_text = ""
+    if citation.flatten_table is None:
+        citation.flatten_table = ""
     conn.execute(
         """
         INSERT INTO citations(
@@ -132,33 +143,66 @@ def insert_to_fts5(conn: sqlite3.Connection, citation: Citation, citation_text_h
         ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         )
         """,
-        (citation_text_hash, citation.item, citation.section, citation.heading, citation.text, citation.is_table, citation.flatten_table, citation.nearby_text, citation.company, citation.year, citation.source, citation.file_path)
+        (
+            citation_text_hash,
+            citation.item,
+            citation.section,
+            citation.heading,
+            citation.text,
+            citation.is_table,
+            citation.flatten_table,
+            citation.nearby_text,
+            citation.company,
+            citation.year,
+            citation.source,
+            citation.file_path,
+        ),
     )
     conn.commit()
+
 
 def get_tokens(text: str) -> List[str]:
     # prepared_text: tuple[str, dict[str, Any]] = tokenizer.prepare_for_tokenization(text, is_split_into_words=False)
     tokens: List[str] = tokenizer.tokenize(text)
     return tokens
 
+
 def get_token_count(text: str) -> int:
     return len(get_tokens(text))
+
 
 def chunk_processing(conn: sqlite3.Connection, citation: Citation):
     # print(citation)
     # print()
     if citation.is_table:
         table_text = citation.flatten_table
-        text_to_embed = "search document: " + citation.heading + " " + citation.nearby_text + " " + table_text
+        text_to_embed = (
+            "search document: "
+            + citation.heading
+            + " "
+            + citation.nearby_text
+            + " "
+            + table_text
+        )
     else:
-        text_to_embed = "search document: " + citation.item + " " + citation.section + " " + citation.heading + " " + citation.text
+        text_to_embed = (
+            "search document: "
+            + citation.item
+            + " "
+            + citation.section
+            + " "
+            + citation.heading
+            + " "
+            + citation.text
+        )
     embedding = model.encode(text_to_embed)
     citation_text_hash: str = sha256(citation.text.encode()).hexdigest()
     insert_to_chroma(embedding, citation, citation_text_hash)
     insert_to_fts5(conn, citation, citation_text_hash)
 
+
 def recursive_chunking(conn: sqlite3.Connection, citation: Citation):
-    chunks : List = []
+    chunks: List = []
 
     chunk = ""
     chunk_size: int = 0
@@ -182,7 +226,6 @@ def recursive_chunking(conn: sqlite3.Connection, citation: Citation):
         chunk_processing(conn, new_citation)
 
 
-
 def tokenise(conn: sqlite3.Connection, citations: List[Citation]):
     for citation in citations:
         if citation.is_table:
@@ -197,7 +240,6 @@ def tokenise(conn: sqlite3.Connection, citations: List[Citation]):
 
 
 if __name__ == "__main__":
-    
     create_table(conn)
     create_fts5_table(conn)
 
@@ -205,25 +247,9 @@ if __name__ == "__main__":
     citations = get_citations(path)
     tokenise(conn, citations)
 
-    # all_data = collection.get(
-    # include=["embeddings", "metadatas", "documents"],
-    # where={"company": "amd"}
-    # )
-    
-    
-    # print(len(all_data["ids"]))  # sanity check — should match however many chunks you ingested
-
-    # for id_, metadata, document in zip(all_data["ids"], all_data["metadatas"], all_data["documents"]):
-    #     print(f"id={id_}")
-    #     print(f"company={metadata.get('company')} item={metadata.get('item')} section={metadata.get('section')} heading={metadata.get('heading')} source={metadata.get('source')}")
-    #     print(f"is_table={metadata.get('is_table')} flatten_table={metadata.get('flatten_table')}")
-    #     print(document)
-    #     print("/" * 100)
-
-
     # You want to uncomment this to chunk all files
     data_directory = "../data"
-    files = os.listdir(data_directory)    
+    files = os.listdir(data_directory)
     for file_name in files:
         full_path = os.path.join(data_directory, file_name)
         # print("full path", full_path)
@@ -232,8 +258,8 @@ if __name__ == "__main__":
         print("done", file_name)
 
         # Make an entry on the table
-            # Get the content hash during that time asw.
-        # try: 
+        # Get the content hash during that time asw.
+        # try:
         # content = str(from_path("../data/"+file_name).best())
         # content_hash = sha256(content.encode()).hexdigest()
         # add_document(content_hash, conn)
@@ -244,7 +270,6 @@ if __name__ == "__main__":
         # # embed the file in a collection
         # collection = get_collection(chunks=chunks, chunks_keys=chunks_keys)
         # print("done", file_name)
-
 
         # chunk the file using the chunk file function
         # embed the file in a collection

@@ -28,6 +28,7 @@ output.txt
 *.log
 chunks_debug.json
 NEW_chunks_debug.json
+demo.py
 
 # OS cruft
 .DS_Store

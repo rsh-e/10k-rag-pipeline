@@ -100,7 +100,9 @@ def check_item(item: dict, store: dict[str, dict]) -> list[str]:
         if h in equivalent and role != "equivalent":
             errors.append(f"equivalent {h[:12]} missing role=equivalent")
         if rec["company"] and rec["company"] not in companies:
-            errors.append(f"hash {h[:12]} is company={rec['company']} not in {sorted(companies)}")
+            errors.append(
+                f"hash {h[:12]} is company={rec['company']} not in {sorted(companies)}"
+            )
 
     if companies and gold_companies and not companies <= gold_companies | companies:
         missing_co = companies - gold_companies
@@ -116,8 +118,12 @@ def check_item(item: dict, store: dict[str, dict]) -> list[str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Verify eval gold hashes against the live store.")
-    parser.add_argument("--show", metavar="ID", help="Print gold text for one item and exit")
+    parser = argparse.ArgumentParser(
+        description="Verify eval gold hashes against the live store."
+    )
+    parser.add_argument(
+        "--show", metavar="ID", help="Print gold text for one item and exit"
+    )
     parser.add_argument(
         "--strict-unique",
         action="store_true",
@@ -179,7 +185,7 @@ def main() -> int:
 
     n = len(questions.eval_set)
     print()
-    print(f"items={n} answerable={n-n_abs} abstain={n_abs} table_gold={n_table}")
+    print(f"items={n} answerable={n - n_abs} abstain={n_abs} table_gold={n_table}")
     print(f"store_chunks={len(store)} failed_items={failures}")
     return 1 if failures else 0
 

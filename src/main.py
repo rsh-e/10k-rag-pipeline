@@ -16,9 +16,9 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('punkt_tab')
+nltk.download("stopwords")
+nltk.download("punkt")
+nltk.download("punkt_tab")
 
 
 load_dotenv()
@@ -26,30 +26,25 @@ api_key = os.environ.get("GROQ_API_KEY")
 
 N = 50
 chroma_client = chromadb.PersistentClient(path="../storage")
-collection = chroma_client.get_collection(name="data_store") 
-model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
+collection = chroma_client.get_collection(name="data_store")
+model: SentenceTransformer = SentenceTransformer(
+    "nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True
+)
 conn = sqlite3.connect("../storage/document_ledger.db")
-cross_encoder: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2") 
-
-def print_results(question: str, context: dict) -> None:
-    print("=" * 100)
-    print(f"QUESTION: {question}")
-    print("=" * 100)
-    documents = context["documents"][0]
-    metadatas = context["metadatas"][0]
-    distances = context["distances"][0]
-    for rank, (document, metadata, distance) in enumerate(zip(documents, metadatas, distances), start=1):
-        print(f"\n--- Rank {rank} | distance={distance:.4f} | "
-              f"company={metadata.get('company')} | source={metadata.get('source')} | "
-              f"section={metadata.get('section')} ---")
-        print(document.strip())
-        print("-" * 100)
-    print("\n")
+cross_encoder: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
 
 def build_fts_query(question: str) -> str:
     tokens = word_tokenize(question.lower())
-    financial_stop_words = ["consolidated", "consolidated", "statement", "report", "table", "million", "fiscal", "results"]
+    financial_stop_words = [
+        "consolidated",
+        "statement",
+        "report",
+        "table",
+        "million",
+        "fiscal",
+        "results",
+    ]
     stop_words = set(stopwords.words("english"))
     for i in financial_stop_words:
         stop_words.add(i)
@@ -63,7 +58,9 @@ def build_fts_query(question: str) -> str:
     return " OR ".join(quoted_terms)
 
 
-def get_fts_results(conn: sqlite3.Connection, question: str, companies: List[str], needs_table: bool) -> List[any]:
+def get_fts_results(
+    conn: sqlite3.Connection, question: str, companies: List[str], needs_table: bool
+) -> List[any]:
     fts_query = build_fts_query(question)
     if len(companies) == 0:
         cursor = conn.execute(
@@ -74,7 +71,7 @@ def get_fts_results(conn: sqlite3.Connection, question: str, companies: List[str
             ORDER BY rank
             LIMIT ?
             """,
-            (fts_query, N)
+            (fts_query, N),
         )
         results = cursor.fetchall()
     elif len(companies) > 0 and needs_table:
@@ -88,7 +85,7 @@ def get_fts_results(conn: sqlite3.Connection, question: str, companies: List[str
             ORDER BY rank
             LIMIT ?
             """,
-            (fts_query, *companies, needs_table, N)
+            (fts_query, *companies, needs_table, N),
         )
         results = cursor.fetchall()
     else:
@@ -101,9 +98,9 @@ def get_fts_results(conn: sqlite3.Connection, question: str, companies: List[str
             ORDER BY rank
             LIMIT ?
             """,
-            (fts_query, *companies, N)
+            (fts_query, *companies, N),
         )
-        results = cursor.fetchall() 
+        results = cursor.fetchall()
 
     return results
 
@@ -121,8 +118,9 @@ def embedded_citation_normaliser(text, metadata, rank):
         company=metadata["company"],
         year=metadata["year"],
         source=metadata["source"],
-        file_path=metadata["file_path"]
+        file_path=metadata["file_path"],
     )
+
 
 def fts_citation_normaliser(result):
     return Citation(
@@ -131,27 +129,29 @@ def fts_citation_normaliser(result):
         heading=result[3],
         text=result[4],
         is_table=result[5],
-        flatten_table=result[6], 
+        flatten_table=result[6],
         nearby_text=result[7],
         company=result[8],
         year=result[9],
         source=result[10],
-        file_path=result[11]
+        file_path=result[11],
     )
-    
 
-def get_rrf_results(fts_results: List[tuple], embedded_results: chromadb.QueryResult) -> List[tuple]:
-    # Shape of weights looks liek this:
+
+def get_rrf_results(
+    fts_results: List[tuple], embedded_results: chromadb.QueryResult
+) -> List[tuple]:
+    # Shape of weights looks like this:
     # weights = {hash: {Citation:, score:}}
     # Go through the fts_results add in the hash, text and rrf to the weights
     # Go through the embedded_results, add in the hash, text and rrf to the weights
     # If you see that a hash already exists, just add to that
-    # sort and then get the reranked results?
+    # sort and then get the reranked results
 
     weights = {}
     # Go through the fts_results add in the hash, text and rrf to the weights
     for rank, result in enumerate(fts_results):
-        text_hash =  result[0]
+        text_hash = result[0]
         citation: Citation = fts_citation_normaliser(result)
         score = 1 / (60 + rank)
         weights[text_hash] = {"citation": citation, "score": score}
@@ -169,16 +169,18 @@ def get_rrf_results(fts_results: List[tuple], embedded_results: chromadb.QueryRe
             combined_score = old_score + current_score
             weights[text_hash]["score"] = combined_score
         else:
-            weights[text_hash] = {"citation": citation, "score": current_score} 
+            weights[text_hash] = {"citation": citation, "score": current_score}
 
     ranked = sorted(weights.items(), key=lambda item: item[1]["score"], reverse=True)
     return ranked
 
-def get_cross_encoder_results(cross_encoder: CrossEncoder, question, rrf_results: tuple):
+
+def get_cross_encoder_results(
+    cross_encoder: CrossEncoder, question, rrf_results: tuple
+):
     pairs = []
     for result in rrf_results:
         citation: Citation = result[1]["citation"]
-        # print(citation)
         if citation.is_table and citation.flatten_table:
             text = citation.flatten_table
         else:
@@ -190,16 +192,17 @@ def get_cross_encoder_results(cross_encoder: CrossEncoder, question, rrf_results
     ranked = sorted(results_with_scores, key=lambda x: x[1], reverse=True)
     return ranked
 
+
 def identify_companies(question: str) -> List[str]:
     companies_in_question = []
     companies = {
         "amd": ["amd", "advanced micro devices"],
-        "axp": ["axp", "american express", "amex"], 
-        "cop": ["cop", "conocophilips", "conoco philips", "conoco"], 
+        "axp": ["axp", "american express", "amex"],
+        "cop": ["cop", "conocophilips", "conoco philips", "conoco"],
         "cvx": ["cvx", "chevron"],
-        "goog": ["goog", "google", "alphabet"], 
+        "goog": ["goog", "google", "alphabet"],
         "jnj": ["jnj", "johnson", "j&j"],
-        "ko": ["ko", "coca cola", "coca-cola", "coke"], 
+        "ko": ["ko", "coca cola", "coca-cola", "coke"],
         "meta": ["meta", "facebook"],
         "nvda": ["nvda", "nvidia"],
         "pep": ["pep", "pepsico", "pepsi"],
@@ -213,6 +216,7 @@ def identify_companies(question: str) -> List[str]:
     # print(companies_in_question)
     return companies_in_question
 
+
 def check_question_uses_tables(question: str) -> bool:
     question = question.lower()
     table_synonms = ["table", "statement", "statements", "tables"]
@@ -222,6 +226,7 @@ def check_question_uses_tables(question: str) -> bool:
 
     return False
 
+
 def get_retrieved_chunks(question: str, top_k: int):
     query_embedding = model.encode("search_query: " + question)
     companies = identify_companies(question)
@@ -230,30 +235,35 @@ def get_retrieved_chunks(question: str, top_k: int):
         embedded_results = collection.query(
             query_embeddings=[query_embedding],
             include=["documents", "metadatas", "distances"],
-            where={"$and": [{"company": {"$in": companies}}, {"is_table": needs_table}]},
-            n_results=N
+            where={
+                "$and": [{"company": {"$in": companies}}, {"is_table": needs_table}]
+            },
+            n_results=N,
         )
     elif len(companies) > 0 and not needs_table:
         embedded_results = collection.query(
             query_embeddings=[query_embedding],
             include=["documents", "metadatas", "distances"],
             where={"company": {"$in": companies}},
-            n_results=N
+            n_results=N,
         )
     else:
         embedded_results = collection.query(
             query_embeddings=[query_embedding],
             include=["documents", "metadatas", "distances"],
-            n_results=N
-        ) 
+            n_results=N,
+        )
     fts_results = get_fts_results(conn, question, companies, needs_table)
     rrf_results = get_rrf_results(fts_results, embedded_results)
-    cross_encoder_results = get_cross_encoder_results(cross_encoder, question, rrf_results)
+    cross_encoder_results = get_cross_encoder_results(
+        cross_encoder, question, rrf_results
+    )
 
     return cross_encoder_results[0:top_k]
 
+
 def main():
-    while True: 
+    while True:
         question = input("Ask your question:")
         retrieved_chunks = get_retrieved_chunks(question=question, top_k=10)
 
@@ -285,25 +295,21 @@ def main():
         client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
         chat_completion = client.chat.completions.create(
             model="groq/compound",
-            messages=[
-            {
-                "role": "user",
-                "content": template
-            }
-            ],
+            messages=[{"role": "user", "content": template}],
             temperature=1,
             max_completion_tokens=1000,
             top_p=1,
             stream=False,
-            stop=None
+            stop=None,
         )
-        
+
         answer = chat_completion.choices[0].message.content
         print(answer)
-        print(chat_completion.usage)          # prompt/completion/total tokens
+        print(chat_completion.usage)  # prompt/completion/total tokens
         print(chat_completion.choices[0].finish_reason)  # "stop", "length", etc.
         print("//" * 100)
         print()
+
 
 if __name__ == "__main__":
     main()
