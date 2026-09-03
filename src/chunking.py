@@ -149,7 +149,7 @@ def chunk_processing(conn: sqlite3.Connection, citation: Citation):
     # print()
     if citation.is_table:
         table_text = citation.flatten_table
-        text_to_embed = "search document: " + citation.item + " " + citation.section + " " + citation.heading + " " + citation.nearby_text + " " + table_text
+        text_to_embed = "search document: " + citation.heading + " " + citation.nearby_text + " " + table_text
     else:
         text_to_embed = "search document: " + citation.item + " " + citation.section + " " + citation.heading + " " + citation.text
     embedding = model.encode(text_to_embed)

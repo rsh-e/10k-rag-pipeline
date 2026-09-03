@@ -1,3 +1,4 @@
+from ast import alias
 from importlib import metadata
 import json
 import os
@@ -42,7 +43,10 @@ def print_results(question: str, context: dict) -> None:
 
 def build_fts_query(question: str) -> str:
     tokens = word_tokenize(question.lower())
+    financial_stop_words = ["consolidated", "consolidated", "statement", "report", "table", "million", "fiscal", "results"]
     stop_words = set(stopwords.words("english"))
+    for i in financial_stop_words:
+        stop_words.add(i)
     terms = [word for word in tokens if word not in stop_words]
 
     # split on non-word characters, drop empty strings, lowercase not required (FTS5 handles case)
@@ -53,22 +57,48 @@ def build_fts_query(question: str) -> str:
     return " OR ".join(quoted_terms)
 
 
-def get_fts_results(conn: sqlite3.Connection, question: str) -> List[any]:
+def get_fts_results(conn: sqlite3.Connection, question: str, companies: List[str], needs_table: bool) -> List[any]:
     fts_query = build_fts_query(question)
-    cursor = conn.execute(
-        """
-        SELECT citation_text_hash, item, section, heading, text, is_table, flatten_table, nearby_text, company, year, source, file_path
-        FROM citations
-        WHERE citations MATCH ?
-        ORDER BY rank
-        LIMIT ?
-        """,
-        (fts_query, N)
-    )
-    results = cursor.fetchall()
-    # for i in results:
-    #     print(i)
-    #     print()
+    if len(companies) == 0:
+        cursor = conn.execute(
+            """
+            SELECT citation_text_hash, item, section, heading, text, is_table, flatten_table, nearby_text, company, year, source, file_path
+            FROM citations
+            WHERE citations MATCH ?
+            ORDER BY rank
+            LIMIT ?
+            """,
+            (fts_query, N)
+        )
+        results = cursor.fetchall()
+    elif len(companies) > 0 and needs_table:
+        needs_table = 1
+        placeholders = ", ".join("?" for i in companies)
+        cursor = conn.execute(
+            f"""
+            SELECT citation_text_hash, item, section, heading, text, is_table, flatten_table, nearby_text, company, year, source, file_path
+            FROM citations
+            WHERE citations MATCH ? AND company in ({placeholders}) AND is_table = ?
+            ORDER BY rank
+            LIMIT ?
+            """,
+            (fts_query, *companies, needs_table, N)
+        )
+        results = cursor.fetchall()
+    else:
+        placeholders = ", ".join("?" for i in companies)
+        cursor = conn.execute(
+            f"""
+            SELECT citation_text_hash, item, section, heading, text, is_table, flatten_table, nearby_text, company, year, source, file_path
+            FROM citations
+            WHERE citations MATCH ? AND company in ({placeholders})
+            ORDER BY rank
+            LIMIT ?
+            """,
+            (fts_query, *companies, N)
+        )
+        results = cursor.fetchall() 
+
     return results
 
 
@@ -154,7 +184,38 @@ def get_cross_encoder_results(cross_encoder: CrossEncoder, question, rrf_results
     ranked = sorted(results_with_scores, key=lambda x: x[1], reverse=True)
     return ranked
 
+def identify_companies(question: str) -> List[str]:
+    companies_in_question = []
+    companies = {
+        "amd": ["amd", "advanced micro devices"],
+        "axp": ["axp", "american express", "amex"], 
+        "cop": ["cop", "conocophilips", "conoco philips", "conoco"], 
+        "cvx": ["cvx", "chevron"],
+        "goog": ["goog", "google", "alphabet"], 
+        "jnj": ["jnj", "johnson", "j&j"],
+        "ko": ["ko", "coca cola", "coca-cola", "coke"], 
+        "meta": ["meta", "facebook"],
+        "nvda": ["nvda", "nvidia"],
+        "pep": ["pep", "pepsico", "pepsi"],
+    }
+    question = question.lower()
+    for company in companies:
+        for alias in companies[company]:
+            if (alias in question) and (company not in companies_in_question):
+                companies_in_question.append(company)
 
+    # print(companies_in_question)
+    return companies_in_question
+
+def check_question_uses_tables(question: str) -> bool:
+    question = question.lower()
+    table_synonms = ["table", "statement", "statements", "tables"]
+    for synonm in table_synonms:
+        if synonm in question:
+            return True
+
+    return False
+        
 
 def main():
     N = 50
@@ -162,54 +223,29 @@ def main():
     collection = chroma_client.get_collection(name="data_store") 
     model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
     conn = sqlite3.connect("../storage/document_ledger.db")
-    cross_encoder: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
-
-
-    all_data = collection.get(
-    include=["embeddings", "metadatas", "documents"],
-    where={"company": "amd"}
-    )
-    
-    
-    # print(len(all_data["ids"]))  # sanity check — should match however many chunks you ingested
-
-    # for id_, metadata, document in zip(all_data["ids"], all_data["metadatas"], all_data["documents"]):
-    #     print(f"id={id_}")
-    #     print(f"company={metadata.get('company')} item={metadata.get('item')} section={metadata.get('section')} heading={metadata.get('heading')} source={metadata.get('source')}")
-    #     print(f"is_table={metadata.get('is_table')} flatten_table={metadata.get('flatten_table')}")
-    #     print(document)
-    #     print("§" * 100)
-
-    # data_directory = "../data"
-    # files = os.listdir(data_directory)    
-    # companies = sorted({file_name.split("-")[0] for file_name in files})
-
-    # for company in companies:
-    #     all_data = collection.get(
-    #         include=["documents", "metadatas"],
-    #         where={"company": company}
-    #     )
-    #     dump = [
-    #         {"hash": id_, "text": doc, **meta}
-    #         for id_, doc, meta in zip(all_data["ids"], all_data["documents"], all_data["metadatas"])
-    #     ]
-    #     with open(company + ".json", "w") as f:
-    #         json.dump(dump, f, indent=2, ensure_ascii=False)
-
-
-    # write to json
-
+    cross_encoder: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")    
 
     while True: 
         question = input("Ask your question:")
         query_embedding = model.encode("search_query: " + question)
 
-        embedded_results = collection.query(
-            query_embeddings=[query_embedding],
-            include=["documents", "metadatas", "distances"],
-            n_results=N
-        )
-        fts_results = get_fts_results(conn, question)
+        companies = identify_companies(question)
+        needs_table = check_question_uses_tables(question)
+        if needs_table:
+            embedded_results = collection.query(
+                query_embeddings=[query_embedding],
+                include=["documents", "metadatas", "distances"],
+                where={"$and": [{"company": {"$in": companies}}, {"is_table": needs_table}]},
+                n_results=N
+            )
+        else:
+            embedded_results = collection.query(
+                query_embeddings=[query_embedding],
+                include=["documents", "metadatas", "distances"],
+                where={"company": {"$in": companies}},
+                n_results=N
+            ) 
+        fts_results = get_fts_results(conn, question, companies, needs_table)
         rrf_results = get_rrf_results(fts_results, embedded_results)
         cross_encoder_results = get_cross_encoder_results(cross_encoder, question, rrf_results)
 
