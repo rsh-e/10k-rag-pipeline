@@ -5,14 +5,14 @@ from typing import List
 import chromadb
 from sentence_transformers import CrossEncoder, SentenceTransformer
 from sympy import comp
-from main import check_question_uses_tables, get_cross_encoder_results, get_fts_results, get_rrf_results, identify_companies
+from main import check_question_uses_tables, get_cross_encoder_results, get_fts_results, get_retrieved_chunks, get_rrf_results, identify_companies
 import questions
 from chromadb import IDs, QueryResult
 
 
 
 K = 50
-SHOW_RECALL_MISSES = True
+SHOW_RECALL_MISSES = False
 
 def get_type(type: str, results: List[dict]):
     for item in results:
@@ -84,17 +84,11 @@ def calculate_metrics(primary_chunk_ids, equivalent_chunk_ids, retrieved_chunk_i
                 mrr = 1 / rank
                 break
         
-        # print("precision: ", precision, "recall: ", recall, "mrr: ", mrr)
+        print("precision: ", precision, "recall: ", recall, "mrr: ", mrr)
 
     return recall, precision, mrr, completeness
 
 def main():
-    chroma_client = chromadb.PersistentClient(path="../storage")
-    collection = chroma_client.get_collection(name="data_store") 
-    model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
-    conn = sqlite3.connect("../storage/document_ledger.db")
-    cross_encoder: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
-
     recall = 0
     precision = 0
     mrr = 0
@@ -104,37 +98,10 @@ def main():
 
     for item in questions.eval_set:
         question = item["question"]
-        query_embedding = model.encode("search_query: " + question)
-
-        # print(question)
-        companies = identify_companies(question)
-        needs_table = check_question_uses_tables(question)
-        if len(companies) > 0 and needs_table:
-            embedded_results = collection.query(
-                query_embeddings=[query_embedding],
-                include=["documents", "metadatas", "distances"],
-                where={"$and": [{"company": {"$in": companies}}, {"is_table": needs_table}]},
-                n_results=K
-            )
-        elif len(companies) > 0 and not needs_table:
-            embedded_results = collection.query(
-                query_embeddings=[query_embedding],
-                include=["documents", "metadatas", "distances"],
-                where={"company": {"$in": companies}},
-                n_results=K
-            )
-        else:
-            embedded_results = collection.query(
-                query_embeddings=[query_embedding],
-                include=["documents", "metadatas", "distances"],
-                n_results=K
-            ) 
-        fts_results = get_fts_results(conn, question, companies, needs_table)
-        rrf_results = get_rrf_results(fts_results, embedded_results)
-        cross_encoder_results = get_cross_encoder_results(cross_encoder, question, rrf_results)
-
+        retrieved_chunks = get_retrieved_chunks(question=question, top_k=10)
+       
         retrieved_chunk_ids = []
-        for result in cross_encoder_results:
+        for result in retrieved_chunks:
             content_hash = result[0][0]
             # print(content_hash)
             retrieved_chunk_ids.append(content_hash)
@@ -159,36 +126,8 @@ def main():
     # n = len(questions.eval_set)
     answerable = [q for q in questions.eval_set if not q.get("abstain")]
     n = len(answerable)
+    print(n)
     print("recall:", recall/n, "precision:", precision/n, "mrr:", mrr/n, "completeness:", completeness/n)
-
-    if SHOW_RECALL_MISSES:
-        misses = [item for item in results if item["results"]["recall"] < 1 and item["type"] != "unanswerable"]
-        print(f"\n{'=' * 80}")
-        print(f"RECALL MISSES: {len(misses)} / {len(results)}")
-        print(f"{'=' * 80}\n")
-        for item in misses:
-            print("=" * 80)
-            print(item["id"], "|", item["type"], "|", item["question"])
-            print(item["results"])
-            print("\n--- REQUIRED primary ---")
-            for chunk_id in item["primary_chunks"]:
-                print(chunk_id)
-                print(get_chunk_text(conn, chunk_id))
-            if item["equivalent_chunks"]:
-                print("--- REQUIRED equivalent ---")
-                for chunk_id in item["equivalent_chunks"]:
-                    print(chunk_id)
-                    print(get_chunk_text(conn, chunk_id))
-            print("--- RETRIEVED top 10 ---")
-            for rank, chunk_id in enumerate(item["retrieved_chunks"], start=1):
-                mark = ""
-                if chunk_id in item["primary_chunks"]:
-                    mark = " [PRIMARY]"
-                elif chunk_id in item["equivalent_chunks"]:
-                    mark = " [EQUIVALENT]"
-                print(f"#{rank} {chunk_id}{mark}")
-                print(get_chunk_text(conn, chunk_id))
-            print()
 
 
 if __name__ == "__main__":

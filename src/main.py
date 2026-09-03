@@ -20,10 +20,16 @@ nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('punkt_tab')
 
-N = 50
 
 load_dotenv()
 api_key = os.environ.get("GROQ_API_KEY")
+
+N = 50
+chroma_client = chromadb.PersistentClient(path="../storage")
+collection = chroma_client.get_collection(name="data_store") 
+model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
+conn = sqlite3.connect("../storage/document_ledger.db")
+cross_encoder: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2") 
 
 def print_results(question: str, context: dict) -> None:
     print("=" * 100)
@@ -215,49 +221,43 @@ def check_question_uses_tables(question: str) -> bool:
             return True
 
     return False
-        
+
+def get_retrieved_chunks(question: str, top_k: int):
+    query_embedding = model.encode("search_query: " + question)
+    companies = identify_companies(question)
+    needs_table = check_question_uses_tables(question)
+    if len(companies) > 0 and needs_table:
+        embedded_results = collection.query(
+            query_embeddings=[query_embedding],
+            include=["documents", "metadatas", "distances"],
+            where={"$and": [{"company": {"$in": companies}}, {"is_table": needs_table}]},
+            n_results=N
+        )
+    elif len(companies) > 0 and not needs_table:
+        embedded_results = collection.query(
+            query_embeddings=[query_embedding],
+            include=["documents", "metadatas", "distances"],
+            where={"company": {"$in": companies}},
+            n_results=N
+        )
+    else:
+        embedded_results = collection.query(
+            query_embeddings=[query_embedding],
+            include=["documents", "metadatas", "distances"],
+            n_results=N
+        ) 
+    fts_results = get_fts_results(conn, question, companies, needs_table)
+    rrf_results = get_rrf_results(fts_results, embedded_results)
+    cross_encoder_results = get_cross_encoder_results(cross_encoder, question, rrf_results)
+
+    return cross_encoder_results[0:top_k]
 
 def main():
-    N = 50
-    chroma_client = chromadb.PersistentClient(path="../storage")
-    collection = chroma_client.get_collection(name="data_store") 
-    model: SentenceTransformer = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
-    conn = sqlite3.connect("../storage/document_ledger.db")
-    cross_encoder: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")    
-
     while True: 
         question = input("Ask your question:")
-        query_embedding = model.encode("search_query: " + question)
+        retrieved_chunks = get_retrieved_chunks(question=question, top_k=10)
 
-        companies = identify_companies(question)
-        needs_table = check_question_uses_tables(question)
-        if needs_table:
-            embedded_results = collection.query(
-                query_embeddings=[query_embedding],
-                include=["documents", "metadatas", "distances"],
-                where={"$and": [{"company": {"$in": companies}}, {"is_table": needs_table}]},
-                n_results=N
-            )
-        else:
-            embedded_results = collection.query(
-                query_embeddings=[query_embedding],
-                include=["documents", "metadatas", "distances"],
-                where={"company": {"$in": companies}},
-                n_results=N
-            ) 
-        fts_results = get_fts_results(conn, question, companies, needs_table)
-        rrf_results = get_rrf_results(fts_results, embedded_results)
-        cross_encoder_results = get_cross_encoder_results(cross_encoder, question, rrf_results)
-
-        # for i in cross_encoder_results:
-        #     print(i)
-        # print("\n")
-        # print("=" * 10)
-
-    # print("len: ", len(cross_encoder_results[]))  
-        # print_results(question, context)
-
-    # Calling Groq
+        # Calling Groq
         template = f"""
         SYSTEM:
         You are a financial research assistant specializing in SEC filings (primarily 10-Ks) for the following companies: AMD, American Express (AXP), ConocoPhillips (COP), Chevron (CVX), Alphabet (GOOG), Johnson & Johnson (JNJ), Coca-Cola (KO), Meta (META), NVIDIA (NVDA), and PepsiCo (PEP).
@@ -280,13 +280,8 @@ def main():
         - Keep formatting clean: use bold for key terms/figures, bullet points for lists, and short paragraphs for explanations. Avoid nested formatting or excessive headers for short answers.
         
         The question provided to you is: {question}
-        The context provided to you is: {cross_encoder_results[0:3]}
+        The context provided to you is: {retrieved_chunks}
         """
-
-
-        # print(cross_encoder_results[0:5])
-
-        # Prompt 
         client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
         chat_completion = client.chat.completions.create(
             model="groq/compound",
