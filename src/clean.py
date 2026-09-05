@@ -422,7 +422,7 @@ if __name__ == "__main__":
     path = "../data/ma-20251231.html"
     citations = get_citations(path)
 
-    output_file_name = "NEW_chunks_debug.json"
+    output_file_name = "citations.json"
     pretty = "\n\n".join(json.dumps(c.model_dump(), indent=2) for c in citations)
     pathlib.Path(output_file_name).write_text(pretty)
     print("Citations can be viewed on,", output_file_name)

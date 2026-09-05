@@ -118,3 +118,21 @@ def build_embed_text(c: Citation) -> str:
 This way each table chunk gets some contextual prefix when anything is available, gracefully degrades to just the table text when nothing is, and you never have to force every citation into the same metadata shape to make the pipeline work.
 
 Bottom line: the reliability of section/heading genuinely varies per table depending on how that specific filer styled their caption — that's a real, permanent source of heterogeneity in 11 different companies' HTML, not a bug you can code your way out of completely. The practical move is to stop trying to guarantee uniform rich metadata, add a cheap always-populated fallback field, and let downstream retrieval/embedding handle graceful degradation instead.
+Run the full pipeline: retrieve → Groq → compare output to gold.
+
+Your eval set already has answer and must_have — use them.
+
+Metric	How	Why
+Must-have hit rate
+All must_have strings appear in model answer
+Cheap, deterministic, good first pass
+Abstain accuracy
+On 12 unanswerable Qs: model says “can’t answer” / no hallucination
+You’re not measuring this at all yet
+Numeric faithfulness
+Numbers in answer ⊆ numbers in retrieved context
+Catches invented $ figures
+Faithfulness / grounding (optional)
+LLM-as-judge: “is every claim supported by context?”
+Harder questions, table comparisons
+Rough effort: half day for answer_eval.py with must-have + abstain; +half day for numeric checks.

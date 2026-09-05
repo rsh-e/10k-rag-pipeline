@@ -193,10 +193,8 @@ def check_question_uses_tables(question: str) -> bool:
 
     return False
 
-def get_retrieved_chunks(question: str):
+def get_embedded_results(question: str, companies: List[str], needs_table: bool):
     query_embedding = model.encode("search_query: " + question)
-    companies = identify_companies(question)
-    needs_table = check_question_uses_tables(question)
     if len(companies) > 0 and needs_table:
         embedded_results = collection.query(
             query_embeddings=[query_embedding],
@@ -218,7 +216,13 @@ def get_retrieved_chunks(question: str):
             query_embeddings=[query_embedding],
             include=["documents", "metadatas", "distances"],
             n_results=NUMBER_OF_CITATIONS,
-        )
+        ) 
+    return embedded_results
+
+def get_retrieved_chunks(question: str):
+    companies: List[str] = identify_companies(question)
+    needs_table: bool = check_question_uses_tables(question)
+    embedded_results = get_embedded_results(question, companies, needs_table)
     fts_results = get_fts_results(conn, question, companies, needs_table)
     rrf_results = get_rrf_results(fts_results, embedded_results)
     cross_encoder_results = get_cross_encoder_results(
@@ -226,3 +230,9 @@ def get_retrieved_chunks(question: str):
     )
 
     return cross_encoder_results[0:TOP_K]
+
+if __name__ == "__main__":
+    question = input("Input a question")
+    chunks = get_retrieved_chunks(question)
+    for chunk in chunks:
+        print(chunk, "\n")

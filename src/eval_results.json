@@ -1,0 +1,6900 @@
+{
+  "n_answerable": 95,
+  "n_total": 107,
+  "top k": 10,
+  "citations retrieved": 50,
+  "results": [
+    {
+      "id": "amd-dc-rev",
+      "config": "embed only",
+      "question": "How large was AMD's data-center business in 2025 compared with the year before?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-dc-rev",
+      "config": "rrf only",
+      "question": "How large was AMD's data-center business in 2025 compared with the year before?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "amd-dc-rev",
+      "config": "encoder only",
+      "question": "How large was AMD's data-center business in 2025 compared with the year before?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-dc-rev",
+      "config": "rrf + company + table routing",
+      "question": "How large was AMD's data-center business in 2025 compared with the year before?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-msft",
+      "config": "embed only",
+      "question": "What does AMD say would happen if Windows and other software were not written to run on its chips?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-msft",
+      "config": "rrf only",
+      "question": "What does AMD say would happen if Windows and other software were not written to run on its chips?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-msft",
+      "config": "encoder only",
+      "question": "What does AMD say would happen if Windows and other software were not written to run on its chips?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 1
+    },
+    {
+      "id": "amd-msft",
+      "config": "rrf + company + table routing",
+      "question": "What does AMD say would happen if Windows and other software were not written to run on its chips?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "amd-foundry",
+      "config": "embed only",
+      "question": "Who actually fabricates AMD's leading-edge processor and GPU wafers?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "amd-foundry",
+      "config": "rrf only",
+      "question": "Who actually fabricates AMD's leading-edge processor and GPU wafers?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.125,
+      "completeness": 1
+    },
+    {
+      "id": "amd-foundry",
+      "config": "encoder only",
+      "question": "Who actually fabricates AMD's leading-edge processor and GPU wafers?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-foundry",
+      "config": "rrf + company + table routing",
+      "question": "Who actually fabricates AMD's leading-edge processor and GPU wafers?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-cyber-nist",
+      "config": "embed only",
+      "question": "What framework does AMD say it uses to design its cybersecurity program?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-cyber-nist",
+      "config": "rrf only",
+      "question": "What framework does AMD say it uses to design its cybersecurity program?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-cyber-nist",
+      "config": "encoder only",
+      "question": "What framework does AMD say it uses to design its cybersecurity program?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-cyber-nist",
+      "config": "rrf + company + table routing",
+      "question": "What framework does AMD say it uses to design its cybersecurity program?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-segments",
+      "config": "embed only",
+      "question": "How does NVIDIA split its business when it reports results?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.14285714285714285,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-segments",
+      "config": "rrf only",
+      "question": "How does NVIDIA split its business when it reports results?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-segments",
+      "config": "encoder only",
+      "question": "How does NVIDIA split its business when it reports results?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-segments",
+      "config": "rrf + company + table routing",
+      "question": "How does NVIDIA split its business when it reports results?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-cuda",
+      "config": "embed only",
+      "question": "When did NVIDIA open GPU parallel computing to general software, and what was that platform called?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.125,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-cuda",
+      "config": "rrf only",
+      "question": "When did NVIDIA open GPU parallel computing to general software, and what was that platform called?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-cuda",
+      "config": "encoder only",
+      "question": "When did NVIDIA open GPU parallel computing to general software, and what was that platform called?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-cuda",
+      "config": "rrf + company + table routing",
+      "question": "When did NVIDIA open GPU parallel computing to general software, and what was that platform called?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-foundries",
+      "config": "embed only",
+      "question": "Which factories produce NVIDIA's semiconductor wafers?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.14285714285714285,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-foundries",
+      "config": "rrf only",
+      "question": "Which factories produce NVIDIA's semiconductor wafers?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-foundries",
+      "config": "encoder only",
+      "question": "Which factories produce NVIDIA's semiconductor wafers?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-foundries",
+      "config": "rrf + company + table routing",
+      "question": "Which factories produce NVIDIA's semiconductor wafers?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-cam-inventory",
+      "config": "embed only",
+      "question": "What inventory issue did NVIDIA's auditor call out as a critical audit matter?",
+      "type": "factoid",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-cam-inventory",
+      "config": "rrf only",
+      "question": "What inventory issue did NVIDIA's auditor call out as a critical audit matter?",
+      "type": "factoid",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-cam-inventory",
+      "config": "encoder only",
+      "question": "What inventory issue did NVIDIA's auditor call out as a critical audit matter?",
+      "type": "factoid",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-cam-inventory",
+      "config": "rrf + company + table routing",
+      "question": "What inventory issue did NVIDIA's auditor call out as a critical audit matter?",
+      "type": "factoid",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-china-foreclosed",
+      "config": "embed only",
+      "question": "Which GPU company said it is effectively shut out of China's data-center compute market under current U.S. export rules?",
+      "type": "distractor",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-china-foreclosed",
+      "config": "rrf only",
+      "question": "Which GPU company said it is effectively shut out of China's data-center compute market under current U.S. export rules?",
+      "type": "distractor",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-china-foreclosed",
+      "config": "encoder only",
+      "question": "Which GPU company said it is effectively shut out of China's data-center compute market under current U.S. export rules?",
+      "type": "distractor",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-china-foreclosed",
+      "config": "rrf + company + table routing",
+      "question": "Which GPU company said it is effectively shut out of China's data-center compute market under current U.S. export rules?",
+      "type": "distractor",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-groq-goodwill",
+      "config": "embed only",
+      "question": "How much goodwill did NVIDIA record for the Groq license transaction?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-groq-goodwill",
+      "config": "rrf only",
+      "question": "How much goodwill did NVIDIA record for the Groq license transaction?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-groq-goodwill",
+      "config": "encoder only",
+      "question": "How much goodwill did NVIDIA record for the Groq license transaction?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-groq-goodwill",
+      "config": "rrf + company + table routing",
+      "question": "How much goodwill did NVIDIA record for the Groq license transaction?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "goog-segments",
+      "config": "embed only",
+      "question": "Besides Search ads, how does Alphabet break Google into reportable businesses?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.6666666666666666,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "goog-segments",
+      "config": "rrf only",
+      "question": "Besides Search ads, how does Alphabet break Google into reportable businesses?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.3,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "goog-segments",
+      "config": "encoder only",
+      "question": "Besides Search ads, how does Alphabet break Google into reportable businesses?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.3,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "goog-segments",
+      "config": "rrf + company + table routing",
+      "question": "Besides Search ads, how does Alphabet break Google into reportable businesses?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "goog-tpu",
+      "config": "embed only",
+      "question": "Does Google Cloud sell only GPUs for AI training, or does it have its own chips too?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "goog-tpu",
+      "config": "rrf only",
+      "question": "Does Google Cloud sell only GPUs for AI training, or does it have its own chips too?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "goog-tpu",
+      "config": "encoder only",
+      "question": "Does Google Cloud sell only GPUs for AI training, or does it have its own chips too?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.1,
+      "completeness": 1
+    },
+    {
+      "id": "goog-tpu",
+      "config": "rrf + company + table routing",
+      "question": "Does Google Cloud sell only GPUs for AI training, or does it have its own chips too?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "goog-intl-mix",
+      "config": "embed only",
+      "question": "How much of Alphabet's 2025 revenue came from outside the United States?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "goog-intl-mix",
+      "config": "rrf only",
+      "question": "How much of Alphabet's 2025 revenue came from outside the United States?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "goog-intl-mix",
+      "config": "encoder only",
+      "question": "How much of Alphabet's 2025 revenue came from outside the United States?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "goog-intl-mix",
+      "config": "rrf + company + table routing",
+      "question": "How much of Alphabet's 2025 revenue came from outside the United States?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "goog-loss-contingencies",
+      "config": "embed only",
+      "question": "What kinds of lawsuits and investigations does Alphabet say it is subject to?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "goog-loss-contingencies",
+      "config": "rrf only",
+      "question": "What kinds of lawsuits and investigations does Alphabet say it is subject to?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "goog-loss-contingencies",
+      "config": "encoder only",
+      "question": "What kinds of lawsuits and investigations does Alphabet say it is subject to?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.125,
+      "completeness": 1
+    },
+    {
+      "id": "goog-loss-contingencies",
+      "config": "rrf + company + table routing",
+      "question": "What kinds of lawsuits and investigations does Alphabet say it is subject to?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "meta-foa-apps",
+      "config": "embed only",
+      "question": "Besides Facebook, which consumer apps sit in Meta's main money-making segment?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-foa-apps",
+      "config": "rrf only",
+      "question": "Besides Facebook, which consumer apps sit in Meta's main money-making segment?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "meta-foa-apps",
+      "config": "encoder only",
+      "question": "Besides Facebook, which consumer apps sit in Meta's main money-making segment?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "meta-foa-apps",
+      "config": "rrf + company + table routing",
+      "question": "Besides Facebook, which consumer apps sit in Meta's main money-making segment?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "meta-ftc-consent",
+      "config": "embed only",
+      "question": "When did Meta settle the FTC inquiry into its platform and user-data practices, and when did that order take effect?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-ftc-consent",
+      "config": "rrf only",
+      "question": "When did Meta settle the FTC inquiry into its platform and user-data practices, and when did that order take effect?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 1
+    },
+    {
+      "id": "meta-ftc-consent",
+      "config": "encoder only",
+      "question": "When did Meta settle the FTC inquiry into its platform and user-data practices, and when did that order take effect?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "meta-ftc-consent",
+      "config": "rrf + company + table routing",
+      "question": "When did Meta settle the FTC inquiry into its platform and user-data practices, and when did that order take effect?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "meta-ads-share",
+      "config": "embed only",
+      "question": "Where does nearly all of Meta's revenue actually come from?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-ads-share",
+      "config": "rrf only",
+      "question": "Where does nearly all of Meta's revenue actually come from?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-ads-share",
+      "config": "encoder only",
+      "question": "Where does nearly all of Meta's revenue actually come from?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-ads-share",
+      "config": "rrf + company + table routing",
+      "question": "Where does nearly all of Meta's revenue actually come from?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-legal-overview",
+      "config": "embed only",
+      "question": "Does Meta describe itself as facing a lot of litigation and government investigations?",
+      "type": "risk",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-legal-overview",
+      "config": "rrf only",
+      "question": "Does Meta describe itself as facing a lot of litigation and government investigations?",
+      "type": "risk",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "meta-legal-overview",
+      "config": "encoder only",
+      "question": "Does Meta describe itself as facing a lot of litigation and government investigations?",
+      "type": "risk",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "meta-legal-overview",
+      "config": "rrf + company + table routing",
+      "question": "Does Meta describe itself as facing a lot of litigation and government investigations?",
+      "type": "risk",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-sales-2025",
+      "config": "embed only",
+      "question": "How much were Johnson & Johnson's worldwide sales in 2025, and how fast did they grow?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.125,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-sales-2025",
+      "config": "rrf only",
+      "question": "How much were Johnson & Johnson's worldwide sales in 2025, and how fast did they grow?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-sales-2025",
+      "config": "encoder only",
+      "question": "How much were Johnson & Johnson's worldwide sales in 2025, and how fast did they grow?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-sales-2025",
+      "config": "rrf + company + table routing",
+      "question": "How much were Johnson & Johnson's worldwide sales in 2025, and how fast did they grow?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-segments",
+      "config": "embed only",
+      "question": "After spinning consumer health, what two businesses is Johnson & Johnson organized around?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-segments",
+      "config": "rrf only",
+      "question": "After spinning consumer health, what two businesses is Johnson & Johnson organized around?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-segments",
+      "config": "encoder only",
+      "question": "After spinning consumer health, what two businesses is Johnson & Johnson organized around?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-segments",
+      "config": "rrf + company + table routing",
+      "question": "After spinning consumer health, what two businesses is Johnson & Johnson organized around?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-medtech",
+      "config": "embed only",
+      "question": "What kinds of devices sit in Johnson & Johnson's MedTech portfolio?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-medtech",
+      "config": "rrf only",
+      "question": "What kinds of devices sit in Johnson & Johnson's MedTech portfolio?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-medtech",
+      "config": "encoder only",
+      "question": "What kinds of devices sit in Johnson & Johnson's MedTech portfolio?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-medtech",
+      "config": "rrf + company + table routing",
+      "question": "What kinds of devices sit in Johnson & Johnson's MedTech portfolio?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-ict-date",
+      "config": "embed only",
+      "question": "On what date did Johnson & Johnson close the Intra-Cellular Therapies deal?",
+      "type": "event",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-ict-date",
+      "config": "rrf only",
+      "question": "On what date did Johnson & Johnson close the Intra-Cellular Therapies deal?",
+      "type": "event",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "jnj-ict-date",
+      "config": "encoder only",
+      "question": "On what date did Johnson & Johnson close the Intra-Cellular Therapies deal?",
+      "type": "event",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.1,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-ict-date",
+      "config": "rrf + company + table routing",
+      "question": "On what date did Johnson & Johnson close the Intra-Cellular Therapies deal?",
+      "type": "event",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.1,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-talc-reversal",
+      "config": "embed only",
+      "question": "Does Johnson & Johnson still describe material product-liability litigation, including talc?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-talc-reversal",
+      "config": "rrf only",
+      "question": "Does Johnson & Johnson still describe material product-liability litigation, including talc?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-talc-reversal",
+      "config": "encoder only",
+      "question": "Does Johnson & Johnson still describe material product-liability litigation, including talc?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-talc-reversal",
+      "config": "rrf + company + table routing",
+      "question": "Does Johnson & Johnson still describe material product-liability litigation, including talc?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-cyber-1c",
+      "config": "embed only",
+      "question": "How does Johnson & Johnson describe its cybersecurity incident response and third-party risk program?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "jnj-cyber-1c",
+      "config": "rrf only",
+      "question": "How does Johnson & Johnson describe its cybersecurity incident response and third-party risk program?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-cyber-1c",
+      "config": "encoder only",
+      "question": "How does Johnson & Johnson describe its cybersecurity incident response and third-party risk program?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-cyber-1c",
+      "config": "rrf + company + table routing",
+      "question": "How does Johnson & Johnson describe its cybersecurity incident response and third-party risk program?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-countries",
+      "config": "embed only",
+      "question": "How widely in the world can you buy drinks that carry Coca-Cola trademarks?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "ko-countries",
+      "config": "rrf only",
+      "question": "How widely in the world can you buy drinks that carry Coca-Cola trademarks?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-countries",
+      "config": "encoder only",
+      "question": "How widely in the world can you buy drinks that carry Coca-Cola trademarks?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "ko-countries",
+      "config": "rrf + company + table routing",
+      "question": "How widely in the world can you buy drinks that carry Coca-Cola trademarks?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "ko-bottlers",
+      "config": "embed only",
+      "question": "Who bottles Coke at the largest scale, by unit cases in 2025?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "ko-bottlers",
+      "config": "rrf only",
+      "question": "Who bottles Coke at the largest scale, by unit cases in 2025?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-bottlers",
+      "config": "encoder only",
+      "question": "Who bottles Coke at the largest scale, by unit cases in 2025?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-bottlers",
+      "config": "rrf + company + table routing",
+      "question": "Who bottles Coke at the largest scale, by unit cases in 2025?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-concentrate-margin",
+      "config": "embed only",
+      "question": "Why would Coca-Cola's concentrate business show lower sales but richer margins than selling finished bottles itself?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "ko-concentrate-margin",
+      "config": "rrf only",
+      "question": "Why would Coca-Cola's concentrate business show lower sales but richer margins than selling finished bottles itself?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "ko-concentrate-margin",
+      "config": "encoder only",
+      "question": "Why would Coca-Cola's concentrate business show lower sales but richer margins than selling finished bottles itself?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-concentrate-margin",
+      "config": "rrf + company + table routing",
+      "question": "Why would Coca-Cola's concentrate business show lower sales but richer margins than selling finished bottles itself?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-segments",
+      "config": "embed only",
+      "question": "How is Coca-Cola sliced internally for management reporting?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "ko-segments",
+      "config": "rrf only",
+      "question": "How is Coca-Cola sliced internally for management reporting?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "ko-segments",
+      "config": "encoder only",
+      "question": "How is Coca-Cola sliced internally for management reporting?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "ko-segments",
+      "config": "rrf + company + table routing",
+      "question": "How is Coca-Cola sliced internally for management reporting?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "ko-irs-tax",
+      "config": "embed only",
+      "question": "How large is the extra U.S. tax the IRS wants from Coca-Cola for 2007\u20132009?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "ko-irs-tax",
+      "config": "rrf only",
+      "question": "How large is the extra U.S. tax the IRS wants from Coca-Cola for 2007\u20132009?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "ko-irs-tax",
+      "config": "encoder only",
+      "question": "How large is the extra U.S. tax the IRS wants from Coca-Cola for 2007\u20132009?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-irs-tax",
+      "config": "rrf + company + table routing",
+      "question": "How large is the extra U.S. tax the IRS wants from Coca-Cola for 2007\u20132009?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-cyber-1c",
+      "config": "embed only",
+      "question": "Is Coca-Cola's cyber program a standalone IT project or part of broader enterprise risk management?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "ko-cyber-1c",
+      "config": "rrf only",
+      "question": "Is Coca-Cola's cyber program a standalone IT project or part of broader enterprise risk management?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "ko-cyber-1c",
+      "config": "encoder only",
+      "question": "Is Coca-Cola's cyber program a standalone IT project or part of broader enterprise risk management?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "ko-cyber-1c",
+      "config": "rrf + company + table routing",
+      "question": "Is Coca-Cola's cyber program a standalone IT project or part of broader enterprise risk management?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-auditor",
+      "config": "embed only",
+      "question": "Who is Coca-Cola's independent auditor?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-auditor",
+      "config": "rrf only",
+      "question": "Who is Coca-Cola's independent auditor?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-auditor",
+      "config": "encoder only",
+      "question": "Who is Coca-Cola's independent auditor?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "ko-auditor",
+      "config": "rrf + company + table routing",
+      "question": "Who is Coca-Cola's independent auditor?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "pep-segments",
+      "config": "embed only",
+      "question": "How is PepsiCo internally divided besides just soda versus chips?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "pep-segments",
+      "config": "rrf only",
+      "question": "How is PepsiCo internally divided besides just soda versus chips?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "pep-segments",
+      "config": "encoder only",
+      "question": "How is PepsiCo internally divided besides just soda versus chips?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "pep-segments",
+      "config": "rrf + company + table routing",
+      "question": "How is PepsiCo internally divided besides just soda versus chips?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "pep-countries",
+      "config": "embed only",
+      "question": "In how many markets does PepsiCo say its drinks and snacks are sold?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.1111111111111111,
+      "completeness": 1
+    },
+    {
+      "id": "pep-countries",
+      "config": "rrf only",
+      "question": "In how many markets does PepsiCo say its drinks and snacks are sold?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "pep-countries",
+      "config": "encoder only",
+      "question": "In how many markets does PepsiCo say its drinks and snacks are sold?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "pep-countries",
+      "config": "rrf + company + table routing",
+      "question": "In how many markets does PepsiCo say its drinks and snacks are sold?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "pep-pbna-brands",
+      "config": "embed only",
+      "question": "Which well-known drink brands sit in PepsiCo's North American beverage unit, and does it bottle itself?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "pep-pbna-brands",
+      "config": "rrf only",
+      "question": "Which well-known drink brands sit in PepsiCo's North American beverage unit, and does it bottle itself?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "pep-pbna-brands",
+      "config": "encoder only",
+      "question": "Which well-known drink brands sit in PepsiCo's North American beverage unit, and does it bottle itself?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.1111111111111111,
+      "completeness": 1
+    },
+    {
+      "id": "pep-pbna-brands",
+      "config": "rrf + company + table routing",
+      "question": "Which well-known drink brands sit in PepsiCo's North American beverage unit, and does it bottle itself?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "pep-rockstar-impairment",
+      "config": "embed only",
+      "question": "Why did PepsiCo's beverage operating profit in North America drop so sharply?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "pep-rockstar-impairment",
+      "config": "rrf only",
+      "question": "Why did PepsiCo's beverage operating profit in North America drop so sharply?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "pep-rockstar-impairment",
+      "config": "encoder only",
+      "question": "Why did PepsiCo's beverage operating profit in North America drop so sharply?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "pep-rockstar-impairment",
+      "config": "rrf + company + table routing",
+      "question": "Why did PepsiCo's beverage operating profit in North America drop so sharply?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "pep-plastic-ny",
+      "config": "embed only",
+      "question": "What happened to the New York attorney general's plastic-pollution case against PepsiCo and Frito-Lay?",
+      "type": "risk",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "pep-plastic-ny",
+      "config": "rrf only",
+      "question": "What happened to the New York attorney general's plastic-pollution case against PepsiCo and Frito-Lay?",
+      "type": "risk",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "pep-plastic-ny",
+      "config": "encoder only",
+      "question": "What happened to the New York attorney general's plastic-pollution case against PepsiCo and Frito-Lay?",
+      "type": "risk",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "pep-plastic-ny",
+      "config": "rrf + company + table routing",
+      "question": "What happened to the New York attorney general's plastic-pollution case against PepsiCo and Frito-Lay?",
+      "type": "risk",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "pep-cyber-1a",
+      "config": "embed only",
+      "question": "What does PepsiCo say a cyberattack could disrupt in day-to-day operations?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "pep-cyber-1a",
+      "config": "rrf only",
+      "question": "What does PepsiCo say a cyberattack could disrupt in day-to-day operations?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "pep-cyber-1a",
+      "config": "encoder only",
+      "question": "What does PepsiCo say a cyberattack could disrupt in day-to-day operations?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.14285714285714285,
+      "completeness": 1
+    },
+    {
+      "id": "pep-cyber-1a",
+      "config": "rrf + company + table routing",
+      "question": "What does PepsiCo say a cyberattack could disrupt in day-to-day operations?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "pep-bottler-contracts",
+      "config": "embed only",
+      "question": "How does PepsiCo lock in the companies that bottle its drinks in a territory?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "pep-bottler-contracts",
+      "config": "rrf only",
+      "question": "How does PepsiCo lock in the companies that bottle its drinks in a territory?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "pep-bottler-contracts",
+      "config": "encoder only",
+      "question": "How does PepsiCo lock in the companies that bottle its drinks in a territory?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "pep-bottler-contracts",
+      "config": "rrf + company + table routing",
+      "question": "How does PepsiCo lock in the companies that bottle its drinks in a territory?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-segments",
+      "config": "embed only",
+      "question": "How does American Express carve up its businesses for reporting?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-segments",
+      "config": "rrf only",
+      "question": "How does American Express carve up its businesses for reporting?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-segments",
+      "config": "encoder only",
+      "question": "How does American Express carve up its businesses for reporting?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.1,
+      "completeness": 1
+    },
+    {
+      "id": "axp-segments",
+      "config": "rrf + company + table routing",
+      "question": "How does American Express carve up its businesses for reporting?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.1,
+      "completeness": 1
+    },
+    {
+      "id": "axp-membership",
+      "config": "embed only",
+      "question": "Does American Express make most of its money from interest on loans, or from people spending on the card?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "axp-membership",
+      "config": "rrf only",
+      "question": "Does American Express make most of its money from interest on loans, or from people spending on the card?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "axp-membership",
+      "config": "encoder only",
+      "question": "Does American Express make most of its money from interest on loans, or from people spending on the card?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-membership",
+      "config": "rrf + company + table routing",
+      "question": "Does American Express make most of its money from interest on loans, or from people spending on the card?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-cobrand",
+      "config": "embed only",
+      "question": "Name a few airlines or hotel groups that issue cobrand cards with American Express.",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "axp-cobrand",
+      "config": "rrf only",
+      "question": "Name a few airlines or hotel groups that issue cobrand cards with American Express.",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "axp-cobrand",
+      "config": "encoder only",
+      "question": "Name a few airlines or hotel groups that issue cobrand cards with American Express.",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "axp-cobrand",
+      "config": "rrf + company + table routing",
+      "question": "Name a few airlines or hotel groups that issue cobrand cards with American Express.",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "axp-intl-mix",
+      "config": "embed only",
+      "question": "How much of American Express's 2025 revenue came from outside the United States?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 1
+    },
+    {
+      "id": "axp-intl-mix",
+      "config": "rrf only",
+      "question": "How much of American Express's 2025 revenue came from outside the United States?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "axp-intl-mix",
+      "config": "encoder only",
+      "question": "How much of American Express's 2025 revenue came from outside the United States?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "axp-intl-mix",
+      "config": "rrf + company + table routing",
+      "question": "How much of American Express's 2025 revenue came from outside the United States?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "axp-cyber-def",
+      "config": "embed only",
+      "question": "How does American Express define cybersecurity risk?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "axp-cyber-def",
+      "config": "rrf only",
+      "question": "How does American Express define cybersecurity risk?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 1
+    },
+    {
+      "id": "axp-cyber-def",
+      "config": "encoder only",
+      "question": "How does American Express define cybersecurity risk?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "axp-cyber-def",
+      "config": "rrf + company + table routing",
+      "question": "How does American Express define cybersecurity risk?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "cop-countries",
+      "config": "embed only",
+      "question": "In how many countries does ConocoPhillips say it operates?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cop-countries",
+      "config": "rrf only",
+      "question": "In how many countries does ConocoPhillips say it operates?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-countries",
+      "config": "encoder only",
+      "question": "In how many countries does ConocoPhillips say it operates?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-countries",
+      "config": "rrf + company + table routing",
+      "question": "In how many countries does ConocoPhillips say it operates?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-production",
+      "config": "embed only",
+      "question": "What full-year production did ConocoPhillips deliver in 2025, in MBOED?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cop-production",
+      "config": "rrf only",
+      "question": "What full-year production did ConocoPhillips deliver in 2025, in MBOED?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.3,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cop-production",
+      "config": "encoder only",
+      "question": "What full-year production did ConocoPhillips deliver in 2025, in MBOED?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "cop-production",
+      "config": "rrf + company + table routing",
+      "question": "What full-year production did ConocoPhillips deliver in 2025, in MBOED?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "cop-willow",
+      "config": "embed only",
+      "question": "Where is Willow, and when does ConocoPhillips expect first oil?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-willow",
+      "config": "rrf only",
+      "question": "Where is Willow, and when does ConocoPhillips expect first oil?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-willow",
+      "config": "encoder only",
+      "question": "Where is Willow, and when does ConocoPhillips expect first oil?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-willow",
+      "config": "rrf + company + table routing",
+      "question": "Where is Willow, and when does ConocoPhillips expect first oil?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-cyber-1c",
+      "config": "embed only",
+      "question": "Does ConocoPhillips treat plant/OT security as part of its cyber program, or only office IT?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.14285714285714285,
+      "completeness": 1
+    },
+    {
+      "id": "cop-cyber-1c",
+      "config": "rrf only",
+      "question": "Does ConocoPhillips treat plant/OT security as part of its cyber program, or only office IT?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cop-cyber-1c",
+      "config": "encoder only",
+      "question": "Does ConocoPhillips treat plant/OT security as part of its cyber program, or only office IT?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "cop-cyber-1c",
+      "config": "rrf + company + table routing",
+      "question": "Does ConocoPhillips treat plant/OT security as part of its cyber program, or only office IT?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "cop-oil-price-risk",
+      "config": "embed only",
+      "question": "How exposed is ConocoPhillips if crude stays cheap for a long time?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-oil-price-risk",
+      "config": "rrf only",
+      "question": "How exposed is ConocoPhillips if crude stays cheap for a long time?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-oil-price-risk",
+      "config": "encoder only",
+      "question": "How exposed is ConocoPhillips if crude stays cheap for a long time?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-oil-price-risk",
+      "config": "rrf + company + table routing",
+      "question": "How exposed is ConocoPhillips if crude stays cheap for a long time?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-clair",
+      "config": "embed only",
+      "question": "How much of the Clair Field does Chevron own, and where is that field?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-clair",
+      "config": "rrf only",
+      "question": "How much of the Clair Field does Chevron own, and where is that field?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-clair",
+      "config": "encoder only",
+      "question": "How much of the Clair Field does Chevron own, and where is that field?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-clair",
+      "config": "rrf + company + table routing",
+      "question": "How much of the Clair Field does Chevron own, and where is that field?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-loma-interest",
+      "config": "embed only",
+      "question": "What interest does Chevron hold in Loma Campana, and when does that concession expire?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-loma-interest",
+      "config": "rrf only",
+      "question": "What interest does Chevron hold in Loma Campana, and when does that concession expire?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-loma-interest",
+      "config": "encoder only",
+      "question": "What interest does Chevron hold in Loma Campana, and when does that concession expire?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-loma-interest",
+      "config": "rrf + company + table routing",
+      "question": "What interest does Chevron hold in Loma Campana, and when does that concession expire?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-stabroek",
+      "config": "embed only",
+      "question": "What interest does Chevron now hold in Guyana's Stabroek Block after Hess?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-stabroek",
+      "config": "rrf only",
+      "question": "What interest does Chevron now hold in Guyana's Stabroek Block after Hess?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-stabroek",
+      "config": "encoder only",
+      "question": "What interest does Chevron now hold in Guyana's Stabroek Block after Hess?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-stabroek",
+      "config": "rrf + company + table routing",
+      "question": "What interest does Chevron now hold in Guyana's Stabroek Block after Hess?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-pci",
+      "config": "embed only",
+      "question": "What is Chevron's 2028 portfolio carbon intensity target?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-pci",
+      "config": "rrf only",
+      "question": "What is Chevron's 2028 portfolio carbon intensity target?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-pci",
+      "config": "encoder only",
+      "question": "What is Chevron's 2028 portfolio carbon intensity target?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-pci",
+      "config": "rrf + company + table routing",
+      "question": "What is Chevron's 2028 portfolio carbon intensity target?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-oil-price-risk",
+      "config": "embed only",
+      "question": "What does Chevron say is the biggest driver of its results?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cvx-oil-price-risk",
+      "config": "rrf only",
+      "question": "What does Chevron say is the biggest driver of its results?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cvx-oil-price-risk",
+      "config": "encoder only",
+      "question": "What does Chevron say is the biggest driver of its results?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-oil-price-risk",
+      "config": "rrf + company + table routing",
+      "question": "What does Chevron say is the biggest driver of its results?",
+      "type": "risk",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-ko-pep-reach",
+      "config": "embed only",
+      "question": "Do Coca-Cola and PepsiCo claim similar global distribution footprints?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-ko-pep-reach",
+      "config": "rrf only",
+      "question": "Do Coca-Cola and PepsiCo claim similar global distribution footprints?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-ko-pep-reach",
+      "config": "encoder only",
+      "question": "Do Coca-Cola and PepsiCo claim similar global distribution footprints?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-ko-pep-reach",
+      "config": "rrf + company + table routing",
+      "question": "Do Coca-Cola and PepsiCo claim similar global distribution footprints?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-ko-pep-model-distractor",
+      "config": "embed only",
+      "question": "Which of the two big soda companies is mainly a concentrate seller rather than a snacks-and-drinks operator that also bottes a lot of its own product in North America?",
+      "type": "distractor",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.3,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-ko-pep-model-distractor",
+      "config": "rrf only",
+      "question": "Which of the two big soda companies is mainly a concentrate seller rather than a snacks-and-drinks operator that also bottes a lot of its own product in North America?",
+      "type": "distractor",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.3,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-ko-pep-model-distractor",
+      "config": "encoder only",
+      "question": "Which of the two big soda companies is mainly a concentrate seller rather than a snacks-and-drinks operator that also bottes a lot of its own product in North America?",
+      "type": "distractor",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.3,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-ko-pep-model-distractor",
+      "config": "rrf + company + table routing",
+      "question": "Which of the two big soda companies is mainly a concentrate seller rather than a snacks-and-drinks operator that also bottes a lot of its own product in North America?",
+      "type": "distractor",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.3,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-meta-goog-ads",
+      "config": "embed only",
+      "question": "How central was advertising to Meta versus Alphabet in 2025?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "meta",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-meta-goog-ads",
+      "config": "rrf only",
+      "question": "How central was advertising to Meta versus Alphabet in 2025?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "meta",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-meta-goog-ads",
+      "config": "encoder only",
+      "question": "How central was advertising to Meta versus Alphabet in 2025?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "meta",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-meta-goog-ads",
+      "config": "rrf + company + table routing",
+      "question": "How central was advertising to Meta versus Alphabet in 2025?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "meta",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-cvx-cop-price",
+      "config": "embed only",
+      "question": "Do Chevron and ConocoPhillips describe oil-price risk the same way?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "cvx",
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-cvx-cop-price",
+      "config": "rrf only",
+      "question": "Do Chevron and ConocoPhillips describe oil-price risk the same way?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "cvx",
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-cvx-cop-price",
+      "config": "encoder only",
+      "question": "Do Chevron and ConocoPhillips describe oil-price risk the same way?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "cvx",
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-cvx-cop-price",
+      "config": "rrf + company + table routing",
+      "question": "Do Chevron and ConocoPhillips describe oil-price risk the same way?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "cvx",
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-amd-nvda-tsmc",
+      "config": "embed only",
+      "question": "Are AMD and NVIDIA both dependent on TSMC, or does one still run its own fabs?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-amd-nvda-tsmc",
+      "config": "rrf only",
+      "question": "Are AMD and NVIDIA both dependent on TSMC, or does one still run its own fabs?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.2,
+      "mrr": 0.5,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-amd-nvda-tsmc",
+      "config": "encoder only",
+      "question": "Are AMD and NVIDIA both dependent on TSMC, or does one still run its own fabs?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-amd-nvda-tsmc",
+      "config": "rrf + company + table routing",
+      "question": "Are AMD and NVIDIA both dependent on TSMC, or does one still run its own fabs?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-amd-nvda-competition",
+      "config": "embed only",
+      "question": "Who do AMD and NVIDIA each name as rivals in data-center accelerators?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-amd-nvda-competition",
+      "config": "rrf only",
+      "question": "Who do AMD and NVIDIA each name as rivals in data-center accelerators?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-amd-nvda-competition",
+      "config": "encoder only",
+      "question": "Who do AMD and NVIDIA each name as rivals in data-center accelerators?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-amd-nvda-competition",
+      "config": "rrf + company + table routing",
+      "question": "Who do AMD and NVIDIA each name as rivals in data-center accelerators?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-ai-accelerators",
+      "config": "embed only",
+      "question": "How do AMD, NVIDIA, and Google Cloud each describe the silicon they sell or use for AI?",
+      "type": "comparison",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.3333333333333333,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-ai-accelerators",
+      "config": "rrf only",
+      "question": "How do AMD, NVIDIA, and Google Cloud each describe the silicon they sell or use for AI?",
+      "type": "comparison",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.3333333333333333,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-ai-accelerators",
+      "config": "encoder only",
+      "question": "How do AMD, NVIDIA, and Google Cloud each describe the silicon they sell or use for AI?",
+      "type": "comparison",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.3333333333333333,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-ai-accelerators",
+      "config": "rrf + company + table routing",
+      "question": "How do AMD, NVIDIA, and Google Cloud each describe the silicon they sell or use for AI?",
+      "type": "comparison",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.3333333333333333,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-intl-mix",
+      "config": "embed only",
+      "question": "Which of Alphabet, NVIDIA, and American Express is most tilted toward non-U.S. revenue?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "goog",
+        "nvda",
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-intl-mix",
+      "config": "rrf only",
+      "question": "Which of Alphabet, NVIDIA, and American Express is most tilted toward non-U.S. revenue?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "goog",
+        "nvda",
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-intl-mix",
+      "config": "encoder only",
+      "question": "Which of Alphabet, NVIDIA, and American Express is most tilted toward non-U.S. revenue?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "goog",
+        "nvda",
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-intl-mix",
+      "config": "rrf + company + table routing",
+      "question": "Which of Alphabet, NVIDIA, and American Express is most tilted toward non-U.S. revenue?",
+      "type": "comparison",
+      "difficulty": "medium",
+      "hop": "multi_doc",
+      "companies": [
+        "goog",
+        "nvda",
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-export-controls",
+      "config": "embed only",
+      "question": "Which of these filers treat U.S. export controls as a real business risk for chips or AI infrastructure, not just generic trade language?",
+      "type": "comparison",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-export-controls",
+      "config": "rrf only",
+      "question": "Which of these filers treat U.S. export controls as a real business risk for chips or AI infrastructure, not just generic trade language?",
+      "type": "comparison",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-export-controls",
+      "config": "encoder only",
+      "question": "Which of these filers treat U.S. export controls as a real business risk for chips or AI infrastructure, not just generic trade language?",
+      "type": "comparison",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.14285714285714285,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-export-controls",
+      "config": "rrf + company + table routing",
+      "question": "Which of these filers treat U.S. export controls as a real business risk for chips or AI infrastructure, not just generic trade language?",
+      "type": "comparison",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.14285714285714285,
+      "completeness": 1
+    },
+    {
+      "id": "abs-pep-2019-rev",
+      "config": "embed only",
+      "question": "What was PepsiCo's net revenue in 2019?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-pep-2019-rev",
+      "config": "rrf only",
+      "question": "What was PepsiCo's net revenue in 2019?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-pep-2019-rev",
+      "config": "encoder only",
+      "question": "What was PepsiCo's net revenue in 2019?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-pep-2019-rev",
+      "config": "rrf + company + table routing",
+      "question": "What was PepsiCo's net revenue in 2019?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-tesla-dojo",
+      "config": "embed only",
+      "question": "What did Tesla disclose about Dojo in its latest 10-K?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-tesla-dojo",
+      "config": "rrf only",
+      "question": "What did Tesla disclose about Dojo in its latest 10-K?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-tesla-dojo",
+      "config": "encoder only",
+      "question": "What did Tesla disclose about Dojo in its latest 10-K?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-tesla-dojo",
+      "config": "rrf + company + table routing",
+      "question": "What did Tesla disclose about Dojo in its latest 10-K?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-apple-services",
+      "config": "embed only",
+      "question": "What was Apple's Services revenue in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-apple-services",
+      "config": "rrf only",
+      "question": "What was Apple's Services revenue in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-apple-services",
+      "config": "encoder only",
+      "question": "What was Apple's Services revenue in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-apple-services",
+      "config": "rrf + company + table routing",
+      "question": "What was Apple's Services revenue in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-nvda-calendar-2025",
+      "config": "embed only",
+      "question": "What was NVIDIA's calendar-year 2025 revenue?",
+      "type": "unanswerable",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-nvda-calendar-2025",
+      "config": "rrf only",
+      "question": "What was NVIDIA's calendar-year 2025 revenue?",
+      "type": "unanswerable",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-nvda-calendar-2025",
+      "config": "encoder only",
+      "question": "What was NVIDIA's calendar-year 2025 revenue?",
+      "type": "unanswerable",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-nvda-calendar-2025",
+      "config": "rrf + company + table routing",
+      "question": "What was NVIDIA's calendar-year 2025 revenue?",
+      "type": "unanswerable",
+      "difficulty": "hard",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-jnj-bandaid",
+      "config": "embed only",
+      "question": "How much Band-Aid revenue did Johnson & Johnson report in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-jnj-bandaid",
+      "config": "rrf only",
+      "question": "How much Band-Aid revenue did Johnson & Johnson report in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-jnj-bandaid",
+      "config": "encoder only",
+      "question": "How much Band-Aid revenue did Johnson & Johnson report in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-jnj-bandaid",
+      "config": "rrf + company + table routing",
+      "question": "How much Band-Aid revenue did Johnson & Johnson report in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-cop-refining",
+      "config": "embed only",
+      "question": "What was ConocoPhillips' refining throughput in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-cop-refining",
+      "config": "rrf only",
+      "question": "What was ConocoPhillips' refining throughput in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-cop-refining",
+      "config": "encoder only",
+      "question": "What was ConocoPhillips' refining throughput in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-cop-refining",
+      "config": "rrf + company + table routing",
+      "question": "What was ConocoPhillips' refining throughput in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-cvx-exxon-stake",
+      "config": "embed only",
+      "question": "What stake does Chevron hold in ExxonMobil?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-cvx-exxon-stake",
+      "config": "rrf only",
+      "question": "What stake does Chevron hold in ExxonMobil?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-cvx-exxon-stake",
+      "config": "encoder only",
+      "question": "What stake does Chevron hold in ExxonMobil?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-cvx-exxon-stake",
+      "config": "rrf + company + table routing",
+      "question": "What stake does Chevron hold in ExxonMobil?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-brk-ko-shares",
+      "config": "embed only",
+      "question": "How many Coca-Cola shares does Berkshire Hathaway own?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-brk-ko-shares",
+      "config": "rrf only",
+      "question": "How many Coca-Cola shares does Berkshire Hathaway own?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-brk-ko-shares",
+      "config": "encoder only",
+      "question": "How many Coca-Cola shares does Berkshire Hathaway own?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-brk-ko-shares",
+      "config": "rrf + company + table routing",
+      "question": "How many Coca-Cola shares does Berkshire Hathaway own?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-amd-mi400",
+      "config": "embed only",
+      "question": "What are the specs of AMD's Instinct MI400 GPU?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-amd-mi400",
+      "config": "rrf only",
+      "question": "What are the specs of AMD's Instinct MI400 GPU?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-amd-mi400",
+      "config": "encoder only",
+      "question": "What are the specs of AMD's Instinct MI400 GPU?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-amd-mi400",
+      "config": "rrf + company + table routing",
+      "question": "What are the specs of AMD's Instinct MI400 GPU?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-meta-whatsapp-india-payments",
+      "config": "embed only",
+      "question": "What was WhatsApp Pay's transaction volume in India in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-meta-whatsapp-india-payments",
+      "config": "rrf only",
+      "question": "What was WhatsApp Pay's transaction volume in India in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-meta-whatsapp-india-payments",
+      "config": "encoder only",
+      "question": "What was WhatsApp Pay's transaction volume in India in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-meta-whatsapp-india-payments",
+      "config": "rrf + company + table routing",
+      "question": "What was WhatsApp Pay's transaction volume in India in 2025?",
+      "type": "unanswerable",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "amd-zt-deal",
+      "config": "embed only",
+      "question": "When did AMD close ZT Systems, and what was the total purchase consideration?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-zt-deal",
+      "config": "rrf only",
+      "question": "When did AMD close ZT Systems, and what was the total purchase consideration?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-zt-deal",
+      "config": "encoder only",
+      "question": "When did AMD close ZT Systems, and what was the total purchase consideration?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-zt-deal",
+      "config": "rrf + company + table routing",
+      "question": "When did AMD close ZT Systems, and what was the total purchase consideration?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "amd-cash-2025",
+      "config": "embed only",
+      "question": "How much cash and short-term investments did AMD hold at year-end 2025 versus 2024?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "amd-cash-2025",
+      "config": "rrf only",
+      "question": "How much cash and short-term investments did AMD hold at year-end 2025 versus 2024?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "amd-cash-2025",
+      "config": "encoder only",
+      "question": "How much cash and short-term investments did AMD hold at year-end 2025 versus 2024?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.125,
+      "completeness": 1
+    },
+    {
+      "id": "amd-cash-2025",
+      "config": "rrf + company + table routing",
+      "question": "How much cash and short-term investments did AMD hold at year-end 2025 versus 2024?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "amd-table-client-rev",
+      "config": "embed only",
+      "question": "From AMD's 2025 segment revenue table, how much net revenue did the Client line report?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "amd-table-client-rev",
+      "config": "rrf only",
+      "question": "From AMD's 2025 segment revenue table, how much net revenue did the Client line report?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "amd-table-client-rev",
+      "config": "encoder only",
+      "question": "From AMD's 2025 segment revenue table, how much net revenue did the Client line report?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "amd-table-client-rev",
+      "config": "rrf + company + table routing",
+      "question": "From AMD's 2025 segment revenue table, how much net revenue did the Client line report?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-table-gm",
+      "config": "embed only",
+      "question": "What gross margin did NVIDIA report for the fiscal year ended January 25, 2026 in its summary results table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-table-gm",
+      "config": "rrf only",
+      "question": "What gross margin did NVIDIA report for the fiscal year ended January 25, 2026 in its summary results table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-table-gm",
+      "config": "encoder only",
+      "question": "What gross margin did NVIDIA report for the fiscal year ended January 25, 2026 in its summary results table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-table-gm",
+      "config": "rrf + company + table routing",
+      "question": "What gross margin did NVIDIA report for the fiscal year ended January 25, 2026 in its summary results table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "goog-pending-deals",
+      "config": "embed only",
+      "question": "What did Alphabet agree to pay for Wiz and for Intersect, and when are those deals expected to close?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "goog-pending-deals",
+      "config": "rrf only",
+      "question": "What did Alphabet agree to pay for Wiz and for Intersect, and when are those deals expected to close?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "goog-pending-deals",
+      "config": "encoder only",
+      "question": "What did Alphabet agree to pay for Wiz and for Intersect, and when are those deals expected to close?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "goog-pending-deals",
+      "config": "rrf + company + table routing",
+      "question": "What did Alphabet agree to pay for Wiz and for Intersect, and when are those deals expected to close?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "goog-table-opinc",
+      "config": "embed only",
+      "question": "In Alphabet's consolidated results table, what was 2025 operating income and operating margin?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "goog-table-opinc",
+      "config": "rrf only",
+      "question": "In Alphabet's consolidated results table, what was 2025 operating income and operating margin?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "goog-table-opinc",
+      "config": "encoder only",
+      "question": "In Alphabet's consolidated results table, what was 2025 operating income and operating margin?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.125,
+      "completeness": 1
+    },
+    {
+      "id": "goog-table-opinc",
+      "config": "rrf + company + table routing",
+      "question": "In Alphabet's consolidated results table, what was 2025 operating income and operating margin?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "meta-table-ad-rev",
+      "config": "embed only",
+      "question": "How much advertising revenue did Meta report for 2025 in its revenue-mix table?",
+      "type": "table",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-table-ad-rev",
+      "config": "rrf only",
+      "question": "How much advertising revenue did Meta report for 2025 in its revenue-mix table?",
+      "type": "table",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-table-ad-rev",
+      "config": "encoder only",
+      "question": "How much advertising revenue did Meta report for 2025 in its revenue-mix table?",
+      "type": "table",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-table-ad-rev",
+      "config": "rrf + company + table routing",
+      "question": "How much advertising revenue did Meta report for 2025 in its revenue-mix table?",
+      "type": "table",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-im-sales",
+      "config": "embed only",
+      "question": "How large was Johnson & Johnson's Innovative Medicine segment in 2025?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-im-sales",
+      "config": "rrf only",
+      "question": "How large was Johnson & Johnson's Innovative Medicine segment in 2025?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-im-sales",
+      "config": "encoder only",
+      "question": "How large was Johnson & Johnson's Innovative Medicine segment in 2025?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-im-sales",
+      "config": "rrf + company + table routing",
+      "question": "How large was Johnson & Johnson's Innovative Medicine segment in 2025?",
+      "type": "factoid",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-table-darzalex",
+      "config": "embed only",
+      "question": "What were DARZALEX sales in 2025 according to J&J's Innovative Medicine therapeutic-area table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-table-darzalex",
+      "config": "rrf only",
+      "question": "What were DARZALEX sales in 2025 according to J&J's Innovative Medicine therapeutic-area table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-table-darzalex",
+      "config": "encoder only",
+      "question": "What were DARZALEX sales in 2025 according to J&J's Innovative Medicine therapeutic-area table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "jnj-table-darzalex",
+      "config": "rrf + company + table routing",
+      "question": "What were DARZALEX sales in 2025 according to J&J's Innovative Medicine therapeutic-area table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.16666666666666666,
+      "completeness": 1
+    },
+    {
+      "id": "ko-table-opinc",
+      "config": "embed only",
+      "question": "What operating income did Coca-Cola report for 2025 on its consolidated income statement table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "ko-table-opinc",
+      "config": "rrf only",
+      "question": "What operating income did Coca-Cola report for 2025 on its consolidated income statement table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "ko-table-opinc",
+      "config": "encoder only",
+      "question": "What operating income did Coca-Cola report for 2025 on its consolidated income statement table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "ko-table-opinc",
+      "config": "rrf + company + table routing",
+      "question": "What operating income did Coca-Cola report for 2025 on its consolidated income statement table?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.14285714285714285,
+      "completeness": 1
+    },
+    {
+      "id": "pep-table-op-profit",
+      "config": "embed only",
+      "question": "Did PepsiCo's consolidated operating profit rise or fall in 2025, and to what level?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "pep-table-op-profit",
+      "config": "rrf only",
+      "question": "Did PepsiCo's consolidated operating profit rise or fall in 2025, and to what level?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "pep-table-op-profit",
+      "config": "encoder only",
+      "question": "Did PepsiCo's consolidated operating profit rise or fall in 2025, and to what level?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.14285714285714285,
+      "completeness": 1
+    },
+    {
+      "id": "pep-table-op-profit",
+      "config": "rrf + company + table routing",
+      "question": "Did PepsiCo's consolidated operating profit rise or fall in 2025, and to what level?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.125,
+      "completeness": 1
+    },
+    {
+      "id": "axp-table-ni",
+      "config": "embed only",
+      "question": "What net income did American Express report for 2025 on its consolidated income statement?",
+      "type": "table",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-table-ni",
+      "config": "rrf only",
+      "question": "What net income did American Express report for 2025 on its consolidated income statement?",
+      "type": "table",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-table-ni",
+      "config": "encoder only",
+      "question": "What net income did American Express report for 2025 on its consolidated income statement?",
+      "type": "table",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-table-ni",
+      "config": "rrf + company + table routing",
+      "question": "What net income did American Express report for 2025 on its consolidated income statement?",
+      "type": "table",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cop-2026-guide",
+      "config": "embed only",
+      "question": "What 2026 production range did ConocoPhillips guide to?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cop-2026-guide",
+      "config": "rrf only",
+      "question": "What 2026 production range did ConocoPhillips guide to?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cop-2026-guide",
+      "config": "encoder only",
+      "question": "What 2026 production range did ConocoPhillips guide to?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.1111111111111111,
+      "completeness": 1
+    },
+    {
+      "id": "cop-2026-guide",
+      "config": "rrf + company + table routing",
+      "question": "What 2026 production range did ConocoPhillips guide to?",
+      "type": "factoid",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.1111111111111111,
+      "completeness": 1
+    },
+    {
+      "id": "cop-table-crude",
+      "config": "embed only",
+      "question": "From ConocoPhillips' 2025 operating-statistics table, what was total crude-oil production in MBD?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cop-table-crude",
+      "config": "rrf only",
+      "question": "From ConocoPhillips' 2025 operating-statistics table, what was total crude-oil production in MBD?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cop-table-crude",
+      "config": "encoder only",
+      "question": "From ConocoPhillips' 2025 operating-statistics table, what was total crude-oil production in MBD?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cop-table-crude",
+      "config": "rrf + company + table routing",
+      "question": "From ConocoPhillips' 2025 operating-statistics table, what was total crude-oil production in MBD?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.125,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-hess-deal",
+      "config": "embed only",
+      "question": "When did Chevron close Hess, and what was the aggregate purchase price?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-hess-deal",
+      "config": "rrf only",
+      "question": "When did Chevron close Hess, and what was the aggregate purchase price?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-hess-deal",
+      "config": "encoder only",
+      "question": "When did Chevron close Hess, and what was the aggregate purchase price?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-hess-deal",
+      "config": "rrf + company + table routing",
+      "question": "When did Chevron close Hess, and what was the aggregate purchase price?",
+      "type": "event",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-table-ni",
+      "config": "embed only",
+      "question": "What net income attributable to Chevron did the 2025 key financial results table show, and what was diluted EPS?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.14285714285714285,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-table-ni",
+      "config": "rrf only",
+      "question": "What net income attributable to Chevron did the 2025 key financial results table show, and what was diluted EPS?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-table-ni",
+      "config": "encoder only",
+      "question": "What net income attributable to Chevron did the 2025 key financial results table show, and what was diluted EPS?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cvx-table-ni",
+      "config": "rrf + company + table routing",
+      "question": "What net income attributable to Chevron did the 2025 key financial results table show, and what was diluted EPS?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "cvx"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "abs-ma-interchange",
+      "config": "embed only",
+      "question": "What interchange rate did Mastercard set for U.S. credit cards in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-ma-interchange",
+      "config": "rrf only",
+      "question": "What interchange rate did Mastercard set for U.S. credit cards in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-ma-interchange",
+      "config": "encoder only",
+      "question": "What interchange rate did Mastercard set for U.S. credit cards in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-ma-interchange",
+      "config": "rrf + company + table routing",
+      "question": "What interchange rate did Mastercard set for U.S. credit cards in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-visa-volume",
+      "config": "embed only",
+      "question": "What was Visa's total payment volume in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-visa-volume",
+      "config": "rrf only",
+      "question": "What was Visa's total payment volume in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-visa-volume",
+      "config": "encoder only",
+      "question": "What was Visa's total payment volume in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "abs-visa-volume",
+      "config": "rrf + company + table routing",
+      "question": "What was Visa's total payment volume in 2025?",
+      "type": "unanswerable",
+      "difficulty": "easy",
+      "hop": "single",
+      "companies": [],
+      "abstain": true,
+      "recall": 0,
+      "precision": 0,
+      "mrr": 0,
+      "completeness": 0
+    },
+    {
+      "id": "amd-table-is-bs",
+      "config": "embed only",
+      "question": "From AMD's 2025 consolidated income statement and balance sheet, what was net revenue, net income, and year-end cash and cash equivalents?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "amd-table-is-bs",
+      "config": "rrf only",
+      "question": "From AMD's 2025 consolidated income statement and balance sheet, what was net revenue, net income, and year-end cash and cash equivalents?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "amd-table-is-bs",
+      "config": "encoder only",
+      "question": "From AMD's 2025 consolidated income statement and balance sheet, what was net revenue, net income, and year-end cash and cash equivalents?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "amd-table-is-bs",
+      "config": "rrf + company + table routing",
+      "question": "From AMD's 2025 consolidated income statement and balance sheet, what was net revenue, net income, and year-end cash and cash equivalents?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "amd"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 0
+    },
+    {
+      "id": "goog-table-cloud",
+      "config": "embed only",
+      "question": "What were Google Cloud's 2025 revenues and operating income in Alphabet's results tables?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.1111111111111111,
+      "completeness": 1
+    },
+    {
+      "id": "goog-table-cloud",
+      "config": "rrf only",
+      "question": "What were Google Cloud's 2025 revenues and operating income in Alphabet's results tables?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.3333333333333333,
+      "completeness": 1
+    },
+    {
+      "id": "goog-table-cloud",
+      "config": "encoder only",
+      "question": "What were Google Cloud's 2025 revenues and operating income in Alphabet's results tables?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "goog-table-cloud",
+      "config": "rrf + company + table routing",
+      "question": "What were Google Cloud's 2025 revenues and operating income in Alphabet's results tables?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.3,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "meta-table-foa-rl",
+      "config": "embed only",
+      "question": "How much 2025 revenue did Meta report for Family of Apps versus Reality Labs, and what operating result did Reality Labs show?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 0
+    },
+    {
+      "id": "meta-table-foa-rl",
+      "config": "rrf only",
+      "question": "How much 2025 revenue did Meta report for Family of Apps versus Reality Labs, and what operating result did Reality Labs show?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "meta-table-foa-rl",
+      "config": "encoder only",
+      "question": "How much 2025 revenue did Meta report for Family of Apps versus Reality Labs, and what operating result did Reality Labs show?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "meta-table-foa-rl",
+      "config": "rrf + company + table routing",
+      "question": "How much 2025 revenue did Meta report for Family of Apps versus Reality Labs, and what operating result did Reality Labs show?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-table-compute-opinc",
+      "config": "embed only",
+      "question": "What was NVIDIA Compute & Networking revenue for the year ended January 25, 2026, and what percent of revenue was operating income?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "nvda-table-compute-opinc",
+      "config": "rrf only",
+      "question": "What was NVIDIA Compute & Networking revenue for the year ended January 25, 2026, and what percent of revenue was operating income?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "nvda-table-compute-opinc",
+      "config": "encoder only",
+      "question": "What was NVIDIA Compute & Networking revenue for the year ended January 25, 2026, and what percent of revenue was operating income?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "nvda-table-compute-opinc",
+      "config": "rrf + company + table routing",
+      "question": "What was NVIDIA Compute & Networking revenue for the year ended January 25, 2026, and what percent of revenue was operating income?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "cop-table-l48-consol",
+      "config": "embed only",
+      "question": "How much of ConocoPhillips' 2025 sales and other operating revenues came from the Lower 48 segment versus the consolidated company?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cop-table-l48-consol",
+      "config": "rrf only",
+      "question": "How much of ConocoPhillips' 2025 sales and other operating revenues came from the Lower 48 segment versus the consolidated company?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cop-table-l48-consol",
+      "config": "encoder only",
+      "question": "How much of ConocoPhillips' 2025 sales and other operating revenues came from the Lower 48 segment versus the consolidated company?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cop-table-l48-consol",
+      "config": "rrf + company + table routing",
+      "question": "How much of ConocoPhillips' 2025 sales and other operating revenues came from the Lower 48 segment versus the consolidated company?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-table-discount-cash",
+      "config": "embed only",
+      "question": "What discount revenue did American Express report for 2025, and how much cash and cash equivalents did it hold at year-end?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-table-discount-cash",
+      "config": "rrf only",
+      "question": "What discount revenue did American Express report for 2025, and how much cash and cash equivalents did it hold at year-end?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-table-discount-cash",
+      "config": "encoder only",
+      "question": "What discount revenue did American Express report for 2025, and how much cash and cash equivalents did it hold at year-end?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "axp-table-discount-cash",
+      "config": "rrf + company + table routing",
+      "question": "What discount revenue did American Express report for 2025, and how much cash and cash equivalents did it hold at year-end?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "axp"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "jnj-table-medtech-mix",
+      "config": "embed only",
+      "question": "From J&J's 2025 MedTech franchise table, what were Surgery and Cardiovascular sales, and which grew faster on an operations basis?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-table-medtech-mix",
+      "config": "rrf only",
+      "question": "From J&J's 2025 MedTech franchise table, what were Surgery and Cardiovascular sales, and which grew faster on an operations basis?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "jnj-table-medtech-mix",
+      "config": "encoder only",
+      "question": "From J&J's 2025 MedTech franchise table, what were Surgery and Cardiovascular sales, and which grew faster on an operations basis?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "jnj-table-medtech-mix",
+      "config": "rrf + company + table routing",
+      "question": "From J&J's 2025 MedTech franchise table, what were Surgery and Cardiovascular sales, and which grew faster on an operations basis?",
+      "type": "table",
+      "difficulty": "medium",
+      "hop": "single",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-table-amd-nvda-rev",
+      "config": "embed only",
+      "question": "How did AMD's 2025 net revenue compare with NVIDIA's total revenue for the year ended January 25, 2026?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.25,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-amd-nvda-rev",
+      "config": "rrf only",
+      "question": "How did AMD's 2025 net revenue compare with NVIDIA's total revenue for the year ended January 25, 2026?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-table-amd-nvda-rev",
+      "config": "encoder only",
+      "question": "How did AMD's 2025 net revenue compare with NVIDIA's total revenue for the year ended January 25, 2026?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-table-amd-nvda-rev",
+      "config": "rrf + company + table routing",
+      "question": "How did AMD's 2025 net revenue compare with NVIDIA's total revenue for the year ended January 25, 2026?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "amd",
+        "nvda"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-table-ko-pep-nrev",
+      "config": "embed only",
+      "question": "How did Coca-Cola's 2025 net operating revenues compare with PepsiCo's 2025 net revenue?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-ko-pep-nrev",
+      "config": "rrf only",
+      "question": "How did Coca-Cola's 2025 net operating revenues compare with PepsiCo's 2025 net revenue?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.2,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-ko-pep-nrev",
+      "config": "encoder only",
+      "question": "How did Coca-Cola's 2025 net operating revenues compare with PepsiCo's 2025 net revenue?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-ko-pep-nrev",
+      "config": "rrf + company + table routing",
+      "question": "How did Coca-Cola's 2025 net operating revenues compare with PepsiCo's 2025 net revenue?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-cvx-cop-sales",
+      "config": "embed only",
+      "question": "How did Chevron's 2025 sales and other operating revenues compare with ConocoPhillips', and which company grew versus 2024?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "cvx",
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-cvx-cop-sales",
+      "config": "rrf only",
+      "question": "How did Chevron's 2025 sales and other operating revenues compare with ConocoPhillips', and which company grew versus 2024?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "cvx",
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-cvx-cop-sales",
+      "config": "encoder only",
+      "question": "How did Chevron's 2025 sales and other operating revenues compare with ConocoPhillips', and which company grew versus 2024?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "cvx",
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-cvx-cop-sales",
+      "config": "rrf + company + table routing",
+      "question": "How did Chevron's 2025 sales and other operating revenues compare with ConocoPhillips', and which company grew versus 2024?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "cvx",
+        "cop"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-jnj-ko-gp",
+      "config": "embed only",
+      "question": "From the 2025 consolidated income statements, how did Johnson & Johnson's gross profit compare with Coca-Cola's gross profit?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "jnj",
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-jnj-ko-gp",
+      "config": "rrf only",
+      "question": "From the 2025 consolidated income statements, how did Johnson & Johnson's gross profit compare with Coca-Cola's gross profit?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "jnj",
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-jnj-ko-gp",
+      "config": "encoder only",
+      "question": "From the 2025 consolidated income statements, how did Johnson & Johnson's gross profit compare with Coca-Cola's gross profit?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "jnj",
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-jnj-ko-gp",
+      "config": "rrf + company + table routing",
+      "question": "From the 2025 consolidated income statements, how did Johnson & Johnson's gross profit compare with Coca-Cola's gross profit?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "jnj",
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.125,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-meta-goog-ad",
+      "config": "embed only",
+      "question": "What 2025 advertising revenue did Meta report in its revenue table compared with Alphabet's Google advertising revenue in its financial results tables?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "meta",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-meta-goog-ad",
+      "config": "rrf only",
+      "question": "What 2025 advertising revenue did Meta report in its revenue table compared with Alphabet's Google advertising revenue in its financial results tables?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "meta",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-meta-goog-ad",
+      "config": "encoder only",
+      "question": "What 2025 advertising revenue did Meta report in its revenue table compared with Alphabet's Google advertising revenue in its financial results tables?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "meta",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-meta-goog-ad",
+      "config": "rrf + company + table routing",
+      "question": "What 2025 advertising revenue did Meta report in its revenue table compared with Alphabet's Google advertising revenue in its financial results tables?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "meta",
+        "goog"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-table-axp-pep-ni",
+      "config": "embed only",
+      "question": "How did American Express's 2025 net income on its consolidated income statement compare with PepsiCo's 2025 net income on its consolidated statement of income?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "axp",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-axp-pep-ni",
+      "config": "rrf only",
+      "question": "How did American Express's 2025 net income on its consolidated income statement compare with PepsiCo's 2025 net income on its consolidated statement of income?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "axp",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.125,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-axp-pep-ni",
+      "config": "encoder only",
+      "question": "How did American Express's 2025 net income on its consolidated income statement compare with PepsiCo's 2025 net income on its consolidated statement of income?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "axp",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.3333333333333333,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-table-axp-pep-ni",
+      "config": "rrf + company + table routing",
+      "question": "How did American Express's 2025 net income on its consolidated income statement compare with PepsiCo's 2025 net income on its consolidated statement of income?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_doc",
+      "companies": [
+        "axp",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.5,
+      "completeness": 0
+    },
+    {
+      "id": "jnj-table-im-consol",
+      "config": "embed only",
+      "question": "From J&J's 2025 segment table and consolidated earnings statement, what were Innovative Medicine segment sales and total company sales to customers?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "jnj-table-im-consol",
+      "config": "rrf only",
+      "question": "From J&J's 2025 segment table and consolidated earnings statement, what were Innovative Medicine segment sales and total company sales to customers?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "jnj-table-im-consol",
+      "config": "encoder only",
+      "question": "From J&J's 2025 segment table and consolidated earnings statement, what were Innovative Medicine segment sales and total company sales to customers?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "jnj-table-im-consol",
+      "config": "rrf + company + table routing",
+      "question": "From J&J's 2025 segment table and consolidated earnings statement, what were Innovative Medicine segment sales and total company sales to customers?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "jnj"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 0.5,
+      "completeness": 1
+    },
+    {
+      "id": "ko-table-na-consol",
+      "config": "embed only",
+      "question": "From Coca-Cola's 2025 operating-segments table and consolidated income statement, what were North America third-party net operating revenues and total consolidated net operating revenues?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0,
+      "completeness": 0
+    },
+    {
+      "id": "ko-table-na-consol",
+      "config": "rrf only",
+      "question": "From Coca-Cola's 2025 operating-segments table and consolidated income statement, what were North America third-party net operating revenues and total consolidated net operating revenues?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.14285714285714285,
+      "completeness": 0
+    },
+    {
+      "id": "ko-table-na-consol",
+      "config": "encoder only",
+      "question": "From Coca-Cola's 2025 operating-segments table and consolidated income statement, what were North America third-party net operating revenues and total consolidated net operating revenues?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 0.14285714285714285,
+      "completeness": 0
+    },
+    {
+      "id": "ko-table-na-consol",
+      "config": "rrf + company + table routing",
+      "question": "From Coca-Cola's 2025 operating-segments table and consolidated income statement, what were North America third-party net operating revenues and total consolidated net operating revenues?",
+      "type": "table",
+      "difficulty": "hard",
+      "hop": "multi_chunk",
+      "companies": [
+        "ko"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-jnj-meta-employees",
+      "config": "embed only",
+      "question": "How many employees did Johnson & Johnson and Meta report worldwide as of year-end 2025?",
+      "type": "comparison",
+      "difficulty": "easy",
+      "hop": "multi_doc",
+      "companies": [
+        "jnj",
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-jnj-meta-employees",
+      "config": "rrf only",
+      "question": "How many employees did Johnson & Johnson and Meta report worldwide as of year-end 2025?",
+      "type": "comparison",
+      "difficulty": "easy",
+      "hop": "multi_doc",
+      "companies": [
+        "jnj",
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-jnj-meta-employees",
+      "config": "encoder only",
+      "question": "How many employees did Johnson & Johnson and Meta report worldwide as of year-end 2025?",
+      "type": "comparison",
+      "difficulty": "easy",
+      "hop": "multi_doc",
+      "companies": [
+        "jnj",
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-jnj-meta-employees",
+      "config": "rrf + company + table routing",
+      "question": "How many employees did Johnson & Johnson and Meta report worldwide as of year-end 2025?",
+      "type": "comparison",
+      "difficulty": "easy",
+      "hop": "multi_doc",
+      "companies": [
+        "jnj",
+        "meta"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-ko-pep-dividend",
+      "config": "embed only",
+      "question": "What cash dividend per common share did Coca-Cola and PepsiCo declare for 2025?",
+      "type": "comparison",
+      "difficulty": "easy",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 1.0,
+      "precision": 0.2,
+      "mrr": 1.0,
+      "completeness": 1
+    },
+    {
+      "id": "cmp-ko-pep-dividend",
+      "config": "rrf only",
+      "question": "What cash dividend per common share did Coca-Cola and PepsiCo declare for 2025?",
+      "type": "comparison",
+      "difficulty": "easy",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-ko-pep-dividend",
+      "config": "encoder only",
+      "question": "What cash dividend per common share did Coca-Cola and PepsiCo declare for 2025?",
+      "type": "comparison",
+      "difficulty": "easy",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    },
+    {
+      "id": "cmp-ko-pep-dividend",
+      "config": "rrf + company + table routing",
+      "question": "What cash dividend per common share did Coca-Cola and PepsiCo declare for 2025?",
+      "type": "comparison",
+      "difficulty": "easy",
+      "hop": "multi_doc",
+      "companies": [
+        "ko",
+        "pep"
+      ],
+      "abstain": false,
+      "recall": 0.5,
+      "precision": 0.1,
+      "mrr": 1.0,
+      "completeness": 0
+    }
+  ]
+}

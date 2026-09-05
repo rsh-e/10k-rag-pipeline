@@ -25,10 +25,9 @@ data/*.pdf
 
 # Debug / scratch output
 output.txt
-*.log
 chunks_debug.json
 NEW_chunks_debug.json
-demo.py
+citations.json
 
 # OS cruft
 .DS_Store

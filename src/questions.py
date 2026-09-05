@@ -19,9 +19,6 @@ Hash labels
   relevant_chunks    Union of primary + equivalent (eval.py scorer).
   citations[].role   "primary" or "equivalent".
   is_table           True when the gold passage is a markdown grid table.
-
-Verify gold hashes (do not eyeball the whole set):
-  python3 src/verify_eval_hashes.py
 """
 
 eval_set = [
