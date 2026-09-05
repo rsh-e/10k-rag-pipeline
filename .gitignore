@@ -17,6 +17,7 @@ env/
 
 # Generated pipeline state (regenerate via ingestion script)
 storage/
+*.tar.gz
 
 # Downloaded source documents (see README for download instructions)
 data/*.html

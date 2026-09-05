@@ -1,17 +1,24 @@
 import os
 import re
+import tarfile
+import urllib.request
 from pathlib import Path
 
+SRC_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SRC_DIR.parent
+STORAGE_DIR = REPO_ROOT / "storage"
+DOCUMENT_DB = STORAGE_DIR / "document_ledger.db"
+
+# After you upload storage-v1.tar.gz to a GitHub Release, set this URL.
+# Example: https://github.com/rsh-e/10k-rag-pipeline/releases/download/v1.0.0/storage-v1.tar.gz
+DEFAULT_INDEX_URL = "https://github.com/rsh-e/10k-rag-pipeline/releases/download/v1.0.0/storage-v1.tar.gz"
+
 # retrieval/constants use ../storage relative to src/
-os.chdir(Path(__file__).resolve().parent)
+os.chdir(SRC_DIR)
 
 import streamlit as st
 from dotenv import load_dotenv
 from groq import APIStatusError, RateLimitError, Groq
-
-from query import query_model
-from prompt import format_context
-from retrieval import download_nltk_modules, get_retrieved_chunks
 
 # ASCII [1] and fullwidth 【1】 / ［1］
 CITATION_RE = re.compile(r"(?:\[(\d+)\]|【(\d+)】|［(\d+)］)")
@@ -82,10 +89,103 @@ def groq_error_message(error: APIStatusError) -> str:
     return f"Groq API error ({error.status_code}): {error.message}"
 
 
+def missing_storage_parts() -> list[str]:
+    missing = []
+    if not STORAGE_DIR.exists():
+        missing.append("`storage/` folder")
+        return missing
+    if not DOCUMENT_DB.exists():
+        missing.append("`storage/document_ledger.db`")
+    if not any(STORAGE_DIR.iterdir()):
+        missing.append("files inside `storage/`")
+    return missing
+
+
+def storage_setup_message(missing: list[str], detail: str = "") -> str:
+    lines = [
+        "**Search index not found.** The app needs the pre-built `storage/` folder "
+        "(Chroma collection `data_store` + SQLite ledger).",
+        "",
+        "For local dev: run the ingest pipeline, or download `storage-v1.tar.gz` from GitHub Releases.",
+        "",
+    ]
+    if missing:
+        lines.append("Missing: " + ", ".join(missing) + ".")
+    if detail:
+        lines.append(f"Detail: {detail}")
+    return "\n".join(lines)
+
+
+def index_download_url() -> str:
+    try:
+        return st.secrets["STORAGE_INDEX_URL"]
+    except Exception:
+        return DEFAULT_INDEX_URL
+
+
+def download_storage_index() -> None:
+    url = index_download_url()
+    archive_path = REPO_ROOT / "storage-v1.tar.gz"
+
+    with st.spinner("Downloading search index (first run only, ~100MB)..."):
+        urllib.request.urlretrieve(url, archive_path)
+
+    with tarfile.open(archive_path, "r:gz") as tar:
+        tar.extractall(path=REPO_ROOT)
+
+    archive_path.unlink(missing_ok=True)
+
+
+def ensure_storage_index() -> None:
+    if not missing_storage_parts():
+        return
+    try:
+        download_storage_index()
+    except Exception as e:
+        raise RuntimeError(
+            f"Could not download index from {index_download_url()}. "
+            f"Upload storage-v1.tar.gz to GitHub Releases first. ({e})"
+        ) from e
+    if missing_storage_parts():
+        raise RuntimeError(
+            "Download finished but storage/ is still incomplete. "
+            "Check that the archive contains a top-level storage/ folder."
+        )
+
+
+@st.cache_resource
+def load_pipeline():
+    try:
+        ensure_storage_index()
+    except RuntimeError as e:
+        return {"ok": False, "message": storage_setup_message(missing=missing_storage_parts(), detail=str(e))}
+
+    missing = missing_storage_parts()
+    if missing:
+        return {"ok": False, "message": storage_setup_message(missing)}
+
+    try:
+        from query import query_model
+        from prompt import format_context
+        from retrieval import download_nltk_modules, get_retrieved_chunks
+
+        download_nltk_modules()
+        return {
+            "ok": True,
+            "query_model": query_model,
+            "format_context": format_context,
+            "get_retrieved_chunks": get_retrieved_chunks,
+        }
+    except Exception as e:
+        return {
+            "ok": False,
+            "message": storage_setup_message(missing=[], detail=str(e)),
+        }
+
+
 @st.cache_resource
 def setup():
-    download_nltk_modules()
-    env_path = Path(__file__).resolve().parent / ".env"
+    env_path = SRC_DIR / ".env"
     load_dotenv(env_path, override=True)
     api_key = (os.environ.get("GROQ_API_KEY") or "").strip()
     if not api_key:
@@ -99,13 +199,30 @@ st.title("10-K Research Assistant")
 st.caption(
     "Ask questions about AMD, AXP, COP, CVX, GOOG, JNJ, KO, META, NVDA, and PEP filings."
 )
-st.caption("Because this is a demo on model with a smaller context window, top K is limited to 5, avoid questions using large tables")
-st.caption("You can tell the model to use tables as its source of information by specifying table in the prompt")
+st.caption(
+    "Because this is a demo on model with a smaller context window, top K is limited to 5, "
+    "avoid questions using large tables"
+)
+st.caption(
+    "You can tell the model to use tables as its source of information by specifying table in the prompt"
+)
+
+pipeline = load_pipeline()
+if not pipeline["ok"]:
+    st.error(pipeline["message"])
+    st.stop()
+
+query_model = pipeline["query_model"]
+format_context = pipeline["format_context"]
+get_retrieved_chunks = pipeline["get_retrieved_chunks"]
 
 client = setup()
 
 if client is None:
-    st.error("GROQ_API_KEY is not set. Add it to src/.env")
+    st.error(
+        "GROQ_API_KEY is not set. Add it in Streamlit Cloud **Secrets** "
+        "(or in `src/.env` locally)."
+    )
     st.stop()
 
 if "messages" not in st.session_state:
