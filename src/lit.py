@@ -11,7 +11,7 @@ DOCUMENT_DB = STORAGE_DIR / "document_ledger.db"
 
 # After you upload storage-v1.tar.gz to a GitHub Release, set this URL.
 # Example: https://github.com/rsh-e/10k-rag-pipeline/releases/download/v1.0.0/storage-v1.tar.gz
-DEFAULT_INDEX_URL = "https://github.com/rsh-e/10k-rag-pipeline/releases/download/v1.0.0/storage-v1.tar.gz"
+DEFAULT_INDEX_URL = "https://github.com/rsh-e/10k-rag-pipeline/releases/download/Storage/storage-v1.tar.gz"
 
 # retrieval/constants use ../storage relative to src/
 os.chdir(SRC_DIR)
