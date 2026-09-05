@@ -5,7 +5,7 @@ ENCODER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 STORAGE_PATH = "../storage"
 DOCUMENT_DB_NAME = "../storage/document_ledger.db" 
 NUMBER_OF_CITATIONS = 50
-TOP_K = 10
+TOP_K = 5
 
 COMPANIES = {
     "amd": ["amd", "advanced micro devices"],

@@ -39,7 +39,10 @@ Where the Chroma and SQLite databases live
 
 # Strategies
 ## Parsing and Citations
+The 10K documents used have all been filed using the workiva platform. Although the formatting is not identical to accuratley parse, they contain reasonable heaurstics to generate citations. ```clean.py``` strips the file of images and xblr tags and then runs an algorithm which identifies the Item, Section and Heading a text belongs to. Each citation is thus self contained as to what it describes making retrieval easier.
+Tables are transformed into markdown and into text with the structure of, ```row_label, column_label: data```. This text is used for embedding whereas the markdown is the document. This is because LLMs work well with markdown.
 ## Chunking
+The citations are then passed on to be chunked. In Chroma, the text is embedded with the item, section and heading. The same citation data + content hash is encoded as metadata. The FTS5 table also contains the same text and metadata. If a citation's text is too large, it's split and the metadata is still preserved.
 ## Retrieval
 ### Vector Embedding
 ### FTS

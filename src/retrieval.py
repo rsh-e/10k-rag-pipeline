@@ -1,7 +1,7 @@
 import sqlite3
 from typing import List
 import chromadb
-from sentence_transformers import CrossEncoder, SentenceTransformer, cross_encoder
+from sentence_transformers import CrossEncoder, SentenceTransformer
 
 from clean import Citation
 
@@ -16,7 +16,7 @@ collection = chroma_client.get_collection(name=COLLECTION_NAME)
 model: SentenceTransformer = SentenceTransformer(
     EMBEDDING_MODEL, trust_remote_code=True
 )
-conn = sqlite3.connect(DOCUMENT_DB_NAME)
+conn = sqlite3.connect(DOCUMENT_DB_NAME, check_same_thread=False)
 cross_encoder: CrossEncoder = CrossEncoder(ENCODER_MODEL)
 
 
@@ -186,7 +186,7 @@ def identify_companies(question: str) -> List[str]:
 
 def check_question_uses_tables(question: str) -> bool:
     question = question.lower()
-    table_synonms = ["table", "statement", "statements", "tables"]
+    table_synonms = ["table", "statement", "statements", "tables", "balance sheet", "cash flow", "income statement"]
     for synonm in table_synonms:
         if synonm in question:
             return True

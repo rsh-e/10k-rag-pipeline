@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from groq import Groq
 
 from constants import MAX_COMPLETION_TOKENS, MODEL, ROLE, TEMPERATURE, TOP_P
-from prompt import TEMPLATE
+from prompt import TEMPLATE, format_context
 from retrieval import download_nltk_modules, get_retrieved_chunks
 
 
@@ -46,7 +46,8 @@ def query_workflow():
     while True:
         question = input("Ask your question: ")
         retrieved_chunks = get_retrieved_chunks(question)
-        chat_completion = query_model(client, question, retrieved_chunks)
+        context, _indexed = format_context(retrieved_chunks)
+        chat_completion = query_model(client, question, context)
         answer = chat_completion.choices[0].message.content
         print(answer)
         print(chat_completion.usage)
