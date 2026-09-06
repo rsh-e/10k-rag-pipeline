@@ -10,13 +10,13 @@ import sqlite3
 import os
 
 from clean import get_citations, Citation
+from constants import MAX_TOKEN_SIZE
 
 
 model: SentenceTransformer = SentenceTransformer(
     "nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True
 )
 tokenizer = AutoTokenizer.from_pretrained("nomic-ai/nomic-embed-text-v1.5")
-MAX_TOKEN_SIZE = 800
 chroma_client = chromadb.PersistentClient(path="../storage")
 collection = chroma_client.get_or_create_collection(name="data_store")
 conn = sqlite3.connect("../storage/document_ledger.db")
@@ -64,7 +64,7 @@ def create_fts5_table(conn: sqlite3.Connection):
     conn.commit()
 
 
-def add_document(content_hash: str, conn: sqlite3.Connection):
+def add_document(file_name:str, content_hash: str, conn: sqlite3.Connection):
     document_exists = check_document_exists(content_hash, conn)
     if not document_exists:
         conn.execute(
@@ -253,7 +253,7 @@ def recursive_chunking(conn: sqlite3.Connection, citation: Citation):
         chunk_processing(conn, new_citation)
 
 
-def tokenise(conn: sqlite3.Connection, citations: List[Citation]):
+def chunk(conn: sqlite3.Connection, citations: List[Citation]):
     for citation in citations:
         if citation.is_table:
             chunk_processing(conn, citation)
@@ -274,20 +274,18 @@ def chunking_workflow():
     files = os.listdir(data_directory)
     for file_name in files:
         full_path = os.path.join(data_directory, file_name)
-        # Check whether the document is in the database and has been chunked
         content = str(from_path("../data/"+file_name).best())
         content_hash = sha256(content.encode()).hexdigest()
         document_exists = check_document_exists(content_hash, conn)
         if not document_exists:
-            add_document(content_hash, conn)
+            add_document(file_name, content_hash, conn)
         document_chunked = check_document_chunked(content_hash, conn)
         if not document_chunked:
             citations = get_citations(full_path)
-            tokenise(conn, citations)
+            chunk(conn, citations)
             change_status(content_hash, conn)
             conn.commit()
             print("done", file_name)
-        print(file_name, "is already chunked")
     print("done chunking")
 
 

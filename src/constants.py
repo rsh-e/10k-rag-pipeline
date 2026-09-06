@@ -6,6 +6,7 @@ STORAGE_PATH = "../storage"
 DOCUMENT_DB_NAME = "../storage/document_ledger.db" 
 NUMBER_OF_CITATIONS = 50
 TOP_K = 10
+MAX_TOKEN_SIZE = 800
 
 COMPANIES = {
     "amd": ["amd", "advanced micro devices"],
