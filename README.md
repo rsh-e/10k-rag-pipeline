@@ -32,6 +32,7 @@ To run the download and run project:
 - ```constansts.py```: All constants (described in Upper case) used throughout the project
 - ```prompt.py```: The system prompt
 - ```questions.py```: The eval set, consists of questions with the necessary answers (chunks)
+- ```lit.py```: Streamlit UI for the demo, completely vibecoded
 #### ```data/```
 Consists of the 10K filings
 #### ```storage/```
@@ -41,19 +42,27 @@ Where the Chroma and SQLite databases live
 ## Parsing and Citations
 The 10K documents used have all been filed using the workiva platform. Although the formatting is not identical to accuratley parse, they contain reasonable heaurstics to generate citations. ```clean.py``` strips the file of images and xblr tags and then runs an algorithm which identifies the Item, Section and Heading a text belongs to. Each citation is thus self contained as to what it describes making retrieval easier.
 Tables are transformed into markdown and into text with the structure of, ```row_label, column_label: data```. This text is used for embedding whereas the markdown is the document. This is because LLMs work well with markdown.
+Only 10 SEC filings have been used because each extra document would require more questions in the eval set to test.
 ## Chunking
 The citations are then passed on to be chunked. In Chroma, the text is embedded with the item, section and heading. The same citation data + content hash is encoded as metadata. The FTS5 table also contains the same text and metadata. If a citation's text is too large, it's split and the metadata is still preserved.
 ## Retrieval
-### Vector Embedding
-### FTS
-### RRF
-### Encoder
-### Stopwords
-### Company routing
-### Table routing
+When a user asks a question to the model, a 50 results are recieved by taking the K (in this case 50) nearest embeddings and 50 from the FTS. These results are then fused with RRF and passed into an encoder which reranks the questions and returns the top P results as context. Top P is 10 for the eval set as the model performs the best on it. For the Streamlit demo, it's 5 due to the limited context window of the models and because I'm on the free tier and don't want to be rate limited.
+To optimise the quality of retrieval, 3 optimisations were used:
+*1. Stopwords:* The NLTK stopwords were used to make sure common words weren't ranked high in FTS. Along with those words, extra ```FINANCIAL_STOP_WORDS``` (found in ```constants.py```) were used to make common financial terms rank lower to minimise chunks with similar language.
+*2. Company Routing:* Since the filings involved companies within the same sector (often competitors), it was observed that chunks from rival companies were being retrieved more often that the desired company because of the similar sector language used. To circumvent this, the required company (or companies) are identified from the prompt which are used to fetch results from those desired companies.
+*3. Table Routing:* The encoder seemed to prefer the prose over the markdown tables or transformed tables which led to irrelevant chunks being ranked much higher. To ensure that a query be answered via tables, if the prompt contained 'table' or 'financial statemnt' it would collect only tables. ```TABLE_WORDS``` in ```constants.py``` contains the words used to check if the prompt contains a table.
 ## Querying
+Groq provides the models for the query. The system prompt lives in ```prompt.py```. There is no memory, every query is self contained due the context window.
 ## Eval
+The eval set runs several different retrieval pipelines in order to identify improvement in retrieval quality. Company + Table routing provided the biggest jump in improvement as well as using the encoder. The eval set only measures retrieval. Answers could not be measured using LLM-as-judge due to rate limits. The metrics measured are precision (of which there is little practical use), recall, mrr and completeness (whether all the required chunks for a complete answer were retrieved).
+
 ## Findings
 
 # AI Usage
+AI was used for the following:
+1. Generating the Streamlit UI
+2. Generating the questions and right chunks (via hashes), although half were wrong and I had to fix them
+3. Writing the specific functions which promoted the first row of the dataframe to the column labels and collapsed the dollar symbol into a single row
+4. Explain certain concepts
 
+Everything else was programmed and strategised by myself.
