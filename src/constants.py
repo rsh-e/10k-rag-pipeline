@@ -20,6 +20,9 @@ COMPANIES = {
     "pep": ["pep", "pepsico", "pepsi"],
 }
 
+
+TABLE_WORDS = ["table", "statement", "statements", "tables", "balance sheet", "cash flow", "income statement"]
+
 NLTK_MODULES = {
     "tokenizers/punkt": "punkt", 
     "tokenizers/punkt_tab": "punkt_tab",
@@ -36,10 +39,9 @@ FINANCIAL_STOP_WORDS= [
     "results",
 ]
 
-TABLE_WORDS = ["table", "statement", "statements", "tables"]
 MODEL = "groq/compound" 
 ROLE = "user"
-TEMPERATURE = 1
+TEMPERATURE = 0.4
 
 MAX_COMPLETION_TOKENS = 1000
 TOP_P = 1
