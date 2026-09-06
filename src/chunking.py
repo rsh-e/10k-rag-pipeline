@@ -1,8 +1,8 @@
-from typing import Any, List
+from typing import List
 
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from charset_normalizer import from_path
+
 from sentence_transformers import SentenceTransformer
-from sqlalchemy import table
 from transformers import AutoTokenizer
 import chromadb
 from hashlib import sha256
@@ -23,6 +23,8 @@ conn = sqlite3.connect("../storage/document_ledger.db")
 
 
 def create_table(conn: sqlite3.Connection):
+    # if table doesnt exist, create table
+
     conn.execute(
         """
         CREATE TABLE IF NOT EXISTS documents(
@@ -39,9 +41,10 @@ def create_table(conn: sqlite3.Connection):
 
 
 def create_fts5_table(conn: sqlite3.Connection):
+    #  if table doesnt exist create table
     conn.execute(
         """
-        CREATE VIRTUAL TABLE citations USING fts5(
+        CREATE VIRTUAL TABLE IF NOT EXISTS citations USING fts5(
             citation_text_hash UNINDEXED,
             item UNINDEXED,
             section UNINDEXED,
@@ -92,6 +95,30 @@ def check_document_exists(content_hash: str, conn: sqlite3.Connection):
     )
     return cursor.fetchone() is not None
 
+
+def check_document_chunked(content_hash: str, conn: sqlite3.Connection):
+    cursor = conn.execute(
+        """
+        SELECT 1
+        FROM documents
+        WHERE content_hash = ? AND status = "done"
+        """,
+        (content_hash,),
+    )
+    return cursor.fetchone() is not None
+
+
+def change_status(content_hash: str, conn:sqlite3.Connection):
+    cursor = conn.execute(
+        """
+        UPDATE documents
+        SET status = "done"
+        WHERE content_hash = ?
+        """,
+        (content_hash,),
+    )
+    conn.commit()
+    return cursor.fetchone() is not None
 
 # Embedding
 def insert_to_chroma(embedding, citation: Citation, citation_text_hash: str):
@@ -238,41 +265,31 @@ def tokenise(conn: sqlite3.Connection, citations: List[Citation]):
             else:
                 chunk_processing(conn, citation)
 
-
-if __name__ == "__main__":
+def chunking_workflow():
     create_table(conn)
     create_fts5_table(conn)
-
-    path = "../data/amd-20251227.html"
-    citations = get_citations(path)
-    tokenise(conn, citations)
 
     # You want to uncomment this to chunk all files
     data_directory = "../data"
     files = os.listdir(data_directory)
     for file_name in files:
         full_path = os.path.join(data_directory, file_name)
-        # print("full path", full_path)
-        citations = get_citations(full_path)
-        tokenise(conn, citations)
-        print("done", file_name)
-
-        # Make an entry on the table
-        # Get the content hash during that time asw.
-        # try:
-        # content = str(from_path("../data/"+file_name).best())
-        # content_hash = sha256(content.encode()).hexdigest()
-        # add_document(content_hash, conn)
-
-        # # chunk the file using the chunk file function
-        # chunks, chunks_keys = chunk_file(content)
-
-        # # embed the file in a collection
-        # collection = get_collection(chunks=chunks, chunks_keys=chunks_keys)
-        # print("done", file_name)
-
-        # chunk the file using the chunk file function
-        # embed the file in a collection
-        # change the status in the table to 'done'
-
+        # Check whether the document is in the database and has been chunked
+        content = str(from_path("../data/"+file_name).best())
+        content_hash = sha256(content.encode()).hexdigest()
+        document_exists = check_document_exists(content_hash, conn)
+        if not document_exists:
+            add_document(content_hash, conn)
+        document_chunked = check_document_chunked(content_hash, conn)
+        if not document_chunked:
+            citations = get_citations(full_path)
+            tokenise(conn, citations)
+            change_status(content_hash, conn)
+            conn.commit()
+            print("done", file_name)
+        print(file_name, "is already chunked")
     print("done chunking")
+
+
+if __name__ == "__main__":
+    chunking_workflow()

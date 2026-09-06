@@ -93,8 +93,35 @@ def calculate_metrics(
 
     return recall, precision, mrr, completeness
 
+def summarize(results: List[dict]) -> dict:
+    by_config: dict[str, dict] = {}
 
-def main():
+    for row in results:
+        config = row["config"]
+        bucket = by_config.setdefault(
+            config,
+            {"n": 0, "recall": 0.0, "precision": 0.0, "mrr": 0.0, "completeness": 0.0},
+        )
+        bucket["n"] += 1
+        bucket["recall"] += row["recall"]
+        bucket["precision"] += row["precision"]
+        bucket["mrr"] += row["mrr"]
+        bucket["completeness"] += row["completeness"]
+
+    summary = {}
+    for config, bucket in by_config.items():
+        n = bucket["n"]
+        summary[config] = {
+            "n": n,
+            "avg_recall": bucket["recall"] / 95 if n else 0,
+            "avg_precision": bucket["precision"] / 95 if n else 0,
+            "avg_mrr": bucket["mrr"] / 95 if n else 0,
+            "avg_completeness": bucket["completeness"] / 95 if n else 0,
+        }
+
+    return summary
+
+def eval_workflow():
     results = []
 
     conn = sqlite3.connect(DOCUMENT_DB_NAME)
@@ -171,10 +198,13 @@ def main():
     answerable = [q for q in questions.eval_set if not q.get("abstain")]
     n = len(answerable)
 
+    summary = summarize(results)
+
     output = {
         "n_answerable": n,
         "n_total": len(questions.eval_set),
         "top k": TOP_K,
+        "summary": summary,
         "citations retrieved": NUMBER_OF_CITATIONS,
         "results": results,
     }
@@ -187,4 +217,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # cross_encoder: CrossEncoder = CrossEncoder(ENCODER_MODEL)
+    eval_workflow()
