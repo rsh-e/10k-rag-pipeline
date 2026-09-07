@@ -58,9 +58,7 @@ def calculate_metrics(
     primary_found = []
     equivalent_found = []
     recall, precision, mrr, completeness = 0, 0, 0, 0
-    if len(primary_chunk_ids) == 0:
-        print("Abstain")
-    else:
+    if len(primary_chunk_ids) > 0:
         for retrieved in retrieved_chunk_ids:
             if retrieved in primary_chunk_ids:
                 primary_found.append(retrieved)

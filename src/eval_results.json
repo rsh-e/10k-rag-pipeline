@@ -2,36 +2,6 @@
   "n_answerable": 95,
   "n_total": 107,
   "top k": 10,
-  "summary": {
-    "embed only": {
-      "n": 107,
-      "avg_recall": 0.631578947368421,
-      "avg_precision": 0.07473684210526309,
-      "avg_mrr": 0.39151211361737687,
-      "avg_completeness": 0.5894736842105263
-    },
-    "rrf only": {
-      "n": 107,
-      "avg_recall": 0.6666666666666667,
-      "avg_precision": 0.08526315789473678,
-      "avg_mrr": 0.47932330827067676,
-      "avg_completeness": 0.6210526315789474
-    },
-    "encoder only": {
-      "n": 107,
-      "avg_recall": 0.7508771929824563,
-      "avg_precision": 0.09368421052631568,
-      "avg_mrr": 0.5308980785296578,
-      "avg_completeness": 0.7052631578947368
-    },
-    "rrf + company + table routing": {
-      "n": 107,
-      "avg_recall": 0.8350877192982458,
-      "avg_precision": 0.1052631578947367,
-      "avg_mrr": 0.6118086883876359,
-      "avg_completeness": 0.7789473684210526
-    }
-  },
   "citations retrieved": 50,
   "results": [
     {
