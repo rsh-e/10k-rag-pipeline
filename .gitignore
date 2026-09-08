@@ -20,7 +20,7 @@ storage/
 *.tar.gz
 
 # Downloaded source documents (see README for download instructions)
-data/*.html
+# data/*.html
 data/*.pdf
 !data/.gitkeep
 
@@ -38,6 +38,7 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+.devcontainer/
 
 # Claude background info
 claude_prompt.txt

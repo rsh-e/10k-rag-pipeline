@@ -1,10 +1,10 @@
 
 # Overview
-A citation-backed RAG system for querying SEC 10-K filings using hybrid retrieval, Reciprocal Rank Fusion (RRF), cross-encoder reranking, and domain-specific routing. T
+A citation-backed RAG system for querying SEC 10-K filings using hybrid retrieval, Reciprocal Rank Fusion (RRF), cross-encoder reranking, and domain-specific routing.
 
-The RAG approach combines hybrid search using vector embeddings and FTS (Full Text Search) which are fused with RRF (Reciprocal Ranked Fusion). The results from the search are then passed into a cross encoder which reranks the chunks to provide the most relevant information to the model. Additional strategies were used to improve retrieval quality. 
+The RAG approach combines hybrid search using semantic search and lexical search which are fused with RRF (Reciprocal Ranked Fusion). The results from the search are then passed into a cross encoder which reranks the results to provide the most relevant information to the model. Additional strategies were used to improve retrieval quality. 
 
-Retrieval qualtiy was measured using an extensive eval set (containing 95 answerable questions) has been developed with the help of a LLM (and cross checked by myself). A summary of the retrieval quality is as follows:
+Retrieval qualtiy was measured using an extensive eval set (containing 95 answerable questions) which was developed with the help of a LLM (and manually cross-checked). A summary of retrieval quality is as follows:
 
 | Retrieval configuration           |    Recall | Completeness |       MRR |
 | --------------------------------- | --------: | -----------: | --------: |
@@ -15,26 +15,26 @@ Retrieval qualtiy was measured using an extensive eval set (containing 95 answer
 
 The full retrieval pipeline improved recall by **20.3 percentage points** over embeddings-only retrieval.
 
-ChromaDB has been used for vector embeddings and SQLite FTS5 has been used for FTS. The embedding model used is ```nomic-ai/nomic-embed-text-v1.5```, the encoder model used is ```cross-encoder/ms-marco-MiniLM-L-6-v2``` and LLM model used is ```groq/compound``` provided by Groq. Model selection was based on embedding size, model size, and costs which were kept low.
+ChromaDB has been used for semantic search and SQLite FTS5 has been used for lexical search. The embedding model used is ```nomic-ai/nomic-embed-text-v1.5```, the encoder model used is ```cross-encoder/ms-marco-MiniLM-L-6-v2``` and LLM model used is ```groq/compound``` provided by Groq. Model selection was based on embedding size, model size, and costs which were kept low.
 
 ## Architecture
 
 ```text
                          SEC 10-K filings
                                 │
-                         Parse + clean
+                          Parse + clean
                                 │
                     ┌───────────┴───────────┐
                     │                       │
                 Text chunks             Tables
                     │                       │
-              Retrieval text          Structured text
+              Retrieval text     Linearised and converted to .md
                     │                       │
-              ┌─────┴─────┐          ┌─────┴─────┐
-              │           │          │           │
-          Embeddings     FTS5     Embeddings    FTS5
-              │           │          │           │
-              └─────┬─────┘          └─────┬─────┘
+              ┌─────┴─────┐           ┌─────┴─────┐
+              │           │           │           │
+          Embeddings     FTS5      Embeddings    FTS5
+              │           │           │           │
+              └─────┬─────┘           └─────┬─────┘
                     │                       │
                     └───────────┬───────────┘
                                 │
@@ -49,7 +49,7 @@ ChromaDB has been used for vector embeddings and SQLite FTS5 has been used for F
                                 │
                     Dense + lexical candidates
                                 │
-                              RRF
+                               RRF
                                 │
                      Cross-encoder reranking
                                 │
@@ -62,7 +62,7 @@ ChromaDB has been used for vector embeddings and SQLite FTS5 has been used for F
 
 
 # Run the project
-To run the download and run project:
+To run the project:
 1) Clone the repo
 2) ```uv run install```
 3) Set your groq api key as ```GROQ_API_KEY="gsk-..."``` in ```src/.env```
@@ -100,9 +100,10 @@ The citations are then passed on to be chunked. In Chroma, the text is embedded 
 ## Retrieval
 When a user asks a question to the model, the top 50 semantic results and top 50 from the lexical results are retrieved. These results are then fused with RRF and passed into an encoder which reranks the questions and returns the Top K results as context. Top K is 10 for the eval set as the model performs the best on it. For the Streamlit demo, top K 5 to stay within the limited context window on the free tier.
 To optimise the quality of retrieval, 3 improvements were used:
-*1. Stopwords:* The NLTK stopwords were used to make sure common words weren't ranked high in FTS. Along with those words, extra ```FINANCIAL_STOP_WORDS``` (found in ```constants.py```) were used to make common financial terms rank lower to minimise chunks with similar language.
-*2. Company Routing:* Since the filings involved companies within the same sector (often competitors), it was observed that chunks from rival companies were being retrieved more often that the desired company because of the similar sector language used. To circumvent this, the required company (or companies) are identified from the prompt which are used to fetch results from those desired companies.
-*3. Table Routing:* The encoder seemed to prefer the prose over the markdown tables or transformed tables which led to irrelevant chunks being ranked much higher. To ensure that a query be answered via tables, if the prompt contained 'table' or 'financial statement' it would collect only tables. ```TABLE_WORDS``` in ```constants.py``` contains the words used to check if the prompt contains a table.
+
+1. **Stopwords**: The NLTK stopwords were used to make sure common words weren't ranked high in FTS. Along with those words, extra ```FINANCIAL_STOP_WORDS``` (found in ```constants.py```) were used to make common financial terms rank lower to minimise chunks with similar language.
+2. **Company Routing**: Since the filings involved companies within the same sector (often competitors), it was observed that chunks from rival companies were being retrieved more often that the desired company because of the similar sector language used. To circumvent this, the required company (or companies) are identified from the prompt which are used to fetch results from those desired companies.
+3. **Table Routing**: The encoder seemed to prefer the prose over the markdown tables or transformed tables which led to irrelevant chunks being ranked much higher. To ensure that a query be answered via tables, if the prompt contained 'table' or 'financial statement' it would collect only tables. ```TABLE_WORDS``` in ```constants.py``` contains the words used to check if the prompt contains a table.
 
 ## Querying
 Groq provides the models for the query. The system prompt lives in ```prompt.py```. There is no memory, every query is self contained due to the context window.
