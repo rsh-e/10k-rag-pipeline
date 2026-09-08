@@ -185,5 +185,4 @@ def eval_workflow():
 
 
 if __name__ == "__main__":
-    # cross_encoder: CrossEncoder = CrossEncoder(ENCODER_MODEL)
     eval_workflow()

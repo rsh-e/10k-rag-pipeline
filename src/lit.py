@@ -48,10 +48,10 @@ COMPANY_LABELS = {
 }
 
 EXAMPLE_QUESTIONS = [
-    ("Revenue lookup", "What was NVIDIA's total revenue in fiscal 2025?"),
-    ("Comparison", "Compare Coca-Cola and PepsiCo net revenue."),
-    ("Risk factors", "What risk factors does AMD highlight in Item 1A?"),
-    ("Segments", "How did Meta's Reality Labs segment perform?"),
+    ("", "Tell me about COP operations in Alaska"),
+    ("", "Relationship between JNJ and Oncology"),
+    ("", "Amex competitors"),
+    ("", "What is TSMC"),
 ]
 
 CONFIG_LABELS = {
@@ -422,7 +422,7 @@ html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     letter-spacing: $title_tracking; line-height: 1.15; margin: 0 0 0.6rem 0;
 }
 
-.hero-lead { font-size: 1.12rem; line-height: 1.6; color: var(--text-2); max-width: 36rem; margin: 0; }
+.hero-lead { font-size: 1.12rem; line-height: 1.6; color: var(--text-2); max-width: 48rem; margin: 0; }
 
 [class*="st-key-example-"] button {
     height: auto !important; min-height: 3.8rem;
@@ -953,7 +953,14 @@ def render_landing() -> None:
           <p class="hero-kicker">SEC 10-K corpus · {len(COMPANIES)} issuers</p>
           <p class="hero-title">Ask questions about annual reports.</p>
           <p class="hero-lead">
-            Every answer is drawn from retrieved passages and cites the filing it came from.
+          <ul>
+            <li>Every answer is drawn from retrieved passages and cites the filing it came from.</li>
+            <li>Top K is set to 5 in this demo, certain important chunks especially
+            for multiple hop questions may not be retrieved</li>
+            <li>The model uses the free tier of Groq and you may be rate limited
+            depending on the number of users</li>
+            <li>Use words like 'table' and 'statement' to get information from tables</li>
+            </ul>
           </p>
         </div>
         """,
@@ -1390,10 +1397,13 @@ def render_sidebar() -> None:
             unsafe_allow_html=True,
         )
 
-        with st.expander("Tips"):
+        with st.expander("Tips and Limitations"):
             st.markdown(
-                "Context is shared between retrieved passages, your question and the "
-                "answer — table-heavy questions fill it quickly.\n\n"
+                "Top K is set to 5 in this demo, certain important chunks especially\n"
+                "for multiple hop questions may not be retrieved"
+                "The model uses the free tier of Groq and you may be rate limited \n"
+                "depending on the number of users\n"
+                "Use words like 'table' and 'statement' to get information from tables\n"
                 "**Works well:** one company, one metric, a named section.\n\n"
                 "**May fail:** broad multi-company comparisons or full financial statements.\n\n"
                 "Add *table* or *income statement* to route to statement data."

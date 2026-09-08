@@ -52,7 +52,7 @@ def query_workflow():
         print(answer)
         print(chat_completion.usage)
         print(chat_completion.choices[0].finish_reason)  
-        print("//" * 100)
+        print("/" * 100)
 
 if __name__ == "__main__":
     query_workflow()

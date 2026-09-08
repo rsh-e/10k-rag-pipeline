@@ -164,7 +164,7 @@ def flatten_table(df: DataFrame) -> str:
                 data = ""
             table_text = table_text + labels[i] + ": " + data + ", "
         table_text = table_text + "\n"
-
+    print(table_text, "\n")
     return table_text
 
 
@@ -419,10 +419,10 @@ def get_citations(path: str) -> List[Citation]:
 if __name__ == "__main__":
     data_directory = "../data"
 
-    path = "../data/ma-20251231.html"
+    path = "../data/amd-20251227.html"
     citations = get_citations(path)
 
     output_file_name = "citations.json"
     pretty = "\n\n".join(json.dumps(c.model_dump(), indent=2) for c in citations)
     pathlib.Path(output_file_name).write_text(pretty)
-    print("Citations can be viewed on,", output_file_name)
+    print("Citations for", path, "can be viewed on,", output_file_name)
