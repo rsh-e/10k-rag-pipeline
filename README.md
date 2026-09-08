@@ -1,15 +1,65 @@
 
 # Overview
-The following project describes a RAG (Retrieval Augmented Generation) pipeline built to ingest, chunk and retrieve information from SEC 10K filings to provide citable context to an LLM Query. The RAG approach combines hybrid search using vector embeddings and FTS (Full Text Search) which are fused RRF (Reciprocal Ranked Fusion). The results from the search are then passed into a cross encoder which reranks the chunks to provide the most relevant information to the model. Other optimisations have also been used to improve retrieval quality. To test the quality of retrieval, an eval set has been developed with the help of a LLM (and cross checked by myself). A summary of the retrieval quality is as follows:
+A citation-backed RAG system for querying SEC 10-K filings using hybrid retrieval, Reciprocal Rank Fusion (RRF), cross-encoder reranking, and domain-specific routing. T
 
-| config                        |   recall |   completeness |   mrr |
-|:------------------------------|---------:|---------------:|------:|
-| embed only                    |    0.632 |          0.589 | 0.392 |
-| rrf only                      |    0.682 |          0.642 | 0.477 |
-| encoder only                  |    0.751 |          0.705 | 0.531 |
-| rrf + company + table routing |    0.835 |          0.779 | 0.607 |
+The RAG approach combines hybrid search using vector embeddings and FTS (Full Text Search) which are fused with RRF (Reciprocal Ranked Fusion). The results from the search are then passed into a cross encoder which reranks the chunks to provide the most relevant information to the model. Additional strategies were used to improve retrieval quality. 
+
+Retrieval qualtiy was measured using an extensive eval set (containing 95 answerable questions) has been developed with the help of a LLM (and cross checked by myself). A summary of the retrieval quality is as follows:
+
+| Retrieval configuration           |    Recall | Completeness |       MRR |
+| --------------------------------- | --------: | -----------: | --------: |
+| Embeddings only                   |     63.2% |        58.9% |     0.392 |
+| RRF                               |     68.2% |        64.2% |     0.477 |
+| Cross-encoder                     |     75.1% |        70.5% |     0.531 |
+| **RRF + company + table routing** | **83.5%** |    **77.9%** | **0.607** |
+
+The full retrieval pipeline improved recall by **20.3 percentage points** over embeddings-only retrieval.
 
 ChromaDB has been used for vector embeddings and SQLite FTS5 has been used for FTS. The embedding model used is ```nomic-ai/nomic-embed-text-v1.5```, the encoder model used is ```cross-encoder/ms-marco-MiniLM-L-6-v2``` and LLM model used is ```groq/compound``` provided by Groq. Model selection was based on embedding size, model size, and costs which were kept low.
+
+## Architecture
+
+```text
+                         SEC 10-K filings
+                                │
+                         Parse + clean
+                                │
+                    ┌───────────┴───────────┐
+                    │                       │
+                Text chunks             Tables
+                    │                       │
+              Retrieval text          Structured text
+                    │                       │
+              ┌─────┴─────┐          ┌─────┴─────┐
+              │           │          │           │
+          Embeddings     FTS5     Embeddings    FTS5
+              │           │          │           │
+              └─────┬─────┘          └─────┬─────┘
+                    │                       │
+                    └───────────┬───────────┘
+                                │
+                           Query analysis
+                                │
+                   ┌────────────┼────────────┐
+                   │            │            │
+              Company       Table intent   Stopwords
+              routing        routing       filtering
+                   │            │            │
+                   └────────────┼────────────┘
+                                │
+                    Dense + lexical candidates
+                                │
+                              RRF
+                                │
+                     Cross-encoder reranking
+                                │
+                              Top-K
+                                │
+                           Groq Compound
+                                │
+                    Citation-backed response
+```
+
 
 # Run the project
 To run the download and run project:
@@ -40,17 +90,20 @@ Where the Chroma and SQLite databases live
 
 # Strategies
 ## Parsing and Citations
-The 10K documents used have all been filed using the workiva platform. Although the formatting is not identical to accurateley parse, they contain reasonable heuristics to generate citations. ```clean.py``` strips the file of images and xblr tags and then runs an algorithm which identifies the Item, Section and Heading a text belongs to. Each citation is thus self contained as to what it describes making retrieval easier.
-Tables are transformed into markdown and into text with the structure of, ```row_label, column_label: data```. This text is used for embedding whereas the markdown is the document. This is because LLMs work well with markdown.
+The 10K documents used have all been filed using the workiva platform. Although the formatting is not identical to accurateley parse, they contain reasonable heuristics to generate citations. ```clean.py``` strips the file of images and xbrl tags and then runs an algorithm which identifies the Item, Section and Heading a text belongs to. Each citation is thus self contained as to what it describes making retrieval easier.
+Tables are transformed into markdown for LLM use and linearised for retrieval, ```row_label, column_label: data```. This text is used for embedding whereas the markdown is the document. This is because LLMs work well with markdown.
 Only 10 SEC filings have been used because each extra document would require more questions in the eval set to test.
+
 ## Chunking
 The citations are then passed on to be chunked. In Chroma, the text is embedded with the item, section and heading. The same citation data + content hash is encoded as metadata. The FTS5 table also contains the same text and metadata. If a citation's text is too large, it's split and the metadata is still preserved.
+
 ## Retrieval
-When a user asks a question to the model, a 50 results are received by taking the K (in this case 50) nearest embeddings and 50 from the FTS. These results are then fused with RRF and passed into an encoder which reranks the questions and returns the Top K results as context. Top K is 10 for the eval set as the model performs the best on it. For the Streamlit demo, it's 5 due to the limited context window of the models and because I'm on the free tier and don't want to be rate limited.
+When a user asks a question to the model, the top 50 semantic results and top 50 from the lexical results are retrieved. These results are then fused with RRF and passed into an encoder which reranks the questions and returns the Top K results as context. Top K is 10 for the eval set as the model performs the best on it. For the Streamlit demo, top K 5 to stay within the limited context window on the free tier.
 To optimise the quality of retrieval, 3 improvements were used:
 *1. Stopwords:* The NLTK stopwords were used to make sure common words weren't ranked high in FTS. Along with those words, extra ```FINANCIAL_STOP_WORDS``` (found in ```constants.py```) were used to make common financial terms rank lower to minimise chunks with similar language.
 *2. Company Routing:* Since the filings involved companies within the same sector (often competitors), it was observed that chunks from rival companies were being retrieved more often that the desired company because of the similar sector language used. To circumvent this, the required company (or companies) are identified from the prompt which are used to fetch results from those desired companies.
 *3. Table Routing:* The encoder seemed to prefer the prose over the markdown tables or transformed tables which led to irrelevant chunks being ranked much higher. To ensure that a query be answered via tables, if the prompt contained 'table' or 'financial statement' it would collect only tables. ```TABLE_WORDS``` in ```constants.py``` contains the words used to check if the prompt contains a table.
+
 ## Querying
 Groq provides the models for the query. The system prompt lives in ```prompt.py```. There is no memory, every query is self contained due to the context window.
 
@@ -80,5 +133,6 @@ AI was used for the following:
 2. Generating the questions and right chunks (via hashes), although half were wrong and I had to fix them
 3. Writing the specific functions which promoted the first row of the dataframe to the column labels and collapsed the dollar symbol into a single row
 4. Explain certain concepts
+5. Generate the markdown diagram for the README
 
 Everything else was programmed and strategised by myself.
