@@ -64,10 +64,11 @@ ChromaDB has been used for semantic search and SQLite FTS5 has been used for lex
 # Run the project
 To run the project:
 1) Clone the repo
-2) ```uv run install```
-3) Set your groq api key as ```GROQ_API_KEY="gsk-..."``` in ```src/.env```
-4) ```uv run main.py``` for the chunking and querying
-5) ```uv run streamlit run lit.py``` to view the streamlit app
+2) Download ```data.tar.gz``` from the releases, unzip it and place it in the repo root
+3) ```uv sync```
+4) Set your groq api key as ```GROQ_API_KEY="gsk-..."``` in ```src/.env```
+5) ```cd src``` and ```uv run main.py``` for the chunking and querying, this will take a minute as it loads the model and chunks the filings
+6) ```uv run streamlit run lit.py``` to view the streamlit app
 
 # Project Structure
 #### ```src/```
