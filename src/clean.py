@@ -164,7 +164,6 @@ def flatten_table(df: DataFrame) -> str:
                 data = ""
             table_text = table_text + labels[i] + ": " + data + ", "
         table_text = table_text + "\n"
-    print(table_text, "\n")
     return table_text
 
 
